@@ -11,7 +11,7 @@
 
 # This target creates the bare bones structure of a source module and triggers
 # the module's related header file to also be generated.
-${MODULES:%=%.c}: %.c : %.h
+${MODULES:%=%.c}: ${MODULES:%=%.h}
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
@@ -46,7 +46,7 @@ ${MODULES:%=%.c}: %.c : %.h
 		echo " * Include the header file for this module, note that" ; \
 		echo " * this file should be included last."                 ; \
 		echo " */"                                                   ; \
-		echo "#include \"$<\""                                       ; \
+		echo "#include \"${@:.c=.h}\""                               ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
@@ -174,7 +174,7 @@ ${MODULES:%=%.h}:
 # This section defines the rules for the generation of the test cases for the
 # modules generated in the above section.
 
-${MODULES:%=tests/%.c}: %.c : %.h
+${C_TESTS:%=%.c}: ${C_TESTS:%=%.h}
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
@@ -224,7 +224,7 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo " * Include the header file for this module, note that" ; \
 		echo " * this file should be included last."                 ; \
 		echo " */"                                                   ; \
-		echo "#include \"${<:tests/%=%}\""                           ; \
+		echo "#include \"${@:tests/%.c=%.h}\""                       ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
@@ -247,7 +247,7 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo ""                                                      ; \
 	} > $@
 
-${MODULES:%=tests/%.h}:
+${C_TESTS:%=%.h}:
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \

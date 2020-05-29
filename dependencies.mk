@@ -11,21 +11,17 @@
 # build progress. These may be added to on the commandline.
 DEPENDENCIES += git sed tar gzip grep tee timeout
 
-# This NOOP target prevents any of the ${DEPENDENCIES} being invoked as
-# dependency by the checking target, as it uses '%' stem syntax to derive 'FOO'
-# from 'depends_on_FOO'.
-${DEPENDENCIES}: ;
-
 # This target is run for every call of 'depends_on_FOO' for 'FOO's in
 # ${DEPENDENCIES}, passing 'FOO' as $<. This allow a shell to check for 'FOO' in
 # the current system $PATH. If missing or not found to be executable, a message
 # is shown.
-${DEPENDENCIES:%=depends_on_%}: depends_on_% : %
-	@if [ ! -x "$$(command -v $<)" ] ;                                     \
+${DEPENDENCIES:%=depends_on_%}:
+	@if [ ! -x "$$(command -v "${@:depends_on_%=%}")" ]                  ; \
 	then                                                                   \
 		${PRINTF} "${RED}ERROR:${RESET}"                               \
-		          "${BOLD}${WOLF_3D}${RESET}depends on $<"           ; \
-		exit 1 ;                                                       \
+		          "${BOLD}${WOLF_3D}${RESET} depends on"               \
+		          "${YELLOW}${@:depends_on_%=%}${RESET}"             ; \
+		exit 1                                                       ; \
 	fi
 
 check_dependencies: ${DEPENDENCIES:%=depends_on_%}

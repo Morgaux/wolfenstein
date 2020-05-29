@@ -24,7 +24,7 @@ ${DRUMMY_FISH_LIBS}:
 # however, to avoid overwriting the defaults, an untracked copy is used.
 config.h: config.def.h
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
-	@[ -f $@ ] || cp $< $@
+	@[ -f $@ ] || cp config.def.h $@
 
 # }}}
 
