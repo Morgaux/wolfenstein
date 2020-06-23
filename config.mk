@@ -2,21 +2,27 @@
 # Configuration for Wolfenstein 3D makefiles
 #
 
+# This must be the fist non-comment line
+.POSIX:
+
 # BUILD FILES {{{
+
+# These are libraries written by Miloslav Ciz (tasyfish.cz), I am using them as
+# the rendering backends and pull them in from the git repos, fresh.
+DRUMMY_FISH_LIBS := raycastlib small3dlib
 
 # These files define which files are built or installed and the destination
 # executable. ${BIN} should be a single item, the name of the final executable
 # to build / install. ${LIB} should define a list of directories that contain
-# dependencies of the final build, these are removed during the 'clean' target
-# so the should either be pulled in from a remote source or a subdir of the
-# 'src' directory. ${OBJ} is dynamically populated with a .o file for every
-# given .c file ing ${SRC}, however, any additional .o files may be added to
-# this variable to be included in the build. Finally, ${SRC} contains a list of
-# the primary .c files needed for the build, by default it is populated with the
-# ${BIN} name with a .c extension, any additional c source files should be given
-# manually.
+# dependencies of the final build, these are added to the C compilers list of
+# include dirs via the '-I' flag and should be added to with this in mind.
+# ${OBJ} is dynamically populated with a .o file for every given .c file ing
+# ${SRC}, however, any additional .o files may be added to this variable to be
+# included in the build. Finally, ${SRC} contains a list of the primary .c files
+# needed for the build, by default it is populated with the ${BIN} name with a
+# .c extension, any additional c source files should be given manually.
 BIN = wolfenstein3D
-LIB = raycastlib small3dlib
+LIB = ${DRUMMY_FISH_LIBS}
 SRC = ${BIN:%=%.c}
 OBJ = ${SRC:.c=.o}
 
@@ -48,7 +54,7 @@ DIST_DIR   := ${BIN}-${VERSION}-${RELEASE}
 # These define compiler options to be passed to the complier during the build
 # process.
 DEFINES := ${RELEASE} VERSION=\"${VERSION}\" 
-CFLAGS  := -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%}
+CFLAGS  := -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
 LDFALGS := 
 
 # This defines the C language compiler.
@@ -80,6 +86,29 @@ MAN_DIR := ${DESTDIR}${MANPREFIX}/man1
 SUBSTITUTE := sed 's/__RELEASE__/${RELEASE}/g; \
                    s/__VERSION__/${VERSION}/g; \
                    s/__BIN__/${BIN}/g'
+
+# }}}
+
+# MAKE CONFIGURATION {{{
+
+# These configurations are for make(1) and the makefiles that include this file.
+
+# This is the default target, show the configuration for the build and build the
+# target but don't install or clean.
+all: config ${BIN}
+
+# The .SILENT target makes the output of the make build process less verbose,
+# only showing messages explicitly printed with echo statements or output from
+# the complier for example. Uncomment the below lines to enable this behaviour
+# if desired.
+#.SILENT:
+
+# This specifies the location of the shell to use, this should be something
+# portable so that the build works without issues on all systems. Using /bin/sh
+# has the added benefit of forcing you to use the POSIX Bourne Shell a all times
+# and catches Bash-isms early, allowing more portable code in the build system
+# to occur naturally.
+SHELL := /bin/sh
 
 # }}}
 
