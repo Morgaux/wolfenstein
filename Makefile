@@ -8,7 +8,7 @@ include dependencies.mk
 
 config:
 	@echo "${YELLOW}${BIN} build configuration:${RESET}"
-	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}${RESET}"
+	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
 	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
 	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
 	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
@@ -57,5 +57,5 @@ uninstall: clean
 ${DRUMMY_FISH_LIBS}: depends_on_git
 	git clone https://gitlab.com/drummyfish/$@ || { cd $@ && git pull ; }
 
-.PHONY: all clean install install_doc uninstall
+.PHONY: clean install install_doc uninstall
 

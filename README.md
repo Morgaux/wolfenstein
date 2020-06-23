@@ -9,9 +9,9 @@ illusion of depth, the performance of this original version was poor.
 Additionally, the calculations for scaling the surfaces by distance were
 slightly off, resulting in a fish-eye effect.
 
-![](img/Screenshot_01.png)
+![Screenshot 1](img/Screenshot_01.png)
 
-![](img/Screenshot_02.png)
+![Screenshot 2](img/Screenshot_02.png)
 
 ## Rewrite using raycastlib
 Using JS for a rendering library is really not a great choice, both in terms of
@@ -25,6 +25,28 @@ lost to time).
 The original JS version of the raycasting I created was mainly an experiment to
 learn about raycasting, ideally with the goal of going from Wolfenstein3D to
 Doom like graphics. However, my interest and personal learning is now leaning
-more towards C and C++, and so I'll be using [raycastlib](https://gitlab.com/drummyfish/raycastlib)
-as the rendering backend, and focus primarily on creating a simple game.
+more towards C and C++, and so I'll be using [raycastlib](https://gitlab.com/drummyfish/raycastlib) as the rendering
+backend, and focus primarily on creating a simple game.
+
+## Building and Installation
+
+To build Wolfenstein3D locally, run:
+
+```sh
+make
+```
+
+To build and install Wolfenstein3D, run:
+
+```sh
+sudo make clean install
+```
+
+By default, the build configuration is in DEBUG mode, to build in RELEASE or
+CURRENT mode, pass the `RELEASE` variable on the commandline or configure this
+in the config.mk file:
+
+```sh
+sudo make RELEASE=RELEASE clean install
+```
 

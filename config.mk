@@ -110,5 +110,10 @@ all: config ${BIN}
 # to occur naturally.
 SHELL := /bin/sh
 
+# This target specifies that the 'all' target should be built even if an 'all'
+# file exists, specify any other custom targets in the config.mk file here and
+# any genuine build targets in the main Makefile.
+.PHONY: all
+
 # }}}
 
