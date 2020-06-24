@@ -55,7 +55,7 @@ uninstall: clean
 	rm -f ${BIN_DIR}/${BIN} ${MAN_DIR}/${BIN}.1
 
 ${DRUMMY_FISH_LIBS}: depends_on_git
-	git clone https://gitlab.com/drummyfish/$@ || { cd $@ && git pull ; }
+	cd $@ && git pull || git clone https://gitlab.com/drummyfish/$@
 
 .PHONY: clean install install_doc uninstall
 
