@@ -105,6 +105,16 @@ CC := cc
 
 # DOCUMENTATION {{{
 
+# These are manpage formatting macros, provided as an abstraction over writing
+# these inline.
+MAN_COMMENT      := .\\\\\"
+MAN_BOLD         := .B
+MAN_BOLD_WORD    := \\\\fB
+MAN_ITALICS      := .I
+MAN_ITALICS_WORD := \\\\fI
+MAN_REGULAR      := .R
+MAN_REGULAR_WORD := \\\\fR
+
 # These variables are used to configure various values for documentation files.
 AUTHOR    := Morgaux Meyer
 CONTACT   := 3158796-morgaux@users.noreply.gitlab.com
@@ -123,7 +133,7 @@ COPYRIGHT := ${LICENSE} (C) $$(date +%Y) ${AUTHOR} (${CONTACT})
 SHORT_DESCRIPTION := A simple Wolfenstien3D clone
 OPTIONS           := 
 OPT_DESCRIPTION   := ${BIN} takes no options at this time.
-SYNOPSIS          := ${BIN} ${OPTIONS}
+SYNOPSIS          := ${MAN_BOLD_WORD}${BIN} ${OPTIONS}
 DESCRIPTION       := ${BIN} is a pet project to explore Raycasting and other   \
                      rudimentary aspects of early game graphics. It is mostly  \
                      written in C using the excellent raycastlib and           \

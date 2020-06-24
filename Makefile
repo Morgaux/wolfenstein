@@ -29,8 +29,9 @@ ${BIN}: ${OBJ}
 
 ${BIN}.1:
 	@{ \
-		echo ".\\\" Manpage for ${BIN}"                              ; \
-		echo ".\\\" Contact ${CONTACT} to correct errors or typos."  ; \
+		echo "${MAN_COMMENT} Manpage for ${BIN}"                     ; \
+		echo "${MAN_COMMENT} Contact ${CONTACT}"                       \
+		     "to correct any errors or typos."                       ; \
 		echo ".TH man 1"                                               \
 		     "\"${DATE}\""                                             \
 		     "\"${VERSION}\""                                          \
