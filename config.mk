@@ -10,10 +10,6 @@
 
 # These configurations are for make(1) and the makefiles that include this file.
 
-# This is the default target, show the configuration for the build and build the
-# target but don't install or clean.
-all: config ${BIN}
-
 # The .SILENT target makes the output of the make build process less verbose,
 # only showing messages explicitly printed with echo statements or output from
 # the complier for example. Uncomment the below lines to enable this behaviour
@@ -106,7 +102,8 @@ CC := cc
 # DOCUMENTATION {{{
 
 # These are manpage formatting macros, provided as an abstraction over writing
-# these inline.
+# these inline. The added benefit is that the correct number of escape slashes
+# needed can be adjusted in one place if the Makefile rule is updated.
 MAN_COMMENT      := .\\\\\"
 MAN_PARAGRAPH    := .PP
 MAN_TITLE        := .TH
@@ -176,6 +173,16 @@ MAN_DIR := ${DESTDIR}${MANPREFIX}/man1
 SUBSTITUTE := sed 's/__RELEASE__/${RELEASE}/g; \
                    s/__VERSION__/${VERSION}/g; \
                    s/__BIN__/${BIN}/g'
+
+# }}}
+
+# DEFAULT TARGET {{{
+# Note: this section must be after any configuration as it may require macros
+# and variables to be loaded.
+
+# This is the default target, show the configuration for the build and build the
+# target but don't install or clean.
+all: config ${BIN}
 
 # }}}
 
