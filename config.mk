@@ -108,12 +108,20 @@ CC := cc
 # These are manpage formatting macros, provided as an abstraction over writing
 # these inline.
 MAN_COMMENT      := .\\\\\"
+MAN_PARAGRAPH    := .PP
+MAN_TITLE        := .TH
+MAN_SECTION      := .SH
+MAN_OPTION       := .TP
 MAN_BOLD         := .B
 MAN_BOLD_WORD    := \\\\fB
 MAN_ITALICS      := .I
 MAN_ITALICS_WORD := \\\\fI
 MAN_REGULAR      := .R
 MAN_REGULAR_WORD := \\\\fR
+MAN_START_CODE   := .nf
+MAN_END_CODE     := .fi
+MAN_START_INDENT := .RS
+MAN_END_INDENT   := .RE
 
 # These variables are used to configure various values for documentation files.
 AUTHOR    := Morgaux Meyer

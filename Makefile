@@ -32,24 +32,24 @@ ${BIN}.1:
 		echo "${MAN_COMMENT} Manpage for ${BIN}"                     ; \
 		echo "${MAN_COMMENT} Contact ${CONTACT}"                       \
 		     "to correct any errors or typos."                       ; \
-		echo ".TH man 1"                                               \
+		echo "${MAN_TITLE} man 1"                                      \
 		     "\"${DATE}\""                                             \
 		     "\"${VERSION}\""                                          \
 		     "\"${BIN} man page\""                                   ; \
-		echo ".SH NAME"                                              ; \
+		echo "${MAN_SECTION} NAME"                                   ; \
 		echo "${BIN} \- ${SHORT_DESCRIPTION}"                        ; \
-		echo ".SH SYNOPSIS"                                          ; \
+		echo "${MAN_SECTION} SYNOPSIS"                               ; \
 		echo "${SYNOPSIS}"                                           ; \
-		echo ".SH DESCRIPTION"                                       ; \
+		echo "${MAN_SECTION} DESCRIPTION"                            ; \
 		echo "${DESCRIPTION}"                                        ; \
-		echo ".SH OPTIONS"                                           ; \
+		echo "${MAN_SECTION} OPTIONS"                                ; \
 		echo "${OPTIONS}"                                            ; \
 		echo "${OPT_DESCRIPTION}"                                    ; \
-		echo ".SH SEE ALSO"                                          ; \
+		echo "${MAN_SECTION} SEE ALSO"                               ; \
 		echo "${SEE_ALSO}"                                           ; \
-		echo ".SH BUGS"                                              ; \
+		echo "${MAN_SECTION} BUGS"                                   ; \
 		echo "${BUGS}"                                               ; \
-		echo ".SH AUTHOR"                                            ; \
+		echo "${MAN_SECTION} AUTHOR"                                 ; \
 		echo "${AUTHOR}"                                             ; \
 	} | ${CREATE} $@
 
