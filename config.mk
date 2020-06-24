@@ -6,6 +6,38 @@
 # Configuration for Wolfenstein 3D makefiles
 #
 
+# MAKE CONFIGURATION {{{
+
+# These configurations are for make(1) and the makefiles that include this file.
+
+# This is the default target, show the configuration for the build and build the
+# target but don't install or clean.
+all: config ${BIN}
+
+# The .SILENT target makes the output of the make build process less verbose,
+# only showing messages explicitly printed with echo statements or output from
+# the complier for example. Uncomment the below lines to enable this behaviour
+# if desired.
+#.SILENT:
+
+# This specifies the location of the shell to use, this should be something
+# portable so that the build works without issues on all systems. Using /bin/sh
+# has the added benefit of forcing you to use the POSIX Bourne Shell a all times
+# and catches Bash-isms early, allowing more portable code in the build system
+# to occur naturally.
+SHELL := /bin/sh
+
+# This target specifies that the 'all' target should be built even if an 'all'
+# file exists, specify any other custom targets in the config.mk file here and
+# any genuine build targets in the main Makefile.
+.PHONY: all
+
+# This macro allows a simple and programmatic way of ignoring errors on a
+# command that may fail.
+SWALLOW_ERR := 2>/dev/null || true
+
+# }}}
+
 # BUILD FILES {{{
 
 # These are libraries written by Miloslav Ciz (tasyfish.cz), I am using them as
@@ -87,34 +119,6 @@ MAN_DIR := ${DESTDIR}${MANPREFIX}/man1
 SUBSTITUTE := sed 's/__RELEASE__/${RELEASE}/g; \
                    s/__VERSION__/${VERSION}/g; \
                    s/__BIN__/${BIN}/g'
-
-# }}}
-
-# MAKE CONFIGURATION {{{
-
-# These configurations are for make(1) and the makefiles that include this file.
-
-# This is the default target, show the configuration for the build and build the
-# target but don't install or clean.
-all: config ${BIN}
-
-# The .SILENT target makes the output of the make build process less verbose,
-# only showing messages explicitly printed with echo statements or output from
-# the complier for example. Uncomment the below lines to enable this behaviour
-# if desired.
-#.SILENT:
-
-# This specifies the location of the shell to use, this should be something
-# portable so that the build works without issues on all systems. Using /bin/sh
-# has the added benefit of forcing you to use the POSIX Bourne Shell a all times
-# and catches Bash-isms early, allowing more portable code in the build system
-# to occur naturally.
-SHELL := /bin/sh
-
-# This target specifies that the 'all' target should be built even if an 'all'
-# file exists, specify any other custom targets in the config.mk file here and
-# any genuine build targets in the main Makefile.
-.PHONY: all
 
 # }}}
 

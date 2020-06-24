@@ -41,10 +41,10 @@ dist: clean ${DIST_FILES} depends_on_tar depends_on_gzip
 	gzip ${DIST_DIR}.tar
 	rm -rf ${DIST_DIR}
 
-install_doc: depends_on_sed
+install_doc: ${BIN}.1 depends_on_sed
 	mkdir -p ${MAN_DIR}
-	${SUBSTITUTE} < ${BIN}.1 > ${MAN_DIR}/${BIN}.1
-	chmod 644 ${MAN_DIR}/${BIN}.1
+	${SUBSTITUTE} < $< > ${MAN_DIR}/$<
+	chmod 644 ${MAN_DIR}/$<
 
 install: all install_doc
 	mkdir -p ${BIN_DIR}
