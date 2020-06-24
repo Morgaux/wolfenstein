@@ -27,8 +27,34 @@ config.h: depends_on_sed
 ${BIN}: ${OBJ}
 	${CC} -o $@ $^ ${LDFLAGS}
 
+${BIN}.1:
+	@{ \
+		echo ".\\\" Manpage for ${BIN}"                              ; \
+		echo ".\\\" Contact ${CONTACT} to correct errors or typos."  ; \
+		echo ".TH man 1"                                               \
+		     "\"${DATE}\""                                             \
+		     "\"${VERSION}\""                                          \
+		     "\"${BIN} man page\""                                   ; \
+		echo ".SH NAME"                                              ; \
+		echo "${BIN} \- ${SHORT_DESCRIPTION}"                        ; \
+		echo ".SH SYNOPSIS"                                          ; \
+		echo "${SYNOPSIS}"                                           ; \
+		echo ".SH DESCRIPTION"                                       ; \
+		echo "${DESCRIPTION}"                                        ; \
+		echo ".SH OPTIONS"                                           ; \
+		echo "${OPTIONS}"                                            ; \
+		echo "${OPT_DESCRIPTION}"                                    ; \
+		echo ".SH SEE ALSO"                                          ; \
+		echo "${SEE_ALSO}"                                           ; \
+		echo ".SH BUGS"                                              ; \
+		echo "${BUGS}"                                               ; \
+		echo ".SH AUTHOR"                                            ; \
+		echo "${AUTHOR}"                                             ; \
+	} | ${CREATE} $@
+
 clean:
 	rm -rf ${BIN}              \
+	       ${BIN}.1            \
 	       ${OBJ}              \
 	       ${DRUMMY_FISH_LIBS} \
 	       ${DIST_DIR}         \

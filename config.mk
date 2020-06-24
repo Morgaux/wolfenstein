@@ -36,6 +36,14 @@ SHELL := /bin/sh
 # command that may fail.
 SWALLOW_ERR := 2>/dev/null || true
 
+# These macros allow for cleaning stdin input for redirection to a file, STRIP
+# is a text processor command wrapper that strips repeating whitespace, CREATE
+# and TO write STRIP'd stdin to a file and to stdout, CREATE overwrites the
+# existing file and TO appends to it.
+STRIP  := grep -Ev '^$$' | sed 's/\s\s*/ /g'
+CREATE := ${STRIP} | tee
+TO     := ${CREATE} -a
+
 # }}}
 
 # BUILD FILES {{{
@@ -92,6 +100,37 @@ LDFALGS :=
 
 # This defines the C language compiler.
 CC := cc
+
+# }}}
+
+# DOCUMENTATION {{{
+
+# These variables are used to configure various values for documentation files.
+AUTHOR    := Morgaux Meyer
+CONTACT   := 3158796-morgaux@users.noreply.gitlab.com
+LICENSE   := MIT
+DATE      := $$(date '+%d %b %Y')
+COPYRIGHT := ${LICENSE} (C) $$(date +%Y) ${AUTHOR} (${CONTACT})
+
+# These variables are directly used to generate the manpage. SHORT_DESCRIPTION
+# should be a brief sentence describing the project, OPTIONS should list any
+# options and their syntax for the project, OPT_DESCRIPTION should provide a
+# details breakdown of the OPTIONS and their uses and meanings, SYNOPSIS should
+# provide the usage and option syntax, DESCRIPTION should explain the rest of
+# the details and caveats, EXAMPLES should provide use cases, SEE_ALSO should
+# list any related manpages (though they may not be available on the user's
+# system), and BUGS should list any bugs, TODOs, or missing features.
+SHORT_DESCRIPTION := A simple Wolfenstien3D clone
+OPTIONS           := 
+OPT_DESCRIPTION   := ${BIN} takes no options at this time.
+SYNOPSIS          := ${BIN} ${OPTIONS}
+DESCRIPTION       := ${BIN} is a pet project to explore Raycasting and other   \
+                     rudimentary aspects of early game graphics. It is mostly  \
+                     written in C using the excellent raycastlib and           \
+                     small3dlib by Miloslav Ciz (tasyfish.cz).
+EXAMPLES          := ./${BIN} ${OPTIONS}
+SEE_ALSO          := raycastlib.h small3dlib.h
+BUGS              := NONE (for now...)
 
 # }}}
 
