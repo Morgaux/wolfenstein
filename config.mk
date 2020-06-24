@@ -1,7 +1,7 @@
 #
 # Configuration for Wolfenstein 3D makefiles
 #
-
+# vim: set foldmethod=marker:
 # This must be the fist non-comment line
 .POSIX:
 
