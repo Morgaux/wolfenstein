@@ -16,13 +16,13 @@ config:
 	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
 	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
 
-.c.o:
-	${CC} -c ${CFLAGS} $<
-
 ${OBJ}: config.h config.mk ${LIB}
 
 config.h: depends_on_sed
 	${SUBSTITUTE} < config.def.h > $@
+
+.c.o:
+	${CC} -c ${CFLAGS} $<
 
 ${BIN}: ${OBJ}
 	${CC} -o $@ $^ ${LDFLAGS}
