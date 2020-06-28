@@ -2,67 +2,23 @@
 # Main makefile for my Wolfenstein 3D clone
 #
 
-include colors.mk
+# This is the Main configuration file, it must be included first as it defines
+# all needed targets, variables, macros, and make(1) settings.
 include config.mk
+
+# This is an optional file that defines some formatting eye candy to allow
+# colouring the output of certain commands. At time of writing this is
+# accomplished using 'tput' and is created to fail gracefully.
+include colors.mk
+
+# This file defines all compilation related targets, it depends internally on
+# the config.mk file but doesn't included it so it may be used as part of a
+# parallel build system in the feature, e.g. for unit testing.
+include build.mk
+
+# This file provides a method of asserting the existence of external tools and
+# allowing useful and user friendly error messages, e.g. for git(1).
 include dependencies.mk 
-
-${DRUMMY_FISH_LIBS}: depends_on_git
-	cd $@ && git pull || git clone https://gitlab.com/drummyfish/$@
-
-${OBJ}: config.h config.mk ${LIB}
-
-config.h: depends_on_sed
-	${SUBSTITUTE} < config.def.h > $@
-
-.c.o:
-	${CC} -c ${CFLAGS} $<
-
-${BIN}: ${OBJ}
-	${CC} -o $@ $^ ${LDFLAGS}
-
-${BIN}.1:
-	@{ \
-		echo "${MAN_COMMENT} Manpage for ${BIN}"                     ; \
-		echo "${MAN_COMMENT} Contact ${CONTACT}"                       \
-		     "to correct any errors or typos."                       ; \
-		echo "${MAN_TITLE} man 1"                                      \
-		     "\"${DATE}\""                                             \
-		     "\"${VERSION}\""                                          \
-		     "\"${BIN} man page\""                                   ; \
-		echo "${MAN_SECTION} NAME"                                   ; \
-		echo "${BIN} \- ${SHORT_DESCRIPTION}"                        ; \
-		echo "${MAN_SECTION} SYNOPSIS"                               ; \
-		echo "${SYNOPSIS}"                                           ; \
-		echo "${MAN_SECTION} DESCRIPTION"                            ; \
-		echo "${DESCRIPTION}"                                        ; \
-		echo "${MAN_SECTION} OPTIONS"                                ; \
-		echo "${OPTIONS}"                                            ; \
-		echo "${OPT_DESCRIPTION}"                                    ; \
-		echo "${MAN_SECTION} SEE ALSO"                               ; \
-		echo "${SEE_ALSO}"                                           ; \
-		echo "${MAN_SECTION} BUGS"                                   ; \
-		echo "${BUGS}"                                               ; \
-		echo "${MAN_SECTION} AUTHOR"                                 ; \
-		echo "${AUTHOR}"                                             ; \
-	} | ${CREATE} $@
-
-config:
-	@echo "${YELLOW}${BIN} build configuration:${RESET}"
-	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
-	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
-	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
-	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
-	@echo "\t${MAGENTA}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
-	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
-	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
-
-clean:
-	rm -rf ${BIN}              \
-	       ${BIN}.1            \
-	       ${OBJ}              \
-	       ${DRUMMY_FISH_LIBS} \
-	       ${DIST_DIR}         \
-	       ${DIST_DIR}.tar.gz
 
 dist: clean ${DIST_FILES} depends_on_tar depends_on_gzip
 	mkdir -p ${DIST_DIR}
@@ -84,5 +40,5 @@ install: all install_doc
 uninstall: clean
 	rm -f ${BIN_DIR}/${BIN} ${MAN_DIR}/${BIN}.1
 
-.PHONY: config clean dist install install_doc uninstall
+.PHONY: dist install install_doc uninstall
 

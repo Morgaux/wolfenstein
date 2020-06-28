@@ -26,7 +26,7 @@ SHELL := /bin/sh
 # This target specifies that the 'all' target should be built even if an 'all'
 # file exists, specify any other custom targets in the config.mk file here and
 # any genuine build targets in the main Makefile.
-.PHONY: all
+.PHONY: all config clean
 
 # This macro allows a simple and programmatic way of ignoring errors on a
 # command that may fail.
@@ -58,10 +58,11 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # included in the build. Finally, ${SRC} contains a list of the primary .c files
 # needed for the build, by default it is populated with the ${BIN} name with a
 # .c extension, any additional c source files should be given manually.
-BIN = wolfenstein3D
-LIB = ${DRUMMY_FISH_LIBS}
-SRC = ${BIN:%=%.c}
-OBJ = ${SRC:.c=.o}
+BIN := wolfenstein3D
+LIB := ${DRUMMY_FISH_LIBS}
+SRC := ${BIN:%=%.c}
+OBJ := ${SRC:.c=.o}
+MAN := ${BIN:%=%.1}
 
 # }}}
 
@@ -176,13 +177,37 @@ SUBSTITUTE := sed 's/__RELEASE__/${RELEASE}/g; \
 
 # }}}
 
-# DEFAULT TARGET {{{
+# DEFAULT TARGETS {{{
 # Note: this section must be after any configuration as it may require macros
 # and variables to be loaded.
 
 # This is the default target, show the configuration for the build and build the
 # target but don't install or clean.
 all: config ${BIN}
+
+# This is the 'config' target, it is used to display configuration information
+# before a build begins or on its own for debugging purposes.
+config:
+	@echo "${YELLOW}${BIN} build configuration:${RESET}"
+	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
+	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
+	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
+	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@echo "\t${MAGENTA}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
+	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+
+# This target defines how to clean up an unneeded files generated during a
+# build, it is useful for running manually during development and before an
+# install as it forces all the dependencies to be rebuild fresh, preventing any
+# old version from leaking into an install build.
+clean:
+	rm -rf ${BIN}              \
+	       ${BIN}.1            \
+	       ${OBJ}              \
+	       ${DRUMMY_FISH_LIBS} \
+	       ${DIST_DIR}         \
+	       ${DIST_DIR}.tar.gz
 
 # }}}
 
