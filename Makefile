@@ -6,15 +6,8 @@ include colors.mk
 include config.mk
 include dependencies.mk 
 
-config:
-	@echo "${YELLOW}${BIN} build configuration:${RESET}"
-	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
-	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
-	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
-	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
-	@echo "\t${MAGENTA}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
-	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
-	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+${DRUMMY_FISH_LIBS}: depends_on_git
+	cd $@ && git pull || git clone https://gitlab.com/drummyfish/$@
 
 ${OBJ}: config.h config.mk ${LIB}
 
@@ -53,6 +46,16 @@ ${BIN}.1:
 		echo "${AUTHOR}"                                             ; \
 	} | ${CREATE} $@
 
+config:
+	@echo "${YELLOW}${BIN} build configuration:${RESET}"
+	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
+	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
+	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
+	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@echo "\t${MAGENTA}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
+	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+
 clean:
 	rm -rf ${BIN}              \
 	       ${BIN}.1            \
@@ -80,9 +83,6 @@ install: all install_doc
 
 uninstall: clean
 	rm -f ${BIN_DIR}/${BIN} ${MAN_DIR}/${BIN}.1
-
-${DRUMMY_FISH_LIBS}: depends_on_git
-	cd $@ && git pull || git clone https://gitlab.com/drummyfish/$@
 
 .PHONY: config clean dist install install_doc uninstall
 
