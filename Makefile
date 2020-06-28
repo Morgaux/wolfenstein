@@ -84,5 +84,5 @@ uninstall: clean
 ${DRUMMY_FISH_LIBS}: depends_on_git
 	cd $@ && git pull || git clone https://gitlab.com/drummyfish/$@
 
-.PHONY: clean install install_doc uninstall
+.PHONY: clean dist install install_doc uninstall
 
