@@ -70,20 +70,34 @@ MAN := ${BIN:%=%.1}
 
 # These control the specific version and build type for a build. These are also
 # used when creating a distribution tar ball or during installation to version
-# stamp the installation files. ${RELEASE} should be either 'DEBUG', 'CURRENT',
+# stamp the installation files. ${FLAVOUR} should be either 'DEBUG', 'CURRENT',
 # or 'RELEASE'
-RELEASE := DEBUG
+FLAVOUR := DEBUG
 MAJOR_V := 0
 MINOR_V := 1
 POINT_V := 0
 VERSION := ${MAJOR_V}.${MINOR_V}.${POINT_V}
 
+# These define the important files in this repository, by their type and
+# functionality.
+REPO_FILES := README.md LICENSE img
+MAKE_FILES := Makefile        \
+              build.mk        \
+              colors.mk       \
+              config.mk       \
+              dependencies.mk \
+              installation.mk
+
+# These flags control the compression and bundling tools.
+TAR_FLAGS  := 
+GZIP_FLAGS := 
+
 # These control which files are included in a release, in what order, and what
 # the release tar ball is called.
-REPO_FILES := README.md LICENSE img
-MAKE_FILES := Makefile config.mk colors.mk
-DIST_FILES := ${REPO_FILES} ${MAKE_FILES} ${SRC} ${LIB}
-DIST_DIR   := ${BIN}-${VERSION}-${RELEASE}
+DIST_FILES := ${REPO_FILES} ${MAKE_FILES} ${SRC}
+DIST_DIR   := ${BIN}-${VERSION}-${FLAVOUR}
+DIST_TAR   := ${DIST_DIR}.tar
+DIST_TGZ   := ${DIST_TAR}.gz
 
 # }}}
 
@@ -91,7 +105,7 @@ DIST_DIR   := ${BIN}-${VERSION}-${RELEASE}
 
 # These define compiler options to be passed to the complier during the build
 # process.
-DEFINES := ${RELEASE} VERSION=\"${VERSION}\" 
+DEFINES := ${FLAVOUR} VERSION=\"${VERSION}\" 
 CFLAGS  := -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
 LDFALGS := 
 
@@ -189,25 +203,45 @@ all: config ${BIN}
 # before a build begins or on its own for debugging purposes.
 config:
 	@echo "${YELLOW}${BIN} build configuration:${RESET}"
-	@echo "\t${MAGENTA}VERSION${RESET} = ${BOLD}${VERSION}-${RELEASE}${RESET}"
-	@echo "\t${MAGENTA}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
-	@echo "\t${MAGENTA}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
-	@echo "\t${MAGENTA}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
-	@echo "\t${MAGENTA}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
-	@echo "\t${MAGENTA}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
-	@echo "\t${MAGENTA}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+	@echo "\t${GREEN}VERSION${RESET} = ${BOLD}${VERSION}-${FLAVOUR}${RESET}"
+	@echo "\t${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
+	@echo "\t${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
+	@echo "\t${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@echo "\t${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@echo "\t${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
+	@echo "\t${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+	@if [ -n "${DESTDIR}" ] ;                                              \
+	then                                                                   \
+		echo "\t${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}" ; \
+	fi # only show ${DESTDIR} if it is set, i.e. by a user or test script
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an
 # install as it forces all the dependencies to be rebuild fresh, preventing any
 # old version from leaking into an install build.
 clean:
-	rm -rf ${BIN}              \
-	       ${BIN}.1            \
-	       ${OBJ}              \
+	@echo "${YELLOW}Cleaning build files...${RESET}"
+	rm -rf ${BIN} \
+	       ${MAN} \
+	       ${OBJ} \
 	       ${DRUMMY_FISH_LIBS} \
-	       ${DIST_DIR}         \
-	       ${DIST_DIR}.tar.gz
+	       ${DIST_DIR} \
+	       ${DIST_TAR} \
+	       ${DIST_TGZ}
+
+# The 'install' phony target acts as a master trigger for the installation
+# actions, it allow for the order and prerequisites for a full install to be
+# configured in a single place.
+install: config install_man install_bin
+	@echo "${GREEN}Installation complete.${RESET}"
+
+# The 'uninstall' phony target acts as the complementary action to the 'install'
+# action. It defines any prerequisites and dependencies needed to uninstall the
+# files created by the 'install' action.
+uninstall: clean uninstall_man uninstall_bin
+	@echo "${GREEN}Uninstallation complete.${RESET}"
+
+.PHONY: all clean config install uninstall
 
 # }}}
 

@@ -43,10 +43,10 @@ sudo make clean install
 ```
 
 By default, the build configuration is in DEBUG mode, to build in RELEASE or
-CURRENT mode, pass the `RELEASE` variable on the commandline or configure this
+CURRENT mode, pass the `FLAVOUR` variable on the commandline or configure this
 in the config.mk file:
 
 ```sh
-sudo make RELEASE=RELEASE clean install
+sudo make FLAVOUR=RELEASE clean install
 ```
 
