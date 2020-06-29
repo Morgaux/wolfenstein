@@ -39,7 +39,7 @@ ${HDR}: depends_on_grep depends_on_sed depends_on_tee
 # however, to avoid overwriting the defaults, an untracked copy is used.
 config.h: depends_on_sed depends_on_tee
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
-	@[ -f $@ ] || ${SUBSTITUTE} < config.def.h > $@
+	@[ -f $@ ] || cat config.def.h | ${SUBSTITUTE} > $@
 
 # }}}
 

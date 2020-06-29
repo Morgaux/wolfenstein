@@ -30,3 +30,15 @@ include installation.mk
 # systems such as pacman or apt.
 include distribution.mk
 
+# This file defines all test cases and testing structures to run automation
+# tests on all components of this repository, including the makefile system
+# itself, save of course for the tests.mk file itself. To test any given
+# component, run:
+# 	make test_FOO
+# or run:
+# 	make test
+# to run the full test suit. For a list of all testable components and their
+# invocations, run:
+# 	make test_help
+include tests.mk
+
