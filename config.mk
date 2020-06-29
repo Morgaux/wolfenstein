@@ -18,9 +18,9 @@
 
 # This specifies the location of the shell to use, this should be something
 # portable so that the build works without issues on all systems. Using /bin/sh
-# has the added benefit of forcing you to use the POSIX Bourne Shell a all times
-# and catches Bash-isms early, allowing more portable code in the build system
-# to occur naturally.
+# has the added benefit of forcing you to use the POSIX Bourne Shell at all
+# times and catches Bash-isms early, allowing more portable code in the build
+# system to occur naturally.
 SHELL := /bin/sh
 
 # This target specifies that the these target should be built even if a file
