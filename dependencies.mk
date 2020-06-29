@@ -6,8 +6,8 @@
 # this as a check, add 'depends_on_FOO' as a dependency for the target in
 # question, where FOO is defined in ${DEPENDENCIES}. This will trigger the check
 # target for that tool which will provide a clear error message and halt the
-# build progress.
-DEPENDENCIES := git sed tar gzip
+# build progress. These may be added to on the commandline.
+DEPENDENCIES += git sed tar gzip
 
 # This NOOP target prevents any of the ${DEPENDENCIES} being invoked as
 # dependency by the checking target, as it uses '%' stem syntax to derive 'FOO'

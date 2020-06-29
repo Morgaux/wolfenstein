@@ -23,10 +23,10 @@
 # to occur naturally.
 SHELL := /bin/sh
 
-# This target specifies that the 'all' target should be built even if an 'all'
-# file exists, specify any other custom targets in the config.mk file here and
-# any genuine build targets in the main Makefile.
-.PHONY: all config clean
+# This target specifies that the these target should be built even if a file
+# with the same file name exists, these targets specify action that should be
+# given by the user or as dependencies of other actions.
+.PHONY: all clean config install uninstall
 
 # This macro allows a simple and programmatic way of ignoring errors on a
 # command that may fail.
@@ -76,8 +76,9 @@ MAN := ${BIN:%=%.1}
 # These control the specific version and build type for a build. These are also
 # used when creating a distribution tar ball or during installation to version
 # stamp the installation files. ${FLAVOUR} should be either 'DEBUG', 'CURRENT',
-# or 'RELEASE'
-FLAVOUR := DEBUG
+# or 'RELEASE'. Note that ${FLAVOUR} should be overriden on the command line and
+# default to 'DEBUG' here in the config.mk file.
+FLAVOUR ?= DEBUG
 MAJOR_V := 0
 MINOR_V := 1
 POINT_V := 0
@@ -110,8 +111,8 @@ DIST_TGZ   := ${DIST_DIR}.tar.gz
 # These define compiler options to be passed to the complier during the build
 # process.
 DEFINES := ${FLAVOUR} VERSION=\"${VERSION}\" 
-CFLAGS  := -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
-LDFALGS := 
+CFLAGS  += -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
+LDFALGS += 
 
 # This defines the C language compiler.
 CC := cc
@@ -144,7 +145,7 @@ AUTHOR    := Morgaux Meyer
 CONTACT   := 3158796-morgaux@users.noreply.gitlab.com
 LICENSE   := MIT
 DATE      := $$(date '+%d %b %Y')
-COPYRIGHT := ${LICENSE} (C) $$(date +%Y) ${AUTHOR} (${CONTACT})
+COPYRIGHT += ${LICENSE} (C) $$(date +%Y) ${AUTHOR} (${CONTACT})
 
 # These variables are directly used to generate the manpage. SHORT_DESCRIPTION
 # should be a brief sentence describing the project, OPTIONS should list any
@@ -172,8 +173,8 @@ BUGS              := NONE (for now...)
 
 # These directories define installation root locations used by the installation
 # and uninstallation targets.
-PREFIX    := /usr/local
-MANPREFIX := ${PREFIX}/share/man
+PREFIX    ?= /usr/local
+MANPREFIX ?= ${PREFIX}/share/man
 
 # These directories are the full paths used for installation, ${DESTDIR} is not
 # defined by default but may be provided on the command line in create a local
@@ -258,8 +259,6 @@ install: config install_man install_bin
 # files created by the 'install' action.
 uninstall: clean uninstall_man uninstall_bin
 	@echo "${GREEN}Uninstallation complete.${RESET}"
-
-.PHONY: all clean config install uninstall
 
 # }}}
 
