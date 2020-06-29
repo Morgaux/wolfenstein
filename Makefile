@@ -13,32 +13,20 @@ include colors.mk
 
 # This file defines all compilation related targets, it depends internally on
 # the config.mk file but doesn't included it so it may be used as part of a
-# parallel build system in the feature, e.g. for unit testing.
+# parallel build system in the future, e.g. for unit testing.
 include build.mk
 
 # This file provides a method of asserting the existence of external tools and
 # allowing useful and user friendly error messages, e.g. for git(1).
 include dependencies.mk 
 
-dist: clean ${DIST_FILES} depends_on_tar depends_on_gzip
-	mkdir -p ${DIST_DIR}
-	cp -R ${DIST_FILES} ${DIST_DIR}
-	tar -cf ${DIST_DIR}.tar ${DIST_DIR}
-	gzip ${DIST_DIR}.tar
-	rm -rf ${DIST_DIR}
+# This file defines the implementations of the installation actions, these are
+# provided as install_FOO or uninstall_BAR phony targets and as such the
+# implementations are separated from the installation logic.
+include installation.mk
 
-install_doc: ${BIN}.1 depends_on_sed
-	mkdir -p ${MAN_DIR}
-	${SUBSTITUTE} < $< > ${MAN_DIR}/$<
-	chmod 644 ${MAN_DIR}/$<
-
-install: all install_doc
-	mkdir -p ${BIN_DIR}
-	cp -f ${BIN} ${BIN_DIR}/.
-	chmod 755 ${BIN_DIR}/${BIN}
-
-uninstall: clean
-	rm -f ${BIN_DIR}/${BIN} ${MAN_DIR}/${BIN}.1
-
-.PHONY: dist install install_doc uninstall
+# This file provided the implementation of creating any distribution files, such
+# as a tar ball of all sources or executable packages for package management
+# systems such as pacman or apt.
+include distribution.mk
 
