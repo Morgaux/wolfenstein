@@ -13,20 +13,33 @@
 # 'clean' target and if the subdir exists, it is entered and a git pull is run
 # instead of the clone.
 ${DRUMMY_FISH_LIBS}: depends_on_git
-	@echo "${YELLOW}Fetching $@...${RESET}"
-	@if cd $@ ;                                          \
-	then                                                 \
-		git pull ;                                   \
-	else                                                 \
-		git clone https://gitlab.com/drummyfish/$@ ; \
+	@echo "${YELLOW}Updating $@...${RESET}"
+	@if cd $@ >/dev/null 2>&1                                            ; \
+	then                                                                   \
+		git pull                                                     ; \
+	else                                                                   \
+		git clone https://gitlab.com/drummyfish/$@                   ; \
 	fi
+
+# This rule enforces a header file for each source file. These should NOT be
+# confused with the config.h header, which is for configuration of compile time
+# settings and behaviour. These headers are for function declarations and
+# preprocessor ugliness.
+${HDR}: depends_on_grep depends_on_sed depends_on_tee
+	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
+	@[ -f $@ ] || {                                                        \
+		echo "/**"                                                   ; \
+		echo " * Header file for $$(echo '$@' | sed 's/.h/.c/g')"    ; \
+		echo " */"                                                   ; \
+		echo ""                                                      ; \
+	} | ${CREATE} $@
 
 # The config.h file is used to define user level configuration that isn't
 # available at run time. The default values are provided in config.def.h,
 # however, to avoid overwriting the defaults, an untracked copy is used.
-config.h: depends_on_sed
-	@echo "${YELLOW}Creating $@...${RESET} [modify as needed]"
-	${SUBSTITUTE} < config.def.h > $@
+config.h: depends_on_sed depends_on_tee
+	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
+	@[ -f $@ ] || ${SUBSTITUTE} < config.def.h > $@
 
 # }}}
 
@@ -36,19 +49,17 @@ config.h: depends_on_sed
 
 # This rule defines the compilation of the individual C modules to object files,
 # these are later linked together to for the final ${BIN} target, or may be
-# combined individually with test object files to create unit tests. Note that
-# any .c file requires a matching .h header to create the given .o file.
-%.o: %.c %.h
+# combined individually with test object files to create unit tests.
+%.o: %.c
 	@echo "${YELLOW}Building $@...${RESET}"
 	${CC} -c ${CFLAGS} $<
-
 
 # This rule defines the dependency of any given object file on the config.h file
 # and the ${LIB} dirs, this trigger the creation of the config.h file if it has
 # been cleaned and triggers an error if a library directory is missing. This is
 # preferable to a linker failure as it is more descriptive of any OS or
 # architecture differences in library management.
-${OBJ}: config.h ${LIB}
+${OBJ}: ${HDR} ${LIB}
 
 # }}}
 
@@ -71,7 +82,7 @@ ${BIN}: ${OBJ}
 
 # This target generates a troff manpage for installation of a manpage for
 # ${BIN}. This follows the standard Unix documentation conventions.
-${MAN}:
+${MAN}: depends_on_grep depends_on_sed depends_on_tee
 	@echo "${YELLOW}Generating ${MAN} manpage...${RESET}"
 	@{                                                                     \
 		echo "${MAN_COMMENT} Manpage for ${BIN}"                     ; \
