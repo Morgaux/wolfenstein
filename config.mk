@@ -54,7 +54,7 @@ BIN := wolfenstein3D
 LIB := ${DRUMMY_FISH_LIBS}
 SRC := ${BIN:%=%.c}
 OBJ := ${SRC:.c=.o}
-HDR := ${SRC:.c=.h} config.h
+HDR := ${SRC:.c=.h}
 MAN := ${BIN:%=%.1}
 
 # }}}

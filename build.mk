@@ -59,7 +59,7 @@ config.h: depends_on_sed depends_on_tee
 # been cleaned and triggers an error if a library directory is missing. This is
 # preferable to a linker failure as it is more descriptive of any OS or
 # architecture differences in library management.
-${OBJ}: ${HDR} ${LIB}
+${OBJ}: config.h ${HDR} ${LIB}
 
 # }}}
 
