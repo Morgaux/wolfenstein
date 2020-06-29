@@ -78,10 +78,10 @@ run_test_build:
 	test ! -d tmp
 
 test_build_help_message: test_build_usage_message
-	@echo "This test ensures that the makefile build system is functional"
-	@echo "and that is will not only allow for the ${BIN} target to be"
-	@echo "compiled, but also that it will clean up after itself throughout"
-	@echo "the process."
+	@printf '\t%s\n' "This test ensures that the makefile build system is"
+	@printf '\t%s\n' "functional and that is will not only allow for the"
+	@printf '\t%s\n' "${BIN} target to be compiled, but also that it will"
+	@printf '\t%s\n' "clean up after itself throughout the process."
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
@@ -99,17 +99,18 @@ test_help: test_before_help_message \
            test_after_help_message
 
 ${TEST_ACTIONS:%=test_%_usage_message}:
-	@echo "${YELLOW}Test case:${RESET}"
-	@echo "${BOLD}${@:test_%_usage_message=%}${RESET}"
-	@echo "${YELLOW}Usage:${RESET}"
-	@echo "${BOLD}make test_${@:test_%_usage_message=%}${RESET}"
-	@echo "${YELLOW}Description:${RESET}"
+	@printf   '%s\n' " "
+	@printf   '%s\n' "${YELLOW}Test case:${RESET}"
+	@printf '\t%s\n' "${BOLD}${@:test_%_usage_message=%}${RESET}"
+	@printf   '%s\n' "${YELLOW}Usage:${RESET}"
+	@printf '\t%s\n' "${BOLD}make test_${@:test_%_usage_message=%}${RESET}"
+	@printf   '%s\n' "${YELLOW}Description:${RESET}"
 
 test_before_help_message:
 	@echo "${YELLOW}Automated test cases for ${BIN}:${RESET}"
 
 test_after_help_message:
-	@echo "${YELLOW}End test cases.${RESET}"
+	@echo " "
 
 # }}}
 
