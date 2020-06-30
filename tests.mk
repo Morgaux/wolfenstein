@@ -39,7 +39,7 @@ TMOUT := 30s
 # success state of each.
 ${TEST_ACTIONS:%=test_%}:
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
-	@timeout ${TMOUT} make -s run_$@ 1>/dev/null 2>&1                    ; \
+	@timeout ${TMOUT} make -s run_$@ clean 1>/dev/null 2>&1              ; \
 	case "$$?" in                                                          \
 		0)                                                             \
 			${CLEAR_LINE}                                        ; \
