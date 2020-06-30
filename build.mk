@@ -13,11 +13,12 @@
 # 'clean' target and if the subdir exists, it is entered and a git pull is run
 # instead of the clone.
 ${DRUMMY_FISH_LIBS}: depends_on_git
-	@echo "${YELLOW}Updating $@...${RESET}"
 	@if cd $@ >/dev/null 2>&1                                            ; \
 	then                                                                   \
+		echo "${YELLOW}Updating $@...${RESET}"                       ; \
 		git pull                                                     ; \
 	else                                                                   \
+		echo "${YELLOW}Fetching $@...${RESET}"                       ; \
 		git clone https://gitlab.com/drummyfish/$@                   ; \
 	fi
 
