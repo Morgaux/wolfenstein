@@ -214,6 +214,16 @@ DELETE := rm -rf
 # it. This is especially useful for automated test cases.
 CLEAN := ${DELETE} ${TRASH}
 
+# This macro clears the current line of output, it allows for test cases or
+# other processes that take a while to print a loading message and then clear it
+# for the completion message.
+CLEAR_LINE := printf '\33[2K\r'
+
+# These macros encapsulate printing formatting for outputting simple formatted
+# text from a target.
+PRINTF := printf   '%s\n'
+INDENT := printf '\t%s\n'
+
 # }}}
 
 # DEFAULT TARGETS {{{
