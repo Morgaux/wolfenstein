@@ -98,14 +98,64 @@ DIST_TGZ   := ${DIST_DIR}.tar.gz
 # COMPILATION {{{
 
 # These define compiler options to be passed to the complier during the build
-# process. These may be given on their own or with the specific value.
-DEFINES := ${FLAVOUR}                                                          \
+# process. These may be given on their own or with the specific value. These
+# values are appended to the ${DEFINES} variable so any additions my be given on
+# the commandline invocation of make.
+DEFINES += ${FLAVOUR}                                                          \
            VERSION=\"${VERSION}\"                                              \
            _POSIX_C_SOURCE=200809L                                             \
            _DEFAULT_SOURCE                                                     \
            _BSD_SOURCE
-CFLAGS  += -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
-LDFALGS += 
+
+# These define the types of warnings to provide during compilation and are
+# passed to the compiler as -W options. By default to most verbose warnings are
+# enabled.
+WARNINGS += all extra
+
+# Adding 'error' to ${WARNINGS} will result in all warnings being treated as
+# errors and halting the compilation process. This is desirable but not always
+# possible, if this behaviour is desired, pass WARNINGS=error on the commandline
+# invocation of make or uncomment this line.
+#WARNINGS += error
+
+# This defines the level and type of optimisation to use during compilation. The
+# available options are '0', '1', '2', '3', 's', 'g', or 'fast'. The numbers
+# result in increasingly higher optimisation and 0 being the default. Whereas
+# 's' optimises for the size of the finished executable, this is only really
+# recommended on embedded or vintage systems where RAM is extremely limited, as
+# this may come with performance draw backs compared to a higher optimisation
+# level. Using 'g' optimises the debugging experience, this may be useful during
+# development but shouldn't really be used for distributed builds. Finally
+# 'fast' optimises for speed disregarding safety or compliance, don't use this.
+# Since this project aims to be a game with graphics rendering, it is
+# recommended that the optimisation level used is '3'.
+OPTIMISATION_LEVEL ?= 3
+
+# These define the compilation language and language standard. Both of these are
+# required options but my be overwritten in the command invocation. Note that
+# this entire project is written assuming that these are set to 'c' and 'c99'.
+LANGUAGE ?= c
+STANDARD ?= c99
+
+# This defines any dirs to search for included header files. By default the
+# ${LIB} dirs are included in the search path, this is mainly so that the
+# raycastlib and small3dlib libraries can be simply included as "normal" system
+# headerfiles.
+INCLUDES := ${LIB}
+
+# These are the generic compiler options to control the compilation of ${BIN}
+# and ${OBJ}. Note that these are added to any existing value of ${CFLAGS} so
+# these may be configured further by passing value to the make invocation on the
+# commandline.
+CFLAGS += -g -pedantic
+CFLAGS += ${DEFINES:%=-D%}
+CFLAGS += ${WARNINGS:%=-W%}
+CFLAGS += ${OPTIMISATION_LEVEL:%=-O%}
+CFLAGS += -x ${LANGUAGE}
+CFLAGS += -std=${STANDARD}
+CFLAGS += ${INCLUDES:%=-I%}
+
+LDFLAGS += 
 
 # This defines the C language compiler.
 CC := cc
