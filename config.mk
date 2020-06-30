@@ -71,6 +71,7 @@ MAJOR_V := 0
 MINOR_V := 1
 POINT_V := 0
 VERSION := ${MAJOR_V}.${MINOR_V}.${POINT_V}
+BUILD_V := ${VERSION}-${FLAVOUR}
 
 # These define the important files in this repository, by their type and
 # functionality.
@@ -89,7 +90,7 @@ GZIP_FLAGS := -v -9
 # These control which files are included in a release, in what order, and what
 # the release tar ball is called.
 DIST_FILES := ${REPO_FILES} ${MAKE_FILES} ${SRC}
-DIST_DIR   := ${BIN}-${VERSION}-${FLAVOUR}
+DIST_DIR   := ${BIN}-${BUILD_V}
 DIST_TGZ   := ${DIST_DIR}.tar.gz
 
 # }}}
@@ -238,14 +239,15 @@ all: config ${BIN}
 # before a build begins or on its own for debugging purposes.
 config:
 	@${PRINTF} "${YELLOW}${BIN} build configuration:${RESET}"
-	@${INDENT} "${GREEN}VERSION${RESET} = ${BOLD}${VERSION}-${FLAVOUR}${RESET}"
+	@${INDENT} "${GREEN}VERSION${RESET} = ${BOLD}${BUILD_V}${RESET}"
 	@${INDENT} "${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
 	@${INDENT} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
 	@${INDENT} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
 	@${INDENT} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
 	@${INDENT} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
 	@${INDENT} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
-	@[ -n "${DESTDIR}" ] && ${INDENT} "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"
+	@[ -n "${DESTDIR}" ] && \
+	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an

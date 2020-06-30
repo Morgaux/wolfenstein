@@ -2,6 +2,8 @@
 # Programmatically check for programs the build depends on
 #
 
+# DEPENDENCY DETECTION {{{
+
 # This variable defines any external programs that should be checked for, to add
 # this as a check, add 'depends_on_FOO' as a dependency for the target in
 # question, where FOO is defined in ${DEPENDENCIES}. This will trigger the check
@@ -29,4 +31,6 @@ ${DEPENDENCIES:%=depends_on_%}: depends_on_% : %
 	fi
 
 .PHONY: ${DEPENDENCIES} ${DEPENDENCIES:%=depends_on_%}
+
+# }}}
 
