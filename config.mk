@@ -247,7 +247,8 @@ config:
 	@${INDENT} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
 	@${INDENT} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
 	@[ -n "${DESTDIR}" ] && \
-	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"
+	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}" \
+	${SWALLOW_ERR}
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an
