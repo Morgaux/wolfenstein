@@ -9,7 +9,7 @@
 # first uninstalled from the system. Note that this action may require root
 # privileges.
 install_man: ${MAN} uninstall_man depends_on_sed
-	@echo "${YELLOW}Installing ${MAN} manpage...${RESET}"
+	@${PRINTF} "${YELLOW}Installing ${MAN} manpage...${RESET}"
 	mkdir -p ${MAN_DIR}
 	cat ${MAN} | ${SUBSTITUTE}  > ${MAN_DIR}/${MAN}
 	chmod 644 ${MAN_DIR}/${MAN}
@@ -18,7 +18,7 @@ install_man: ${MAN} uninstall_man depends_on_sed
 # removing it from the installed directories. Note that this action may require
 # root privileges.
 uninstall_man:
-	@echo "${YELLOW}Uninstalling ${MAN} manpage from ${MAN_DIR}...${RESET}"
+	@${PRINTF} "${YELLOW}Uninstalling ${MAN} manpage from ${MAN_DIR}...${RESET}"
 	rm -f ${MAN_DIR}/${MAN}
 
 # }}}
@@ -31,7 +31,7 @@ uninstall_man:
 # ${MAN} page and not just locally. Note that this action may require root
 # privileges.
 install_bin: ${BIN} uninstall_bin
-	@echo "${YELLOW}Installing ${BIN}...${RESET}"
+	@${PRINTF} "${YELLOW}Installing ${BIN}...${RESET}"
 	mkdir -p ${BIN_DIR}
 	cp -f ${BIN} ${BIN_DIR}/.
 	chmod 755 ${BIN_DIR}/${BIN}
@@ -40,7 +40,7 @@ install_bin: ${BIN} uninstall_bin
 # installed by the 'install_bin' target. Note that this action may require root
 # privileges.
 uninstall_bin:
-	@echo "${YELLOW}Uninstalling ${BIN} from ${BIN_DIR}...${RESET}"
+	@${PRINTF} "${YELLOW}Uninstalling ${BIN} from ${BIN_DIR}...${RESET}"
 	rm -f ${BIN_DIR}/${BIN}
 
 # }}}

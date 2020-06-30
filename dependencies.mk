@@ -19,13 +19,13 @@ ${DEPENDENCIES}: ;
 # the current system $PATH. If missing or not found to be executable, a message
 # is shown.
 ${DEPENDENCIES:%=depends_on_%}: depends_on_% : %
-	@if [ ! -x "$$(command -v $<)" ] ;          \
-	then                                        \
-		echo "${RED}ERROR:${RESET}"         \
-		     "${BOLD}${BIN}${RESET}"        \
-		     "depends on"                   \
-		     "${YELLOW}${BOLD}$<${RESET}" ; \
-		exit 1 ;                            \
+	@if [ ! -x "$$(command -v $<)" ] ;                                     \
+	then                                                                   \
+		${PRINTF} "${RED}ERROR:${RESET}"                               \
+		          "${BOLD}${BIN}${RESET}"                              \
+		          "depends on"                                         \
+		          "${YELLOW}${BOLD}$<${RESET}"                       ; \
+		exit 1 ;                                                       \
 	fi
 
 .PHONY: ${DEPENDENCIES} ${DEPENDENCIES:%=depends_on_%}

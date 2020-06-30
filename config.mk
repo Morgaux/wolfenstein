@@ -237,38 +237,35 @@ all: config ${BIN}
 # This is the 'config' target, it is used to display configuration information
 # before a build begins or on its own for debugging purposes.
 config:
-	@echo "${YELLOW}${BIN} build configuration:${RESET}"
-	@echo "\t${GREEN}VERSION${RESET} = ${BOLD}${VERSION}-${FLAVOUR}${RESET}"
-	@echo "\t${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
-	@echo "\t${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
-	@echo "\t${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
-	@echo "\t${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
-	@echo "\t${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
-	@echo "\t${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
-	@if [ -n "${DESTDIR}" ] ;                                              \
-	then                                                                   \
-		echo "\t${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}" ; \
-	fi # only show ${DESTDIR} if it is set, i.e. by a user or test script
+	@${PRINTF} "${YELLOW}${BIN} build configuration:${RESET}"
+	@${INDENT} "${GREEN}VERSION${RESET} = ${BOLD}${VERSION}-${FLAVOUR}${RESET}"
+	@${INDENT} "${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
+	@${INDENT} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
+	@${INDENT} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@${INDENT} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@${INDENT} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
+	@${INDENT} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+	@[ -n "${DESTDIR}" ] && ${INDENT} "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an
 # install as it forces all the dependencies to be rebuild fresh, preventing any
 # old version from leaking into an install build.
 clean:
-	@echo "${YELLOW}Cleaning build files...${RESET}"
+	@${PRINTF} "${YELLOW}Cleaning build files...${RESET}"
 	${CLEAN}
 
 # The 'install' phony target acts as a master trigger for the installation
 # actions, it allow for the order and prerequisites for a full install to be
 # configured in a single place.
 install: config install_man install_bin
-	@echo "${GREEN}Installation complete.${RESET}"
+	@${PRINTF} "${GREEN}Installation complete.${RESET}"
 
 # The 'uninstall' phony target acts as the complementary action to the 'install'
 # action. It defines any prerequisites and dependencies needed to uninstall the
 # files created by the 'install' action.
 uninstall: clean uninstall_man uninstall_bin
-	@echo "${GREEN}Uninstallation complete.${RESET}"
+	@${PRINTF} "${GREEN}Uninstallation complete.${RESET}"
 
 # }}}
 
