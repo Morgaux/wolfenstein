@@ -98,8 +98,12 @@ DIST_TGZ   := ${DIST_DIR}.tar.gz
 # COMPILATION {{{
 
 # These define compiler options to be passed to the complier during the build
-# process.
-DEFINES := ${FLAVOUR} VERSION=\"${VERSION}\" 
+# process. These may be given on their own or with the specific value.
+DEFINES := ${FLAVOUR}                                                          \
+           VERSION=\"${VERSION}\"                                              \
+           _POSIX_C_SOURCE=200809L                                             \
+           _DEFAULT_SOURCE                                                     \
+           _BSD_SOURCE
 CFLAGS  += -std=c99 -pedantic -Wall -O3 ${DEFINES:%=-D%} ${LIB:%=-I%}
 LDFALGS += 
 
