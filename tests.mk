@@ -164,23 +164,15 @@ test_build_help_message: test_build_usage_message
 	@${INDENT} "${BIN} target to be compiled, but also that it will"
 	@${INDENT} "clean up after itself throughout the process."
 
-test_raycastlib_help_message: test_raycastlib_usage_message
-	@${INDENT} "This test ensures that the raycastlib library has correctly"
-	@${INDENT} "loaded and compiles successfully (in a simple configuration"
-	@${INDENT} "similar to a hello world program). This is checked for"
-	@${INDENT} "using one of the provided files in the raycastlib repo,"
-	@${INDENT} "programs/helloWorld.c, which simply renders a single frame"
-	@${INDENT} "in ASCII art. If this fails then a more complex build will"
-	@${INDENT} "likely fail also."
-
-test_small3dlib_help_message: test_small3dlib_help_message
-	@${INDENT} "This test ensures that the small3dlib library has correctly"
-	@${INDENT} "loaded and compiles successfully (in a simple configuration"
-	@${INDENT} "similar to a hello world program). This is checked for"
-	@${INDENT} "using one of the provided files in the small3dlib repo,"
-	@${INDENT} "programs/helloWorld.c, which simply renders a single frame"
-	@${INDENT} "in ASCII art. If this fails then a more complex build will"
-	@${INDENT} "likely fail also."
+${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
+	@${INDENT} "This test ensures that this Drummy Fish library has been"
+	@${INDENT} "correctly loaded and compiles successfully using the"
+	@${INDENT} "$${CFLAGS} used to build ${BIN}, although only in a in a"
+	@${INDENT} "simple configuration similar to a hello world program. This"
+	@${INDENT} "is checked for using one of the provided files in this"
+	@${INDENT} "library's repo, at programs/helloWorld.c, which simply"
+	@${INDENT} "renders a single frame in ASCII art. If this fails then a"
+	@${INDENT} "more complex build will ikely fail also."
 
 # }}}
 
