@@ -140,7 +140,8 @@ run_test_raycastlib: raycastlib
 	test -d raycastlib/programs
 	test -f raycastlib/programs/make.sh
 	test -f raycastlib/programs/helloWorld.c
-	cd raycastlib/programs && ./make.sh helloWorld
+	cd raycastlib/programs && ${CC} ${CFLAGS} -o helloWorld helloWorld.c
+	./raycastlib/programs/helloWorld
 
 # }}}
 
