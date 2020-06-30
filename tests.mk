@@ -11,7 +11,7 @@
 # and clean up any temporary files created to allow a clean workspace for the
 # next test in the queue. Note that values in ${TEST_ACTIONS} shouldn't conflict
 # with other build targets.
-TEST_ACTIONS := build raycastlib
+TEST_ACTIONS := build ${DRUMMY_FISH_LIBS}
 
 # This specifies how long to wait for a test to complete, if this time elapses
 # before the test completes, the test is marked as a failure.
@@ -135,13 +135,13 @@ run_test_build:
 	${DELETE} tmp
 	test ! -d tmp
 
-run_test_raycastlib: raycastlib
-	test -d raycastlib
-	test -d raycastlib/programs
-	test -f raycastlib/programs/make.sh
-	test -f raycastlib/programs/helloWorld.c
-	cd raycastlib/programs && ${CC} ${CFLAGS} -o helloWorld helloWorld.c
-	./raycastlib/programs/helloWorld
+${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
+	test -d $<
+	test -d $</programs
+	test -f $</programs/make.sh
+	test -f $</programs/helloWorld.c
+	cd $</programs && ${CC} ${CFLAGS} -o helloWorld helloWorld.c
+	./$</programs/helloWorld
 
 # }}}
 
@@ -164,11 +164,20 @@ test_build_help_message: test_build_usage_message
 	@${INDENT} "${BIN} target to be compiled, but also that it will"
 	@${INDENT} "clean up after itself throughout the process."
 
-test_raycastlib_help_message: test_build_usage_message
+test_raycastlib_help_message: test_raycastlib_usage_message
 	@${INDENT} "This test ensures that the raycastlib library has correctly"
 	@${INDENT} "loaded and compiles successfully (in a simple configuration"
 	@${INDENT} "similar to a hello world program). This is checked for"
 	@${INDENT} "using one of the provided files in the raycastlib repo,"
+	@${INDENT} "programs/helloWorld.c, which simply renders a single frame"
+	@${INDENT} "in ASCII art. If this fails then a more complex build will"
+	@${INDENT} "likely fail also."
+
+test_small3dlib_help_message: test_small3dlib_help_message
+	@${INDENT} "This test ensures that the small3dlib library has correctly"
+	@${INDENT} "loaded and compiles successfully (in a simple configuration"
+	@${INDENT} "similar to a hello world program). This is checked for"
+	@${INDENT} "using one of the provided files in the small3dlib repo,"
 	@${INDENT} "programs/helloWorld.c, which simply renders a single frame"
 	@${INDENT} "in ASCII art. If this fails then a more complex build will"
 	@${INDENT} "likely fail also."
