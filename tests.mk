@@ -167,7 +167,7 @@ test_build_help_message: test_build_usage_message
 ${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
 	@${INDENT} "This test ensures that this Drummy Fish library has been"
 	@${INDENT} "correctly loaded and compiles successfully using the"
-	@${INDENT} "$${CFLAGS} used to build ${BIN}, although only in a in a"
+	@${INDENT} "\$${CFLAGS} used to build ${BIN}, although only in a in a"
 	@${INDENT} "simple configuration similar to a hello world program. This"
 	@${INDENT} "is checked for using one of the provided files in this"
 	@${INDENT} "library's repo, at programs/helloWorld.c, which simply"
