@@ -84,8 +84,8 @@ MAKE_FILES := Makefile        \
               installation.mk
 
 # These flags control the compression and bundling tools.
-TAR_FLAGS  := -v
-GZIP_FLAGS := -v -9
+TAR_FLAGS  ?= -v
+GZIP_FLAGS ?= -v -9
 
 # These control which files are included in a release, in what order, and what
 # the release tar ball is called.
