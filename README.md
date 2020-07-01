@@ -25,8 +25,10 @@ lost to time).
 The original JS version of the raycasting I created was mainly an experiment to
 learn about raycasting, ideally with the goal of going from Wolfenstein3D to
 Doom like graphics. However, my interest and personal learning is now leaning
-more towards C and C++, and so I'll be using [raycastlib](https://gitlab.com/drummyfish/raycastlib)
-as the rendering backend, and focus primarily on creating a simple game.
+more towards C and C++, and so I'll be using the simple rendering libraries
+[raycastlib](https://gitlab.com/drummyfish/raycastlib) and
+[small3dlib](https://gitlab.com/drummyfish/small3dlib) as the rendering backend,
+and focus primarily on creating a simple game.
 
 ## Building and Installation
 
