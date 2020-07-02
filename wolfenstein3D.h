@@ -5,6 +5,28 @@
 #ifndef WOLFENSTEIN3D_H
 #define WOLFENSTEIN3D_H
 
+/* DEFINE NEEDED SYMBOLS IF MISSING {{{ */
+
+/**
+ * Make sure that the VERSION is defined
+ */
+#ifndef VERSION
+#error "The `VERSION` of the wolfenstein3D build must be defined."
+#endif
+
+/**
+ * Make sure that the FLAVOUR is defined, must be RELEASE, CURRENT, or DEBUG
+ */
+#ifndef RELEASE
+#ifndef CURRENT
+#ifndef DEBUG
+#error "The `FLAVOUR` of the wolfenstein3D build must be defined."
+#endif
+#endif
+#endif
+
+/* }}} */
+
 /* GLOBAL VARS {{{ */
 
 /**
