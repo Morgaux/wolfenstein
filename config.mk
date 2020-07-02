@@ -26,7 +26,7 @@ SHELL := /bin/sh
 # This target specifies that the these target should be built even if a file
 # with the same file name exists, these targets specify action that should be
 # given by the user or as dependencies of other actions.
-.PHONY: all clean config install uninstall
+.PHONY: all clean config run install uninstall
 
 # }}}
 
@@ -311,6 +311,10 @@ config:
 clean:
 	@${PRINTF} "${YELLOW}Cleaning build files...${RESET}"
 	${CLEAN}
+
+#
+run: ${BIN}
+	@./${BIN}
 
 # The 'install' phony target acts as a master trigger for the installation
 # actions, it allow for the order and prerequisites for a full install to be
