@@ -6,30 +6,6 @@
 # Configuration for Wolfenstein 3D makefiles
 #
 
-# MAKE CONFIGURATION {{{
-
-# These configurations are for make(1) and the makefiles that include this file.
-
-# The .SILENT target makes the output of the make build process less verbose,
-# only showing messages explicitly printed with echo statements or output from
-# the complier for example. Uncomment the below lines to enable this behaviour
-# if desired.
-#.SILENT:
-
-# This specifies the location of the shell to use, this should be something
-# portable so that the build works without issues on all systems. Using /bin/sh
-# has the added benefit of forcing you to use the POSIX Bourne Shell at all
-# times and catches Bash-isms early, allowing more portable code in the build
-# system to occur naturally.
-SHELL := /bin/sh
-
-# This target specifies that the these target should be built even if a file
-# with the same file name exists, these targets specify action that should be
-# given by the user or as dependencies of other actions.
-.PHONY: all clean config run install uninstall
-
-# }}}
-
 # BUILD FILES {{{
 
 # These are libraries written by Miloslav Ciz (tasyfish.cz), I am using them as
@@ -327,6 +303,30 @@ install: config install_man install_bin
 # files created by the 'install' action.
 uninstall: clean uninstall_man uninstall_bin
 	@${PRINTF} "${GREEN}Uninstallation complete.${RESET}"
+
+# }}}
+
+# MAKE CONFIGURATION {{{
+
+# These configurations are for make(1) and the makefiles that include this file.
+
+# The .SILENT target makes the output of the make build process less verbose,
+# only showing messages explicitly printed with echo statements or output from
+# the complier for example. Uncomment the below lines to enable this behaviour
+# if desired.
+#.SILENT:
+
+# This specifies the location of the shell to use, this should be something
+# portable so that the build works without issues on all systems. Using /bin/sh
+# has the added benefit of forcing you to use the POSIX Bourne Shell at all
+# times and catches Bash-isms early, allowing more portable code in the build
+# system to occur naturally.
+SHELL := /bin/sh
+
+# This target specifies that the these target should be built even if a file
+# with the same file name exists, these targets specify action that should be
+# given by the user or as dependencies of other actions.
+.PHONY: all clean config run install uninstall
 
 # }}}
 
