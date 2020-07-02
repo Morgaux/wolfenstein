@@ -138,7 +138,6 @@ int main(int argc, char ** argv) { /* {{{ */
 	camera.position.y   = 2 * RCL_UNITS_PER_SQUARE;
 	camera.direction    = 0;
 	camera.resolution.x = SCREEN_W;
-	camera.resolution.y = SCREEN_H;
 
 	for (int i = 0; i < 10000; ++i) {
 		draw();
