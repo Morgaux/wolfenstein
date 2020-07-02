@@ -14,6 +14,9 @@
  * Include any external libraries and system headers here, in order.
  */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 /**
  * Include the raycastlib library for the rendering backend. This library is
@@ -36,10 +39,13 @@
  * level array. Here we simply compute the height procedurally, without needing
  * extra data.
  */
-RCL_Unit heightAt(int16_t x, int16_t y) { /* {{{ */
-	return ((x < 0 || x > 10 || y < 0 || y > 10)
-	     ? 2 * RCL_UNITS_PER_SQUARE
-	     : 0); // library units, imagine e.g. 2 meters
+static RCL_Unit heightAt(int16_t x, int16_t y) { /* {{{ */
+	int32_t index = y * MAP_W + x;
+
+	return (index < 0 || (index >= MAP_W * MAP_H)
+	        ? 1
+	        : map[y * MAP_W + x]
+	       ) * 2 * RCL_UNITS_PER_SQUARE; // library units, e.g. 2 meters
 } /* }}} */
 
 /**
@@ -47,19 +53,30 @@ RCL_Unit heightAt(int16_t x, int16_t y) { /* {{{ */
  * told the library it should call this function during rendering.
  */
 void pixelFunc(RCL_PixelInfo *p) { /* {{{ */
+	/* Define the shading ASCII characters. */
+	static const char asciiShades[] = "HXi/;,.               ";
+
+	/* The character to print for that pixel */
 	char c = ' ';
+
+	/* The shade of this pixel (depending on the angle) */
+	uint8_t shade = 3;
+
+	shade -= RCL_min(3,p->depth / RCL_UNITS_PER_SQUARE);
 
 	if (p->isWall) { // ray hit wall
 		switch (p->hit.direction) {
-		case 1:
-		case 2:
-			c = '#';
-			break;
 		case 0:
-		case 3:
-			c = '/';
+			shade += 2;
+		case 1:
+			c = asciiShades[shade];
 			break;
+		case 2:
+			c = 'o';
+			break;
+		case 3:
 		default:
+			c = '.';
 			break;
 		}
 	} else { // ray hit a floor or ceiling
@@ -70,39 +87,20 @@ void pixelFunc(RCL_PixelInfo *p) { /* {{{ */
 } /* }}} */
 
 /**
- * Main function and entry point
+ * Drawing function to do the actual drawing of pixels to the screen
  */
-int main(int argc, char ** argv) { /* {{{ */
+static void draw() { /* {{{ */
 	// prefill screen with newlines
-	for (int i = 0; i < PIXELS_TOTAL; ++i) {
-		screen[i] = '\n';
-	}
+	memset(screen,'\n',PIXELS_TOTAL);
 
 	// terminate the string
 	screen[PIXELS_TOTAL - 1] = 0;
-
-	// camera to specify our view
-	RCL_Camera camera;
-	RCL_initCamera(&camera);
-
-	// set up the camera:
-	camera.position.x   = 5 * RCL_UNITS_PER_SQUARE;
-	camera.position.y   = 6 * RCL_UNITS_PER_SQUARE;
-	camera.direction    = 5 * RCL_UNITS_PER_SQUARE / 6; // 4/5 of full angle
-	camera.resolution.x =     SCREEN_W;
-	camera.resolution.y =     SCREEN_H;
-
-	/**
-	 * This struct tell the library more details about how it should cast
-	 * each of the rays.
-	 */
-	RCL_RayConstraints constraints;
 
 	/**
 	 * Set up the constraints on how to cast rays.
 	 */
 	RCL_initRayConstraints(&constraints);
-	constraints.maxHits  = 1;  // we don't need more than 1 hit here
+	constraints.maxHits  =  1; // we don't need more than 1 hit here
 	constraints.maxSteps = 40; // max squares a ray will travel
 
 	/**
@@ -115,8 +113,62 @@ int main(int argc, char ** argv) { /* {{{ */
 	 */
 	RCL_renderSimple(camera, heightAt, 0, 0, constraints);
 
-	// print out the rendered frame
+	/* Clear the screen */
+	for (int i = 0; i < SCREEN_H; i++) {
+		puts("\n");
+	}
+
+	/* Display the frame */
 	puts(screen);
+} /* }}} */
+
+/**
+ * Main function and entry point
+ */
+int main(int argc, char ** argv) { /* {{{ */
+	int dx = 1;
+	int dy = 0;
+	int dr = 1;
+	int frame = 0;
+
+	// camera to specify our view
+	RCL_initCamera(&camera);
+
+	// set up the camera:
+	camera.position.x   = 2 * RCL_UNITS_PER_SQUARE;
+	camera.position.y   = 2 * RCL_UNITS_PER_SQUARE;
+	camera.direction    = 0;
+	camera.resolution.x = SCREEN_W;
+	camera.resolution.y = SCREEN_H;
+
+	for (int i = 0; i < 10000; ++i) {
+		draw();
+
+		int squareX = RCL_divRoundDown(camera.position.x,RCL_UNITS_PER_SQUARE);
+		int squareY = RCL_divRoundDown(camera.position.y,RCL_UNITS_PER_SQUARE);
+
+		if (rand() % 100 == 0) {
+			dx = 1 - rand() % 3;
+			dy = 1 - rand() % 3;
+			dr = 1 - rand() % 3;
+		}
+		
+		while (heightAt(squareX + dx,squareY + dy) > 0) {
+			dx = 1 - rand() % 3;
+			dy = 1 - rand() % 3;
+			dr = 1 - rand() % 3;
+		}
+
+		camera.position.x += dx * 200;
+		camera.position.y += dy * 200;
+		camera.direction  += dr * 10;
+
+		camera.height = RCL_UNITS_PER_SQUARE + RCL_sin(frame * 16) / 2;
+
+		usleep(100000);
+
+		frame++;
+	}
 
 	return 0;
 } /* }}} */
