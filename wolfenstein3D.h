@@ -11,7 +11,7 @@
  * Make sure that the VERSION is defined
  */
 #ifndef VERSION
-#error "The `VERSION` of the wolfenstein3D build must be defined."
+#warning "The `VERSION` of the wolfenstein3D build must be defined."
 #endif
 
 /**
@@ -20,7 +20,7 @@
 #ifndef RELEASE
 #ifndef CURRENT
 #ifndef DEBUG
-#error "The `FLAVOUR` of the wolfenstein3D build must be defined."
+#warning "The `FLAVOUR` of the wolfenstein3D build must be defined."
 #endif
 #endif
 #endif
