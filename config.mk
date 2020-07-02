@@ -242,7 +242,9 @@ DELETE := rm -rf
 # commands may be used, such as for logging, but this macro allows for cleaning
 # in the implementation body of a rule that may create more cruft than usual or
 # may require a clean workspace for a command that follows another that dirties
-# it. This is especially useful for automated test cases.
+# it. This is especially useful for automated test cases. It also allows the
+# addition of other targets to the clean command, e.g. '${CLEAN} foo.h' will
+# append the 'foo.h' header file to the ${TRASH} list for this call of ${CLEAN}.
 CLEAN := ${DELETE} ${TRASH}
 
 # This macro clears the current line of output, it allows for test cases or
@@ -274,11 +276,19 @@ config:
 	@${INDENT} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
 	@${INDENT} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
 	@${INDENT} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@# DESTDIR SECTION {{{
+	@# This section only shows the 'DESTDIR' if it has been set explicitly.
+	@# It is in this position the ${BIN_DIR} and ${MAN_DIR} paths are set as
+	@# subdirectories of ${DESTDIR}, although it has no default value unless
+	@# set by the user. In that case we want to display it before displaying
+	@# the ${BIN_DIR} and ${MAN_DIR} paths.
+	@if [ -n "${DESTDIR}" ]                                              ; \
+	then                                                                   \
+	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"     ; \
+	fi
+	@# DESTDIR SECTION }}}
 	@${INDENT} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
 	@${INDENT} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
-	@[ -n "${DESTDIR}" ] && \
-	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}" \
-	${SWALLOW_ERR}
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an
@@ -286,7 +296,16 @@ config:
 # old version from leaking into an install build.
 clean:
 	@${PRINTF} "${YELLOW}Cleaning build files...${RESET}"
-	${CLEAN}
+	@# This replaces a plain call of ${CLEAN} by appending the config.h file
+	@# to the clean macro to remove any old definitions during development.
+	@if [ "${FLAVOUR}" = "DEBUG" ]                                       ; \
+	then                                                                   \
+		echo "${CLEAN} config.h"                                     ; \
+		${CLEAN} config.h                                            ; \
+	else                                                                   \
+		echo "${CLEAN}"                                              ; \
+		${CLEAN}                                                     ; \
+	fi
 
 #
 run: ${BIN}
