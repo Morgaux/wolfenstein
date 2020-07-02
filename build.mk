@@ -112,5 +112,3 @@ ${MAN}: depends_on_grep depends_on_sed depends_on_tee
 
 # }}}
 
-.PHONY: ${LIBS}
-
