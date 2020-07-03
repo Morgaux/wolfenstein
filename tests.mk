@@ -39,19 +39,24 @@ TMOUT := 30s
 # success state of each.
 ${TEST_ACTIONS:%=test_%}:
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
-	@timeout ${TMOUT} make -s run_$@ clean 1>/dev/null 2>&1              ; \
-	case "$$?" in                                                          \
+	@case                                                                  \
+		"$$(                                                           \
+			timeout ${TMOUT}                                       \
+			make -s run_$@ clean >/dev/null 2>&1                 ; \
+			echo $$?                                               \
+		)"                                                             \
+	in                                                                     \
+		124|143)                                                       \
+			${CLEAR_LINE}                                        ; \
+			${PRINTF} "${RED}TIMEOUT${RESET} for ${@:test_%=%}"  ; \
+		;;                                                             \
 		0)                                                             \
 			${CLEAR_LINE}                                        ; \
-			echo "${GREEN}PASS${RESET} for ${@:test_%=%}"        ; \
-		;;                                                             \
-		124)                                                           \
-			${CLEAR_LINE}                                        ; \
-			echo "${RED}TIMEOUT${RESET} for ${@:test_%=%}"       ; \
+			${PRINTF} "${GREEN}PASS${RESET} for ${@:test_%=%}"   ; \
 		;;                                                             \
 		*)                                                             \
 			${CLEAR_LINE}                                        ; \
-			echo "${RED}FAIL${RESET} for ${@:test_%=%}"          ; \
+			${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"     ; \
 		;;                                                             \
 	esac || true
 
@@ -141,6 +146,7 @@ ${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
 	test -f $</programs/make.sh
 	test -f $</programs/helloWorld.c
 	cd $</programs && ${CC} ${CFLAGS} -o helloWorld helloWorld.c
+	test -x $</programs/helloWorld
 	./$</programs/helloWorld
 
 # }}}
