@@ -28,7 +28,7 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # declarations for use if said sources and any tests that may apply.
 BIN := wolfenstein3D
 LIB := ${DRUMMY_FISH_LIBS}
-SRC := ${BIN:%=%.c}
+SRC := ${BIN:%=%.c} rendering.c
 OBJ := ${SRC:.c=.o}
 HDR := ${SRC:.c=.h}
 MAN := ${BIN:%=%.1}
