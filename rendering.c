@@ -24,7 +24,6 @@
  */
 #include "rendering.h"
 
-int rendering_main(int argc, char ** argv) {
-	return 1; /* DEFAULT TO FAILURE FOR UNIT TEST */
-}
+static void rendering() { /* {{{ */
+} /* }}} */
 

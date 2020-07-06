@@ -6,7 +6,7 @@
 #define RENDERING_H
 
 /* FUNCTION DEFINITIONS {{{ */
-int rendering_main(int argc, char ** argv);
+static void rendering();
 /* }}} */
 
 #endif

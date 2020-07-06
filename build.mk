@@ -34,10 +34,9 @@ ${DRUMMY_FISH_LIBS}: depends_on_git
 # creation of the config.h file if it has been cleaned and triggers an error if
 # a library directory is missing. This is preferable to a linker failure as it
 # is more descriptive of any OS or architecture differences in library
-# management. Note that a unused function is defined by default for the creation
-# of module specific unit testing, called 'FOO_main' it is an empty block by
-# default but may be implemented as required to create test cases callable from
-# the tests.mk file.
+# management. Note that a unused function is defined by default. This is so that
+# the resulting '.o' object file may be compiled successfully and may be altered
+# or removed.
 ${SRC}: %.c : %.h config.h ${LIB}
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
@@ -67,9 +66,8 @@ ${SRC}: %.c : %.h config.h ${LIB}
 		echo " */"                                                   ; \
 		echo "#include \"$<\""                                       ; \
 		echo ""                                                      ; \
-		echo "int ${@:%.c=%}_main(int argc, char ** argv) {"         ; \
-		echo "	return 1; /* DEFAULT TO FAILURE FOR UNIT TEST */"    ; \
-		echo "}"                                                     ; \
+		echo "static void ${@:%.c=%}() { /* ___ */" | tr '_' '{'     ; \
+		echo "} /* ___ */"                          | tr '_' '}'     ; \
 		echo ""                                                      ; \
 	} > $@
 
@@ -83,14 +81,14 @@ ${HDR}:
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
-		echo " * Header file for $$(echo '$@' | sed 's/.h$$/.c/g')"  ; \
+		echo " * Header file for ${@:%.h=%.c}"                       ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
 		echo "#ifndef $$(echo '$@' | tr '[:lower:].' '[:upper:]_')"  ; \
 		echo "#define $$(echo '$@' | tr '[:lower:].' '[:upper:]_')"  ; \
 		echo ""                                                      ; \
 		echo "/* FUNCTION DEFINITIONS ___ */" | tr '_' '{'           ; \
-		echo "int ${@:%.h=%}_main(int argc, char ** argv);"          ; \
+		echo "static void ${@:%.h=%}();"                             ; \
 		echo "/* ___ */"                      | tr '_' '}'           ; \
 		echo ""                                                      ; \
 		echo "#endif"                                                ; \
