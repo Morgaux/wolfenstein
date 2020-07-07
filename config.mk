@@ -12,6 +12,23 @@
 # the rendering backends and pull them in from the git repos, fresh.
 DRUMMY_FISH_LIBS := raycastlib small3dlib
 
+# This defines the various components of this Wolfenstein 3D project. The
+# ${MODULES} variable defines the components of wolfenstein3D that are compiled
+# separately and linked to form wolfenstein3D. These components are provided in
+# ${MODULES} as the plain name of the module with no extensions. The source code
+# files for these ${MODULES} contain the functions and data structures needed,
+# but without a 'main' function. These are compiled to the ${OBJ} files as
+# defined below. The ${MAINS} variable holds the special modules that contain
+# only the 'main' function. These are also compiled to the ${OBJ} files,
+# however, only the main module defined in the ${BIN} target is built and used
+# as the 'main' function for the resulting executable. This allows the
+# wolfenstein3D target (the default ${BIN} target) to be swapped out
+# (effectively changing the 'main' function used for that build), for example a
+# unit test C source file may define predicates for the module in question and
+# when built with that main as the ${BIN} target.
+MODULES := rendering
+MAINS   := wolfenstein3D
+
 # These files define which files are built or installed and the destination
 # executable. ${BIN} should be a single item, the name of the final executable
 # to build / install. ${LIB} should define a list of directories that contain
@@ -26,11 +43,11 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # header files for the respective sources that define and preprocessor logic
 # that shouldn't contaminate the main C sources, as well as the function
 # declarations for use if said sources and any tests that may apply.
-BIN := wolfenstein3D
+BIN ?= wolfenstein3D
 LIB := ${DRUMMY_FISH_LIBS}
-SRC := ${BIN:%=%.c} rendering.c
-OBJ := ${SRC:.c=.o}
+SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
 HDR := ${SRC:.c=.h}
+OBJ := ${SRC:.c=.o}
 MAN := ${BIN:%=%.1}
 
 # }}}
