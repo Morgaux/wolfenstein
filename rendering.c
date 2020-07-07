@@ -123,6 +123,34 @@ static void draw() { /* {{{ */
 	puts(screen);
 } /* }}} */
 
+/* Camera Control Functions {{{ */
+
+/**
+ * This function rotates the camera to the right by the given angle, pass
+ * negative angle value to turn left.
+ */
+void turn(int angle) { /* {{{ */
+	camera.direction += angle;
+} /* }}} */
+
+/**
+ * This function moves the view point in the currently facing direction by the
+ * distance given (in library units). To move backwards, specify a negative
+ * amount, else a positive amount to move forwards.
+ */
+void walk(int distance) { /* {{{ */
+} /* }}} */
+
+/**
+ * This function moves the view point sideways relative to the currently facing
+ * direction by the distance given (in library units). To move left specify an
+ * negative number, else a positive number to move right.
+ */
+void strafe(int distance) { /* {{{ */
+} /* }}} */
+
+/* }}} */
+
 /**
  * This function initializes any internal structures needed for this module and
  * may be called externally, e.g. in main().
@@ -163,7 +191,8 @@ int initialize_rendering() { /* {{{ */
 
 		camera.position.x += dx * 200;
 		camera.position.y += dy * 200;
-		camera.direction  += dr * 10;
+
+		turn(dr * 10);
 
 		camera.height = RCL_UNITS_PER_SQUARE + RCL_sin(frame * 16) / 2;
 

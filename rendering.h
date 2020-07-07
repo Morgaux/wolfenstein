@@ -38,6 +38,9 @@ static void draw();
  * Global functions, these are non static and accessible to other modules.
  */
 void pixelFunc(RCL_PixelInfo *p);
+void turn(int angle);
+void walk(int distance);
+void strafe(int distance);
 int initialize_rendering();
 
 /* }}} */
