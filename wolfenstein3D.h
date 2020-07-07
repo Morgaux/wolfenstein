@@ -38,7 +38,7 @@ char screen[(SCREEN_W + 1) * SCREEN_H + 1];
  * Define the map as a 1D array of bytes, here we'll use 1 as a wall and 0 as an
  * empty space. Note it must match the dimensions given in MAP_W and MAP_H.
  */
-const int8_t map[MAP_W * MAP_H] = {
+int map[MAP_W * MAP_H] = {
 	0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,
@@ -56,24 +56,23 @@ const int8_t map[MAP_W * MAP_H] = {
 	0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0
 };
 
-/**
- * Define the camera to control the view of the space.
- */
-RCL_Camera camera;
-
-/**
- * This struct tell the library more details about how it should cast
- * each of the rays.
- */
-RCL_RayConstraints constraints;
-
 /* }}} */
 
 /* FUNCTION DECLARATIONS {{{ */
 
-static RCL_Unit heightAt(int16_t x, int16_t y);
-static void draw();
-void pixelFunc(RCL_PixelInfo *p);
+/**
+ * External functions and values, these are used within this module, but defined
+ * and implemented within a different module.
+ */
+extern int initialize_rendering();
+
+/**
+ * Static functions, these are private to this module.
+ */
+
+/**
+ * Global functions, these are non static and accessible to other modules.
+ */
 int main(int argc, char ** argv);
 
 /* }}} */
