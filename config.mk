@@ -281,8 +281,11 @@ INDENT := printf '\t%s\n'
 # and variables to be loaded.
 
 # This is the default target, show the configuration for the build and build the
-# target but don't install or clean.
-all: config ${BIN}
+# target but don't install or clean. Note that the dependencies are checked here
+# at the beginning to catch any missing tools as early as possible, also note
+# that the dependacies are only check here unless directly called via the
+# 'depends_on_FOO' target actions.
+all: check_dependencies config ${BIN}
 
 # This is the 'config' target, it is used to display configuration information
 # before a build begins or on its own for debugging purposes.
@@ -331,7 +334,7 @@ run: ${BIN}
 # The 'install' phony target acts as a master trigger for the installation
 # actions, it allow for the order and prerequisites for a full install to be
 # configured in a single place.
-install: config install_man install_bin
+install: all install_man install_bin
 	@${PRINTF} "${GREEN}Installation complete.${RESET}"
 
 # The 'uninstall' phony target acts as the complementary action to the 'install'

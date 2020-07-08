@@ -12,7 +12,7 @@
 # To ensure that the latest version is used, the repo subdirs are removed in the
 # 'clean' target and if the subdir exists, it is entered and a git pull is run
 # instead of the clone.
-${DRUMMY_FISH_LIBS}: depends_on_git
+${DRUMMY_FISH_LIBS}:
 	@if cd $@ >/dev/null 2>&1                                            ; \
 	then                                                                   \
 		echo "${YELLOW}Updating $@...${RESET}"                       ; \
@@ -136,7 +136,7 @@ ${BIN}: ${OBJ}
 
 # This target generates a troff manpage for installation of a manpage for
 # ${BIN}. This follows the standard Unix documentation conventions.
-${MAN}: depends_on_grep depends_on_sed depends_on_tee
+${MAN}:
 	@echo "${YELLOW}Generating ${MAN} manpage...${RESET}"
 	@{                                                                     \
 		echo "${MAN_COMMENT} Manpage for ${BIN}"                     ; \

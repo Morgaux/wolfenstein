@@ -30,7 +30,9 @@ ${DEPENDENCIES:%=depends_on_%}: depends_on_% : %
 		exit 1 ;                                                       \
 	fi
 
-.PHONY: ${DEPENDENCIES} ${DEPENDENCIES:%=depends_on_%}
+check_dependencies: ${DEPENDENCIES:%=depends_on_%}
+
+.PHONY: check_dependencies ${DEPENDENCIES} ${DEPENDENCIES:%=depends_on_%}
 
 # }}}
 

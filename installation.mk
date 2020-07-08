@@ -8,7 +8,7 @@
 # system's manpage database. To ensure a clean installation, the old manpage is
 # first uninstalled from the system. Note that this action may require root
 # privileges.
-install_man: ${MAN} uninstall_man depends_on_sed
+install_man: ${MAN} uninstall_man
 	@${PRINTF} "${YELLOW}Installing ${MAN_DIR}/${MAN} manpage...${RESET}"
 	mkdir -p ${MAN_DIR}
 	cat ${MAN} | ${SUBSTITUTE}  > ${MAN_DIR}/${MAN}

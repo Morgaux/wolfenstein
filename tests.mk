@@ -62,7 +62,7 @@ ${TEST_ACTIONS:%=test_%}:
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
-test: ${TEST_ACTIONS:%=test_%} depends_on_timeout
+test: ${TEST_ACTIONS:%=test_%}
 
 # This target displays a help message of the available test cases to run in bulk
 # via the 'test' action or individually via each respective 'test_FOO' action.

@@ -7,7 +7,7 @@
 # The 'dist' phony target triggers the creation of a distributable tar ball of
 # all source files. This allows for a release to be created as a single stage
 # and within a single action.
-dist: clean ${DIST_FILES} depends_on_tar depends_on_gzip
+dist: clean ${DIST_FILES}
 	@${PRINTF} "${YELLOW}Creating ditribution tarball...${RESET}"
 	${CLEAN}
 	mkdir -p ${DIST_DIR}
