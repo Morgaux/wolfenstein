@@ -18,6 +18,7 @@
  * Include any external libraries and system headers
  * here, in order.
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

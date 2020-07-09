@@ -18,10 +18,10 @@
  * Include any external libraries and system headers
  * here, in order.
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 /* DEFINE RAYCASTLIB SYMBOLS {{{ */
 
@@ -55,42 +55,42 @@
  */
 #include "rendering.h"
 
-PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length) { /* {{{ */
+PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
-PUBLIC int64_t CreateFrame(u_int64_t width, u_int64_t length) { /* {{{ */
+PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
-PUBLIC Square GetSquare(u_int64_t x, u_int64_t y) { /* {{{ */
+PUBLIC Square GetSquare(uint64_t x, uint64_t y) { /* {{{ */
 	Square square;
 
 	return square;
 } /* }}} */
 
-PUBLIC void SetSquare(u_int64_t x, u_int64_t y, Square square) { /* {{{ */
+PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceWall(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+PUBLIC void PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceRectangularRoom(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+PUBLIC void PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture texture) { /* {{{ */
+PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Render(u_int64_t width, u_int64_t length) { /* {{{ */
+PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
 } /* }}} */
 
-PRIVATE Pixel GetPixel(u_int64_t x, u_int64_t y) { /* {{{ */
+PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 	Pixel pixel;
 
 	return pixel;
 } /* }}} */
 
-PRIVATE void SetPixel(u_int64_t x, u_int64_t y, Pixel pixel) { /* {{{ */
+PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel) { /* {{{ */
 } /* }}} */
 
 /* FUNCTIONS FOR RAYCASTLIB {{{ */
@@ -114,6 +114,38 @@ PRIVATE void SetPixel(u_int64_t x, u_int64_t y, Pixel pixel) { /* {{{ */
  * this module.
  */
 void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
+	static const char asciiShades[] = "HXi/:;.              ";
+
+	char c;
+	uint8_t shade = 3 - RCL_min(3, pixel->depth / RCL_UNITS_PER_SQUARE);
+
+	if (pixel->isWall) {
+		switch (pixel->hit.direction) {
+		case 0:
+			shade += 2;
+		case 1:
+			c = asciiShades[shade];
+			break;
+		case 2:
+			c = 'o';
+			break;
+		case 3:
+		default:
+			c = '.';
+			break;
+		}
+	} else {
+		c = pixel->isFloor ? '.' : ':';
+	}
+
+	Pixel ourPixel;
+
+	ourPixel.r = 0xff;
+	ourPixel.g = 0xff;
+	ourPixel.b = 0xff;
+	ourPixel.ascii = c;
+
+	SetPixel(pixel->position.x, pixel->position.y, ourPixel);
 } /* }}} */
 
 #endif

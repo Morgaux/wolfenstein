@@ -60,10 +60,10 @@
  */
 
 typedef struct {
-	u_int8_t r; /* r component of the RGB colour code                  */
-	u_int8_t g; /* g component of the RGB colour code                  */
-	u_int8_t b; /* b component of the RGB colour code                  */
-	char acsii; /* ASCII fallback to use if colours cannot be rendered */
+	uint8_t r;  /* r component of the RGB colour code                  */
+	uint8_t g;  /* g component of the RGB colour code                  */
+	uint8_t b;  /* b component of the RGB colour code                  */
+	char ascii; /* ASCII fallback to use if colours cannot be rendered */
 } Pixel;
 
 typedef struct {
@@ -72,26 +72,26 @@ typedef struct {
 } Square;
 
 typedef struct {
-	u_int64_t width;  /* horizontal size of the Texture  */
-	u_int64_t height; /* vertical size of the Texture    */
-	Pixel* pixels;    /* array of Pixels in this Texture */
+	uint64_t width;  /* horizontal size of the Texture  */
+	uint64_t height; /* vertical size of the Texture    */
+	Pixel* pixels;   /* array of Pixels in this Texture */
 } Texture;
 
-PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length);
+PUBLIC int64_t CreateMap(uint64_t width, uint64_t length);
 
-PUBLIC int64_t CreateFrame(u_int64_t width, u_int64_t length);
+PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length);
 
-PUBLIC Square GetSquare(u_int64_t x, u_int64_t y);
+PUBLIC Square GetSquare(uint64_t x, uint64_t y);
 
-PUBLIC void SetSquare(u_int64_t x, u_int64_t y, Square square);
+PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square);
 
-PUBLIC void PlaceWall(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture);
+PUBLIC void PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture);
 
-PUBLIC void PlaceRectangularRoom(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture);
+PUBLIC void PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture);
 
-PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture texture);
+PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture);
 
-PUBLIC void Render(u_int64_t width, u_int64_t length);
+PUBLIC void Render(uint64_t width, uint64_t length);
 
 /* }}} */
 
@@ -105,20 +105,20 @@ PUBLIC void Render(u_int64_t width, u_int64_t length);
 #ifdef RENDERING_C
 
 PRIVATE struct Map {
-	u_int64_t width;  /* size of the x axis           */
-	u_int64_t length; /* size of the y axis           */
-	Square* grid;     /* array of Squares in this Map */
+	uint64_t width;  /* size of the x axis           */
+	uint64_t length; /* size of the y axis           */
+	Square* grid;    /* array of Squares in this Map */
 } map;
 
 PRIVATE struct Frame {
-	u_int64_t width;  /* horizontal size of the Frame  */
-	u_int64_t height; /* vertical size of the Frame    */
-	Pixel* pixels;    /* array of Pixels in this Frame */
+	uint64_t width;  /* horizontal size of the Frame  */
+	uint64_t height; /* vertical size of the Frame    */
+	Pixel* pixels;   /* array of Pixels in this Frame */
 } frame;
 
-PRIVATE Pixel GetPixel(u_int64_t x, u_int64_t y);
+PRIVATE Pixel GetPixel(uint64_t x, uint64_t y);
 
-PRIVATE void SetPixel(u_int64_t x, u_int64_t y, Pixel pixel);
+PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel);
 
 #endif
 /* }}} */
