@@ -55,6 +55,8 @@
  */
 #include "rendering.h"
 
+/* PUBLIC FUNCTIONS {{{ */
+
 PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
@@ -84,6 +86,10 @@ PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture textur
 PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
 } /* }}} */
 
+/* }}} */
+
+/* PRIVATE FUNCTIONS {{{ */
+
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 	Pixel pixel;
 
@@ -93,17 +99,14 @@ PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel) { /* {{{ */
 } /* }}} */
 
+/* }}} */
+
 /* FUNCTIONS FOR RAYCASTLIB {{{ */
 /**
  * The raycastlib library requires some code to be
  * written by it's user, in this case this module, to
- * act as a sort of callback function. These should
- * only be declared within this module, but cannot be
- * declared static as this conflicts with how the
- * raycastlib defines them, as such these should be
- * wrapped in this #ifdef...#endif directives.
+ * act as a sort of callback function.
  */
-#ifdef RENDERING_C
 
 /**
  * This function is used internally by the backend
@@ -148,6 +151,5 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	SetPixel(pixel->position.x, pixel->position.y, ourPixel);
 } /* }}} */
 
-#endif
 /* }}} */
 
