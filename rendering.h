@@ -171,6 +171,14 @@ PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel);
  */
 void RenderPixel(RCL_PixelInfo* pixel);
 
+/**
+ * This function is passed to the raycastlib
+ * rendering functions, e.g. RCL_renderSimple(). It
+ * allows the library to see the Squares in our map
+ * without hampering our implementation of the map.
+ */
+RCL_Unit QueryPixelHeight(int64_t x, int64_t y);
+
 #endif
 /* }}} */
 

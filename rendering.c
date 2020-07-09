@@ -191,5 +191,20 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	SetPixel(pixel->position.x, pixel->position.y, ourPixel);
 } /* }}} */
 
+/**
+ * This function is passed to the raycastlib
+ * rendering functions, e.g. RCL_renderSimple(). It
+ * allows the library to see the Squares in our map
+ * without hampering our implementation of the map.
+ */
+RCL_Unit QueryPixelHeight(int64_t x, int64_t y) { /* {{{ */
+	int64_t index = y * map.width + x;
+
+	return (index < 0 || (index >= (int64_t)(map.width * map.length))
+		? 1
+		: (*(map.grid + index)).height
+	) * 2 * RCL_UNITS_PER_SQUARE;
+} /* }}} */
+
 /* }}} */
 
