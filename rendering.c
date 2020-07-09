@@ -57,6 +57,10 @@
 
 /* PUBLIC FUNCTIONS {{{ */
 
+PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
+	return 0;
+} /* }}} */
+
 PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */

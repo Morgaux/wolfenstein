@@ -60,6 +60,16 @@
  */
 
 typedef struct {
+	uint64_t cameraPosX;
+	uint64_t cameraPosY;
+	uint64_t cameraResX;
+	uint64_t cameraResY;
+	uint64_t cameraStartHeight;
+	uint64_t cameraStartDirection;
+	uint64_t cameraViewDistance;
+} RenderConfig;
+
+typedef struct {
 	uint8_t r;  /* r component of the RGB colour code                  */
 	uint8_t g;  /* g component of the RGB colour code                  */
 	uint8_t b;  /* b component of the RGB colour code                  */
@@ -76,6 +86,8 @@ typedef struct {
 	uint64_t height; /* vertical size of the Texture    */
 	Pixel* pixels;   /* array of Pixels in this Texture */
 } Texture;
+
+PUBLIC int64_t ConfigureRendering(RenderConfig config);
 
 PUBLIC int64_t CreateMap(uint64_t width, uint64_t length);
 
