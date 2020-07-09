@@ -29,14 +29,31 @@
  */
 #include "rendering.h"
 
-/**
- * TODO: Provide function implementations here.
- *
- * This is a dummy function to allow compilation to
- * succeed, remove the declaration and function body
- * once proper functions are added.
- */
-PRIVATE void dummy() { /* {{{ */
-	printf("Hello World!\n");
+PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length) { /* {{{ */
+	return 0;
+} /* }}} */
+
+PUBLIC Square GetSquare(u_int64_t x, u_int64_t y) { /* {{{ */
+	Square square;
+
+	return square;
+} /* }}} */
+
+PUBLIC void SetSquare(u_int64_t x, u_int64_t y, Square square) { /* {{{ */
+} /* }}} */
+
+PUBLIC void PlaceWall(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+} /* }}} */
+
+PUBLIC void PlaceRectangularRoom(u_int64_t x, u_int64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+} /* }}} */
+
+PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture texture) { /* {{{ */
+} /* }}} */
+
+PUBLIC Frame Render(u_int64_t width, u_int64_t length) { /* {{{ */
+	Frame frame;
+
+	return frame;
 } /* }}} */
 
