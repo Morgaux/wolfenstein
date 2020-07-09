@@ -40,6 +40,8 @@ ${SRC}: %.c : %.h
 		echo " * Source file for the ${@:%.c=%} module of ${BIN}"    ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
+		echo "/* DEFINES {{{ */"                                     ; \
+		echo ""                                                      ; \
 		echo "#include \"defines.h\""                                ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
@@ -51,6 +53,10 @@ ${SRC}: %.c : %.h
 		echo " * module and making any necessary changes."           ; \
 		echo " */"                                                   ; \
 		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
+		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* INCLUDES {{{ */"                                    ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
 		echo " * Include any external libraries and system headers"  ; \
@@ -64,6 +70,14 @@ ${SRC}: %.c : %.h
 		echo " */"                                                   ; \
 		echo "#include \"$<\""                                       ; \
 		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* PUBLIC FUNCTIONS {{{ */"                            ; \
+		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
+		echo ""                                                      ; \
 		echo "/**"                                                   ; \
 		echo " * TODO: Provide function implementations here."       ; \
 		echo " *"                                                    ; \
@@ -74,6 +88,8 @@ ${SRC}: %.c : %.h
 		echo "PRIVATE void dummy() { /* {{{ */"                      ; \
 		echo '	printf("Hello World!\\n");'                          ; \
 		echo "} /* }}} */"                                           ; \
+		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 	} > $@
 

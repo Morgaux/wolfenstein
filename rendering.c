@@ -2,6 +2,8 @@
  * Source file for the rendering module of wolfenstein3D
  */
 
+/* DEFINES {{{ */
+
 #include "defines.h"
 
 /**
@@ -13,15 +15,6 @@
  * module and making any necessary changes.
  */
 #define RENDERING_C
-
-/**
- * Include any external libraries and system headers
- * here, in order.
- */
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /* DEFINE RAYCASTLIB SYMBOLS {{{ */
 
@@ -39,6 +32,19 @@
 
 /* }}} */
 
+/* }}} */
+
+/* INCLUDES {{{ */
+
+/**
+ * Include any external libraries and system headers
+ * here, in order.
+ */
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /**
  * Include the raycastlib library for the rendering
  * backend. This library is pulled and installed to
@@ -54,6 +60,8 @@
  * this file should be included last.
  */
 #include "rendering.h"
+
+/* }}} */
 
 /* PUBLIC FUNCTIONS {{{ */
 

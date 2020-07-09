@@ -2,6 +2,8 @@
  * Source file for the wolfenstein3D module of wolfenstein3D
  */
 
+/* DEFINES {{{ */
+
 #include "defines.h"
 
 /**
@@ -13,6 +15,10 @@
  * module and making any necessary changes.
  */
 #define WOLFENSTEIN3D_C
+
+/* }}} */
+
+/* INCLUDES {{{ */
 
 /**
  * Include any external libraries and system headers
@@ -39,6 +45,8 @@
  * this file should be included last.
  */
 #include "wolfenstein3D.h"
+
+/* }}} */
 
 /**
  * Main entry point
