@@ -19,8 +19,8 @@
 /* DEFINE RAYCASTLIB SYMBOLS {{{ */
 
 /**
- * Tell raycastlib the name of the function with which we write pixels to the
- * screen.
+ * Tell raycastlib the name of the function with
+ * which we write pixels to the screen.
  */
 #define RCL_PIXEL_FUNCTION RenderPixel
 
@@ -122,11 +122,11 @@ PUBLIC void Strafe(int64_t distance) { /* {{{ */
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
+PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
-PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
+PRIVATE int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
