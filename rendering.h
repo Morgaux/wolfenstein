@@ -77,12 +77,6 @@ typedef struct {
 	Pixel* pixels;   /* array of Pixels in this Texture */
 } Texture;
 
-typedef struct {
-	u_int64_t width;  /* horizontal size of the Frame */
-	u_int64_t height; /* vertical size of the Frame   */
-	Pixel* pixels;   /* array of Pixels in this Frame */
-} Frame;
-
 PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length);
 
 PUBLIC Square GetSquare(u_int64_t x, u_int64_t y);
@@ -95,7 +89,7 @@ PUBLIC void PlaceRectangularRoom(u_int64_t x, u_int64_t y, int64_t dx, int64_t d
 
 PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture texture);
 
-PUBLIC Frame Render(u_int64_t width, u_int64_t length);
+PUBLIC void Render(u_int64_t width, u_int64_t length);
 
 /* }}} */
 
@@ -109,10 +103,41 @@ PUBLIC Frame Render(u_int64_t width, u_int64_t length);
 #ifdef RENDERING_C
 
 PRIVATE struct Map {
-	u_int64_t width;  /* size of the x axis           */
-	u_int64_t length; /* size of the y axis           */
+	u_int64_t width;  /* size of the x axis          */
+	u_int64_t length; /* size of the y axis          */
 	Square* grid;    /* array of Squares in this Map */
 } map;
+
+PRIVATE struct Frame {
+	u_int64_t width;  /* horizontal size of the Frame  */
+	u_int64_t height; /* vertical size of the Frame    */
+	Pixel* pixels;    /* array of Pixels in this Frame */
+} frame;
+
+#endif
+/* }}} */
+
+/* FUNCTIONS FOR RAYCASTLIB {{{ */
+/**
+ * The raycastlib library requires some code to be
+ * written by it's user, in this case this module, to
+ * act as a sort of callback function. These should
+ * only be declared within this module, but cannot be
+ * declared static as this conflicts with how the
+ * raycastlib defines them, as such these should be
+ * wrapped in this #ifdef...#endif directives.
+ */
+#ifdef RENDERING_C
+
+/**
+ * This function is used internally by the backend
+ * raycastlib library and it called for every pixel
+ * it renders, here we use it to transfer the
+ * raycastlib pixel struct data to a rendering pixel
+ * struct variable and using that pixel struct within
+ * this module.
+ */
+void RenderPixel(RCL_PixelInfo* pixel);
 
 #endif
 /* }}} */

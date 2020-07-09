@@ -24,7 +24,12 @@
 #include <unistd.h>
 
 /**
- *
+ * This module provides an abstraction over the lower
+ * level mathematics and complexities of the backend
+ * libraries used. It has been compiled separately
+ * and will be linked together with this source file,
+ * to allow it's functions to be accessed, include
+ * it's headerfile here.
  */
 #include "rendering.h"
 

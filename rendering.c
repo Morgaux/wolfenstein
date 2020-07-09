@@ -23,6 +23,32 @@
 #include <string.h>
 #include <unistd.h>
 
+/* DEFINE RAYCASTLIB SYMBOLS {{{ */
+
+/**
+ * Tell raycastlib the name of the function with which we write pixels to the
+ * screen.
+ */
+#define RCL_PIXEL_FUNCTION RenderPixel
+
+/**
+ * Turn off what we don't need, to improve performance.
+ */
+#define RCL_COMPUTE_FLOOR_DEPTH   0
+#define RCL_COMPUTE_CEILING_DEPTH 0
+
+/* }}} */
+
+/**
+ * Include the raycastlib library for the rendering
+ * backend. This library is pulled and installed to
+ * the local build directory via git(1), and this
+ * repo dir is passed to the compiler via the -I flag
+ * to allow it to be included via <...> syntax rather
+ * than "..." syntax.
+ */
+#include <raycastlib.h>
+
 /**
  * Include the header file for this module, note that
  * this file should be included last.
@@ -51,9 +77,32 @@ PUBLIC void PlaceRectangularRoom(u_int64_t x, u_int64_t y, int64_t dx, int64_t d
 PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC Frame Render(u_int64_t width, u_int64_t length) { /* {{{ */
-	Frame frame;
-
-	return frame;
+PUBLIC void Render(u_int64_t width, u_int64_t length) { /* {{{ */
 } /* }}} */
+
+/* FUNCTIONS FOR RAYCASTLIB {{{ */
+/**
+ * The raycastlib library requires some code to be
+ * written by it's user, in this case this module, to
+ * act as a sort of callback function. These should
+ * only be declared within this module, but cannot be
+ * declared static as this conflicts with how the
+ * raycastlib defines them, as such these should be
+ * wrapped in this #ifdef...#endif directives.
+ */
+#ifdef RENDERING_C
+
+/**
+ * This function is used internally by the backend
+ * raycastlib library and it called for every pixel
+ * it renders, here we use it to transfer the
+ * raycastlib pixel struct data to a rendering pixel
+ * struct variable and using that pixel struct within
+ * this module.
+ */
+void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
+} /* }}} */
+
+#endif
+/* }}} */
 
