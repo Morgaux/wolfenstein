@@ -128,6 +128,10 @@ PRIVATE struct Frame {
 	Pixel* pixels;   /* array of Pixels in this Frame */
 } frame;
 
+PRIVATE RCL_Camera camera;
+
+PRIVATE RCL_RayConstraints constraints;
+
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y);
 
 PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel);

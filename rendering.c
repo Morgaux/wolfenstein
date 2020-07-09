@@ -58,6 +58,20 @@
 /* PUBLIC FUNCTIONS {{{ */
 
 PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
+	RCL_initCamera(&camera);
+
+	camera.position.x   = config.cameraPosX;
+	camera.position.y   = config.cameraPosY;
+	camera.resolution.x = config.cameraResX;
+	camera.resolution.y = config.cameraResY;
+	camera.direction    = config.cameraStartDirection;
+	camera.height       = config.cameraStartHeight;
+
+	RCL_initRayConstraints(&constraints);
+
+	constraints.maxHits  = 1; // we don't need more than 1 hit here
+	constraints.maxSteps = config.cameraViewDistance;
+
 	return 0;
 } /* }}} */
 
