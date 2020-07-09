@@ -100,6 +100,15 @@ PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture textur
 PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
 } /* }}} */
 
+PUBLIC void Turn(int64_t angle) { /* {{{ */
+} /* }}} */
+
+PUBLIC void Walk(int64_t distance) { /* {{{ */
+} /* }}} */
+
+PUBLIC void Strafe(int64_t distance) { /* {{{ */
+} /* }}} */
+
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
