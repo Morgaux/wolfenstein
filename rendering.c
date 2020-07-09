@@ -109,6 +109,7 @@ PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
 } /* }}} */
 
 PUBLIC void Turn(int64_t angle) { /* {{{ */
+	camera.direction += angle;
 } /* }}} */
 
 PUBLIC void Walk(int64_t distance) { /* {{{ */
