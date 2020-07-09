@@ -72,14 +72,10 @@ PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
 	constraints.maxHits  = 1; // we don't need more than 1 hit here
 	constraints.maxSteps = config.cameraViewDistance;
 
-	return 0;
-} /* }}} */
+	CreateMap(config.mapWidth, config.mapHeight);
 
-PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
-	return 0;
-} /* }}} */
+	CreateFrame(config.frameWidth, config.frameHeight);
 
-PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
@@ -107,6 +103,14 @@ PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
+
+PUBLIC int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
+	return 0;
+} /* }}} */
+
+PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
+	return 0;
+} /* }}} */
 
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 	Pixel pixel;

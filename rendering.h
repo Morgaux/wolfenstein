@@ -67,6 +67,10 @@ typedef struct {
 	uint64_t cameraStartHeight;
 	uint64_t cameraStartDirection;
 	uint64_t cameraViewDistance;
+	uint64_t mapWidth;
+	uint64_t mapHeight;
+	uint64_t frameWidth;
+	uint64_t frameHeight;
 } RenderConfig;
 
 typedef struct {
@@ -88,10 +92,6 @@ typedef struct {
 } Texture;
 
 PUBLIC int64_t ConfigureRendering(RenderConfig config);
-
-PUBLIC int64_t CreateMap(uint64_t width, uint64_t length);
-
-PUBLIC int64_t CreateFrame(uint64_t width, uint64_t length);
 
 PUBLIC Square GetSquare(uint64_t x, uint64_t y);
 
@@ -131,6 +131,10 @@ PRIVATE struct Frame {
 PRIVATE RCL_Camera camera;
 
 PRIVATE RCL_RayConstraints constraints;
+
+PRIVATE int64_t CreateMap(uint64_t width, uint64_t length);
+
+PRIVATE int64_t CreateFrame(uint64_t width, uint64_t length);
 
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y);
 
