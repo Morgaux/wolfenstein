@@ -4,7 +4,7 @@
 
 # LIBRARY BUILD TARGETS {{{
 # These targets allow for the creation or fetching of any library dependencies
-# given in the ${LIB} variable, as well as any custom defined headerfiles.
+# given in the ${LIB} variable.
 
 # The ${DRUMMY_FISH_LIBS} libraries are used for the rendering backend and are
 # frequently updated. To keep the sources for these upto date, these are pulled
@@ -25,32 +25,32 @@ ${DRUMMY_FISH_LIBS}:
 # }}}
 
 # SOURCE BUILD TARGETS  {{{
-# These targets define the creation of new files defined in the ${SRC} and
-# ${HDR} variables, respectively for source and header files.
+# This section defines the rules and relationships for creating the source files
+# for modules when new modules are created. The structure is as follows, each
+# module has a C source file, as defined in ${SRC}, which depends on the
+# matching header in ${HDR}, these define the internal functions, data
+# structures, and module specific configuration.
 
-# This rule enforces a source file, and related header file, for each object
-# target defined in ${OBJ}. This rule also defines the dependency of any given
-# source file on the config.h file and the ${LIB} dirs, this trigger the
-# creation of the config.h file if it has been cleaned and triggers an error if
-# a library directory is missing. This is preferable to a linker failure as it
-# is more descriptive of any OS or architecture differences in library
-# management. Note that a unused function is defined by default. This is so that
-# the resulting '.o' object file may be compiled successfully and may be altered
-# or removed.
-${SRC}: %.c : %.h config.h ${LIB}
+# This target creates the bare bones structure of a source module and triggers
+# the module's related header file to also be generated.
+${SRC}: %.c : %.h
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
 		echo " * Source file for the ${@:%.c=%} module of ${BIN}"    ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
+		echo "#include \"defines.h\""                                ; \
+		echo ""                                                      ; \
 		echo "/**"                                                   ; \
-		echo " * Include the config.h file, this should be done"     ; \
-		echo " * first, before any other includes or definitions."   ; \
-		echo " * This allows for the user configurable settings to"  ; \
-		echo " * be accessible to the local code and headers."       ; \
+		echo " * Define the current source file, this allows the"    ; \
+		echo " * header file of this module to know that it has"     ; \
+		echo " * been included in it's own module's source, as well" ; \
+		echo " * allowing the header files for any other modules to" ; \
+		echo " * know that they are being included in a different"   ; \
+		echo " * module and making any necessary changes."           ; \
 		echo " */"                                                   ; \
-		echo "#include \"config.h\""                                 ; \
+		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
 		echo " * Include any external libraries and system headers"  ; \
@@ -59,24 +59,29 @@ ${SRC}: %.c : %.h config.h ${LIB}
 		echo "#include <stdio.h>"                                    ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
-		echo " * Include definitions, function prototypes, and"      ; \
-		echo " * global variables for the $@ source. This should be" ; \
-		echo " * the last file included as it preforms the last"     ; \
-		echo " * definitions for this source file."                  ; \
+		echo " * Include the header file for this module, note that" ; \
+		echo " * this file should be included last."                 ; \
 		echo " */"                                                   ; \
 		echo "#include \"$<\""                                       ; \
 		echo ""                                                      ; \
-		echo "static void ${@:%.c=%}() { /* ___ */" | tr '_' '{'     ; \
-		echo "} /* ___ */"                          | tr '_' '}'     ; \
+		echo "/**"                                                   ; \
+		echo " * TODO: Provide function implementations here."       ; \
+		echo " *"                                                    ; \
+		echo " * This is a dummy function to allow compilation to"   ; \
+		echo " * succeed, remove the declaration and function body"  ; \
+		echo " * once proper functions are added."                   ; \
+		echo " */"                                                   ; \
+		echo "PRIVATE void dummy() { /* {{{ */"                      ; \
+		echo '	printf("Hello World!\\n");'                          ; \
+		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
 	} > $@
 
-# This rule enforces a header file for each source file. These should NOT be
-# confused with the config.h header, which is for configuration of compile time
-# settings and behaviour. These headers are for function declarations and
-# preprocessor ugliness. The majority of the preprocessor declarations should be
-# user defined, however, by default, each header file is created with a #ifndef
-# wrapper to prevent reinclusion.
+# This target generates the bare bones framework for the header file of each
+# module. It includes abstractions for the scope of the functions and data
+# structures it provides, allowing the same header file to function for both
+# within the module's source and within other modules calling that module's
+# functionality. See the source below for further details.
 ${HDR}:
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
@@ -84,23 +89,90 @@ ${HDR}:
 		echo " * Header file for ${@:%.h=%.c}"                       ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
-		echo "#ifndef $$(echo '$@' | tr '[:lower:].' '[:upper:]_')"  ; \
-		echo "#define $$(echo '$@' | tr '[:lower:].' '[:upper:]_')"  ; \
+		echo "/* PREVENT REEVALUATION {{{ */"                        ; \
+		echo "#ifndef $$(echo '$@' | ${TO_UPPER})"                   ; \
+		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
 		echo ""                                                      ; \
-		echo "/* FUNCTION DEFINITIONS ___ */" | tr '_' '{'           ; \
-		echo "static void ${@:%.h=%}();"                             ; \
-		echo "/* ___ */"                      | tr '_' '}'           ; \
+		echo "/* DETERMINE SCOPE OF SYMBOLS {{{ */"                  ; \
+		echo "/**"                                                   ; \
+		echo " * The way we control the access level of a function"  ; \
+		echo " * or variable in C is via the use of the static and"  ; \
+		echo " * extern keywords. However, contrary to the use of"   ; \
+		echo " * the private and public keywords, the declaration"   ; \
+		echo " * of a function in C must vary for use in the same"   ; \
+		echo " * source as the declaration and use in an externally" ; \
+		echo " * linked object file. To allow a single function"     ; \
+		echo " * declaration to function for both internal and"      ; \
+		echo " * external use, here the PUBLIC and PRIVATE symbols"  ; \
+		echo " * are defined depending on whether this header is"    ; \
+		echo " * included in the module of the same name (this is"   ; \
+		echo " * determined via the '#ifdef' preprocessor, as all"   ; \
+		echo " * modules define a symbol of their name)."            ; \
+		echo " *"                                                    ; \
+		echo " * Here, if the source file including this header is"  ; \
+		echo " * part of the same module, then the PRIVATE symbol"   ; \
+		echo " * defined as the static key word, allowing functions" ; \
+		echo " * declared as 'PRIVATE void foo();' to be expanded"   ; \
+		echo " * as 'static void foo();'. However, if the file is"   ; \
+		echo " * not part of the same module, PUBLIC is defined as"  ; \
+		echo " * the extern keyword, which allows for the functions" ; \
+		echo " * available to the other module to be accessed. In"   ; \
+		echo " * each case the other symbol is defined as NO_OP, a"  ; \
+		echo " * non-action which is defined in defines.h and this"  ; \
+		echo " * allows a PUBLIC function to skip using the  extern" ; \
+		echo " * keyword when used within the same module."          ; \
+		echo " *"                                                    ; \
+		echo " * NOTE: PRIVATE functions should be hidden from the"  ; \
+		echo " * other modules to prevent any conflicts with other"  ; \
+		echo " * functions in that module. They should instead be"   ; \
+		echo " * wrapped in another #ifdef block below."             ; \
+		echo " */"                                                   ; \
+		echo "#undef PUBLIC"                                         ; \
+		echo "#undef PRIVATE"                                        ; \
+		echo ""                                                      ; \
+		echo "#define PRIVATE static"                                ; \
+		echo ""                                                      ; \
+		echo "#ifdef $$(echo '${@:%.h=%.c}' | ${TO_UPPER})"          ; \
+		echo "#define PUBLIC"                                        ; \
+		echo "#else"                                                 ; \
+		echo "#define PUBLIC extern"                                 ; \
+		echo "#endif"                                                ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* PUBLICS {{{ */"                                     ; \
+		echo "/**"                                                   ; \
+		echo " * All data structures and function definitions that"  ; \
+		echo " * need to be available to other functions should be"  ; \
+		echo " * provided here with the PUBLIC keyword."             ; \
+		echo " */"                                                   ; \
+		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* PRIVATES {{{ */"                                    ; \
+		echo "/**"                                                   ; \
+		echo " * All data structures and function definitions that"  ; \
+		echo " * need to be limited to the current module should be" ; \
+		echo " * provided within the #ifdef...#endif block below,"   ; \
+		echo " * with the PRIVATE keyword."                          ; \
+		echo " */"                                                   ; \
+		echo "#ifdef $$(echo '${@:%.h=%.c}' | ${TO_UPPER})"          ; \
+		echo ""                                                      ; \
+		echo "/**"                                                   ; \
+		echo " * TODO: Provide function declarations here."          ; \
+		echo " *"                                                    ; \
+		echo " * This is a dummy function to allow compilation to"   ; \
+		echo " * succeed, remove the declaration and function body"  ; \
+		echo " * once proper functions are added."                   ; \
+		echo " */"                                                   ; \
+		echo "PRIVATE void dummy();"                                 ; \
 		echo ""                                                      ; \
 		echo "#endif"                                                ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "#endif"                                                ; \
+		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 	} > $@
-
-# The config.h file is used to define user level configuration that isn't
-# available at run time. The default values are provided in config.def.h,
-# however, to avoid overwriting the defaults, an untracked copy is used.
-config.h: depends_on_sed depends_on_tee
-	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
-	@[ -f $@ ] || cat config.def.h | ${SUBSTITUTE} > $@
 
 # }}}
 
@@ -121,12 +193,30 @@ ${OBJ}: %.o: %.c
 # These targets define the related ${OBJ} targets needed to build ${BIN} and
 # provides the implementation to do so.
 
-# This is the build rule for ${BIN} which creates a binary executable for
-# installation or testing. All ${OBJ} files are compiled separately in the
-# OBJECT COMPILATION TARGETS listed above.
-${BIN}: ${OBJ}
+# The config.h file is used to define user level configuration that isn't
+# available at run time. The default values are provided in config.def.h,
+# however, to avoid overwriting the defaults, an untracked copy is used.
+config.h:
+	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
+	@[ -f $@ ] || cat config.def.h | ${SUBSTITUTE} > $@
+
+# This rule defines the compilation of a ${MAINS} executable, this is generally
+# used to compile ${BIN} (which must be defined in ${MAINS} for this reason),
+# however, this target is also used for the compilation of other ${MAINS}
+# targets, for instance for the compilation of test cases. This target links
+# together the compiled ${OBJ} object files for each of the modules and
+# additionally triggers the creation of the config.h file as it is used for all
+# of the ${MAINS} builds. Each build also depends on the ${LIB} directories, and
+# the ${INC} headers, these may also be depended on by individual modules,
+# however, the primary purpose of the ${INC} headers is to allow the ${MAINS}
+# sources to access the external functions exposed by each module. Similarly,
+# the ${LIB} directories contain library resources that may be required by any
+# of the modules, however, they are only defined as a dependency of the ${MAINS}
+# target currently being built before the ${OBJ} dependencies, and so will be
+# generated before the ${OBJ} targets are built.
+${MAINS}: config.h ${INC} ${LIB} ${OBJ}
 	@echo "${YELLOW}Linking $@...${RESET}"
-	${CC} -o $@ $^ ${LDFLAGS}
+	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 # }}}
 

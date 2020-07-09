@@ -26,29 +26,51 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # (effectively changing the 'main' function used for that build), for example a
 # unit test C source file may define predicates for the module in question and
 # when built with that main as the ${BIN} target.
+#
+# Note: The config.h file is a user configured header file that may only be
+# included in the source file of a ${MAINS} module, this is to prevent conflicts
+# among modules and allows the user level configuration to be a global interface
+# for the 'main()' function to manage and allow each module to have it's own
+# independent configuration.
 MODULES := rendering
 MAINS   := wolfenstein3D
 
-# These files define which files are built or installed and the destination
-# executable. ${BIN} should be a single item, the name of the final executable
-# to build / install. ${LIB} should define a list of directories that contain
-# dependencies of the final build, these are added to the C compilers list of
-# include dirs via the '-I' flag and should be added to with this in mind.
-# ${OBJ} is dynamically populated with a .o file for every given .c file in
-# ${SRC}, however, any additional .o files may be added to this variable to be
-# included in the build. Finally, ${SRC} contains a list of the primary .c files
-# needed for the build, by default it is populated with the ${BIN} name with a
-# .c extension, any additional c source files should be given manually. For
-# every .c file in ${SRC} a matching .h file is defined in ${HDR}, these are the
-# header files for the respective sources that define and preprocessor logic
-# that shouldn't contaminate the main C sources, as well as the function
-# declarations for use if said sources and any tests that may apply.
+# These are the final targets that get build and installed. ${BIN} must be a
+# single executable name that will get built by the linking of the ${OBJ} object
+# files, see below. It may be overriden on the command line by passing in any of
+# the ${MAINS} targets instead, in which case that target's source file is used
+# instead of wolfenstein's source. This has the effect of having the same
+# modules available but a different 'main()' function to be called, allowing the
+# primary purpose of a build, e.g. for a release or for a test, to be defined
+# while maintaining the same build system. The ${MAN} targets are any and all
+# man pages for the respective ${MAINS}, as only ${MAINS} are created as final
+# executables, only these can have a section 1 manpage. There is currently no
+# support for other manual sections for the individual modules.
+#
+# Note: The ${BIN} target is also used for installation and uninstallation, be
+# careful to only use the targets in 'installation.mk' with ${BIN} set to
+# wolfenstein3D, unless you know __exactly__ what you are doing.
 BIN ?= wolfenstein3D
+MAN := wolfenstein3D.1
+
+# These variables define the way that the modules and specialised libraries work
+# and interact. The ${LIB} variable defines a list of local and/or system
+# directories to include in the compiler's header search path. This has a
+# twofold purpose, first to define the '-L<DIR>' compiler flags, see the
+# COMPILATION section below, and second to provide a cue for any third party
+# libraries to be installed, pulled, updated, or created. This secondary use is
+# primarily for the ${DRUMMY_FISH_LIBS}, raycastlib.h and small3dlib.h, which
+# are used in the rendering module as the rendering backend, these are pulled
+# from the upstream Gitlab repositories and so are not included in this project
+# directly, but rather acquired via 'git clone'. It is the 'git clone' action
+# that is triggered by those respective libraries.
 LIB := ${DRUMMY_FISH_LIBS}
+
+# These define the C source and header files in relation to each other, and
+# their resultant object files.
 SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
 HDR := ${SRC:.c=.h}
 OBJ := ${SRC:.c=.o}
-MAN := ${BIN:%=%.1}
 
 # }}}
 
@@ -62,7 +84,7 @@ MAN := ${BIN:%=%.1}
 FLAVOUR ?= DEBUG
 MAJOR_V := 0
 MINOR_V := 1
-POINT_V := 0
+POINT_V := 1
 VERSION := ${MAJOR_V}.${MINOR_V}.${POINT_V}
 BUILD_V := ${VERSION}-${FLAVOUR}
 
@@ -273,6 +295,10 @@ CLEAR_LINE := printf '\33[2K\r'
 # text from a target.
 PRINTF := printf   '%s\n'
 INDENT := printf '\t%s\n'
+
+# This macro simplifies the process of converting a filename, for example, to an
+# upper case single word symbol to be defined in the C preprocessor.
+TO_UPPER := tr '[:lower:].' '[:upper:]_'
 
 # }}}
 
