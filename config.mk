@@ -125,7 +125,7 @@ DEFINES += ${FLAVOUR}                                                          \
 # These define the types of warnings to provide during compilation and are
 # passed to the compiler as -W options. By default to most verbose warnings are
 # enabled.
-WARNINGS += all extra no-unused-parameter no-unused-variable
+WARNINGS += all extra no-unused-parameter no-unused-variable no-unused-function
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
 # errors and halting the compilation process. This is desirable but not always

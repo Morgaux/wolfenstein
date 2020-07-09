@@ -60,24 +60,26 @@
  */
 
 typedef struct {
-	u_int8_t r;  /* r component of the RGB colour code                 */
-	u_int8_t g;  /* g component of the RGB colour code                 */
-	u_int8_t b;  /* b component of the RGB colour code                 */
+	u_int8_t r; /* r component of the RGB colour code                  */
+	u_int8_t g; /* g component of the RGB colour code                  */
+	u_int8_t b; /* b component of the RGB colour code                  */
 	char acsii; /* ASCII fallback to use if colours cannot be rendered */
 } Pixel;
 
 typedef struct {
 	int64_t height; /* vertical size off floor, negative if off ceiling */
-	Pixel* Pixels; /* array of the Pixels this square has vertically    */
+	Pixel* Pixels;  /* array of the Pixels this square has vertically   */
 } Square;
 
 typedef struct {
-	u_int64_t width;  /* horizontal size of the Texture */
-	u_int64_t height; /* vertical size of the Texture   */
-	Pixel* pixels;   /* array of Pixels in this Texture */
+	u_int64_t width;  /* horizontal size of the Texture  */
+	u_int64_t height; /* vertical size of the Texture    */
+	Pixel* pixels;    /* array of Pixels in this Texture */
 } Texture;
 
 PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length);
+
+PUBLIC int64_t CreateFrame(u_int64_t width, u_int64_t length);
 
 PUBLIC Square GetSquare(u_int64_t x, u_int64_t y);
 
@@ -103,9 +105,9 @@ PUBLIC void Render(u_int64_t width, u_int64_t length);
 #ifdef RENDERING_C
 
 PRIVATE struct Map {
-	u_int64_t width;  /* size of the x axis          */
-	u_int64_t length; /* size of the y axis          */
-	Square* grid;    /* array of Squares in this Map */
+	u_int64_t width;  /* size of the x axis           */
+	u_int64_t length; /* size of the y axis           */
+	Square* grid;     /* array of Squares in this Map */
 } map;
 
 PRIVATE struct Frame {
@@ -113,6 +115,10 @@ PRIVATE struct Frame {
 	u_int64_t height; /* vertical size of the Frame    */
 	Pixel* pixels;    /* array of Pixels in this Frame */
 } frame;
+
+PRIVATE Pixel GetPixel(u_int64_t x, u_int64_t y);
+
+PRIVATE void SetPixel(u_int64_t x, u_int64_t y, Pixel pixel);
 
 #endif
 /* }}} */

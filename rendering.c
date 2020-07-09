@@ -59,6 +59,10 @@ PUBLIC int64_t CreateMap(u_int64_t width, u_int64_t length) { /* {{{ */
 	return 0;
 } /* }}} */
 
+PUBLIC int64_t CreateFrame(u_int64_t width, u_int64_t length) { /* {{{ */
+	return 0;
+} /* }}} */
+
 PUBLIC Square GetSquare(u_int64_t x, u_int64_t y) { /* {{{ */
 	Square square;
 
@@ -78,6 +82,15 @@ PUBLIC void PlaceCircularRoom(u_int64_t x, u_int64_t y, u_int64_t r, Texture tex
 } /* }}} */
 
 PUBLIC void Render(u_int64_t width, u_int64_t length) { /* {{{ */
+} /* }}} */
+
+PRIVATE Pixel GetPixel(u_int64_t x, u_int64_t y) { /* {{{ */
+	Pixel pixel;
+
+	return pixel;
+} /* }}} */
+
+PRIVATE void SetPixel(u_int64_t x, u_int64_t y, Pixel pixel) { /* {{{ */
 } /* }}} */
 
 /* FUNCTIONS FOR RAYCASTLIB {{{ */
