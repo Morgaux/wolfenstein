@@ -13,11 +13,8 @@
 # 'clean' target and if the subdir exists, it is entered and a git pull is run
 # instead of the clone.
 ${DRUMMY_FISH_LIBS}:
-	@if cd $@ >/dev/null 2>&1                                            ; \
+	@if ! test -d $@ >/dev/null 2>&1                                     ; \
 	then                                                                   \
-		echo "${YELLOW}Updating $@...${RESET}"                       ; \
-		git pull                                                     ; \
-	else                                                                   \
 		echo "${YELLOW}Fetching $@...${RESET}"                       ; \
 		git clone https://gitlab.com/drummyfish/$@.git/              ; \
 	fi
@@ -199,7 +196,10 @@ ${HDR}:
 # This rule defines the compilation of the individual C modules to object files,
 # these are later linked together to for the final ${BIN} target, or may be
 # combined individually with test object files to create unit tests.
-${OBJ}: %.o: %.c
+
+${OBJ}: ${LIB}
+
+.c.o:
 	@echo "${YELLOW}Building $@...${RESET}"
 	${CC} -c ${CFLAGS} $<
 
@@ -222,15 +222,8 @@ config.h:
 # targets, for instance for the compilation of test cases. This target links
 # together the compiled ${OBJ} object files for each of the modules and
 # additionally triggers the creation of the config.h file as it is used for all
-# of the ${MAINS} builds. Each build also depends on the ${LIB} directories, and
-# the ${INC} headers, these may also be depended on by individual modules,
-# however, the primary purpose of the ${INC} headers is to allow the ${MAINS}
-# sources to access the external functions exposed by each module. Similarly,
-# the ${LIB} directories contain library resources that may be required by any
-# of the modules, however, they are only defined as a dependency of the ${MAINS}
-# target currently being built before the ${OBJ} dependencies, and so will be
-# generated before the ${OBJ} targets are built.
-${MAINS}: config.h ${INC} ${LIB} ${OBJ}
+# of the ${MAINS} builds.
+${MAINS}: config.h ${OBJ}
 	@echo "${YELLOW}Linking $@...${RESET}"
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
