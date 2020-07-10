@@ -165,7 +165,7 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	if (pixel->isWall) {
 		switch (pixel->hit.direction) {
 		case 0:
-			shade += 2;
+			shade += 2; /* FALLTHROUGH */
 		case 1:
 			c = asciiShades[shade];
 			break;

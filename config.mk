@@ -123,13 +123,14 @@ DEFINES += ${FLAVOUR}                                                          \
            _BSD_SOURCE
 
 # These define the types of warnings to provide during compilation and are
-# passed to the compiler as -W options. By default to most verbose warnings are
+# passed to the compiler as -W options. By default most verbose warnings are
 # enabled.
 WARNINGS += all                                                                \
             extra                                                              \
             no-unused-function                                                 \
             no-unused-parameter                                                \
-            no-unused-variable
+            no-unused-variable                                                 \
+            implicit-fallthrough=4
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
 # errors and halting the compilation process. This is desirable but not always
@@ -166,13 +167,13 @@ INCLUDES := ${LIB}
 # and ${OBJ}. Note that these are added to any existing value of ${CFLAGS} so
 # these may be configured further by passing value to the make invocation on the
 # commandline.
-CFLAGS += -g -pedantic
-CFLAGS += ${DEFINES:%=-D%}
-CFLAGS += ${WARNINGS:%=-W%}
-CFLAGS += ${OPTIMISATION_LEVEL:%=-O%}
-CFLAGS += -x ${LANGUAGE}
-CFLAGS += -std=${STANDARD}
-CFLAGS += ${INCLUDES:%=-I%}
+CFLAGS += -g -pedantic                \
+          ${DEFINES:%=-D%}            \
+          ${WARNINGS:%=-W%}           \
+          ${OPTIMISATION_LEVEL:%=-O%} \
+          -x ${LANGUAGE}              \
+          -std=${STANDARD}            \
+          ${INCLUDES:%=-I%}
 
 LDFLAGS += 
 
