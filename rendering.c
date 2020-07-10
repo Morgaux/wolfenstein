@@ -123,7 +123,38 @@ PUBLIC void Strafe(int64_t distance) { /* {{{ */
 /* PRIVATE FUNCTIONS {{{ */
 
 PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
-	return 0;
+	switch (mapCreatedSuccess) {
+	case 0:
+		/* map has not been initialized yet, do it now */
+		map.width  = width;
+		map.length = length;
+		map.grid   = malloc(sizeof (Square) * width * length);
+
+		/* mark completion */
+		mapCreatedSuccess = 1;
+
+		/* return success */
+		return 0;
+
+	case 1:
+		/* map has already be initialized */
+		fprintf(stderr, "The rendering.c 'map' has already been initialised.\n");
+		break;
+
+	case 2:
+		/* map needs to be re-created, this is ok */
+		mapCreatedSuccess = 0;
+		#warning "TODO: free map.grid pointer here to free memory."
+		return CreateMap(width, length);
+
+	default:
+		/* some other error occurred */
+		fprintf(stderr, "Failure to create 'map' in rendering.c, exiting...\n");
+		exit(EXIT_FAILURE);
+	}
+
+	/* return failure / success code */
+	return mapCreatedSuccess;
 } /* }}} */
 
 PRIVATE int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */

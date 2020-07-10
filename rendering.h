@@ -134,6 +134,10 @@ PRIVATE struct Frame {
 	Pixel* pixels;   /* array of Pixels in this Frame */
 } frame;
 
+PRIVATE int64_t mapCreatedSuccess = 0;
+
+PRIVATE int64_t frameCreatedSuccess = 0;
+
 PRIVATE RCL_Camera camera;
 
 PRIVATE RCL_RayConstraints constraints;
