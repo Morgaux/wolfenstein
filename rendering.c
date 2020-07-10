@@ -162,8 +162,38 @@ PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return mapCreatedSuccess;
 } /* }}} */
 
-PRIVATE int64_t CreateFrame(uint64_t width, uint64_t length) { /* {{{ */
-	return 0;
+PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
+	switch (frameCreatedSuccess) {
+	case 0:
+		/* frame has not been initialized yet, do it now */
+		frame.width  = width;
+		frame.height = height;
+		frame.pixels = malloc(sizeof (Pixel) * width * height);
+
+		/* mark completion */
+		frameCreatedSuccess = 1;
+
+		/* return success */
+		return 0;
+
+	case 1:
+		/* frame has already be initialized */
+		err("The rendering.c 'frame' has already been initialised.");
+		break;
+
+	case 2:
+		/* frame needs to be re-created, this is ok */
+		frameCreatedSuccess = 0;
+		freeMem((void **)&(frame.pixels));
+		return CreateFrame(width, height);
+
+	default:
+		/* some other error occurred */
+		die("Failure to create 'frame' in rendering.c, exiting...");
+	}
+
+	/* return failure / success code */
+	return frameCreatedSuccess;
 } /* }}} */
 
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */

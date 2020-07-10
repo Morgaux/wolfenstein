@@ -144,7 +144,7 @@ PRIVATE RCL_RayConstraints constraints;
 
 PRIVATE int64_t CreateMap(uint64_t width, uint64_t length);
 
-PRIVATE int64_t CreateFrame(uint64_t width, uint64_t length);
+PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height);
 
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y);
 
