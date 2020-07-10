@@ -56,6 +56,12 @@
 #include <raycastlib.h>
 
 /**
+ * This module provides useful abstractions for some
+ * common tasks such as IO and error handling.
+ */
+#include "utilities.h"
+
+/**
  * Include the header file for this module, note that
  * this file should be included last.
  */
@@ -138,19 +144,18 @@ PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 
 	case 1:
 		/* map has already be initialized */
-		fprintf(stderr, "The rendering.c 'map' has already been initialised.\n");
+		err("The rendering.c 'map' has already been initialised.");
 		break;
 
 	case 2:
 		/* map needs to be re-created, this is ok */
 		mapCreatedSuccess = 0;
-		#warning "TODO: free map.grid pointer here to free memory."
+		freeMem((void **)&(map.grid));
 		return CreateMap(width, length);
 
 	default:
 		/* some other error occurred */
-		fprintf(stderr, "Failure to create 'map' in rendering.c, exiting...\n");
-		exit(EXIT_FAILURE);
+		die("Failure to create 'map' in rendering.c, exiting...");
 	}
 
 	/* return failure / success code */

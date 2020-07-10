@@ -32,7 +32,7 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # among modules and allows the user level configuration to be a global interface
 # for the 'main()' function to manage and allow each module to have it's own
 # independent configuration.
-MODULES := rendering
+MODULES := rendering utilities
 MAINS   := wolfenstein3D
 
 # These are the final targets that get build and installed. ${BIN} must be a
