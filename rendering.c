@@ -94,12 +94,15 @@ PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
 } /* }}} */
 
 PUBLIC Square GetSquare(uint64_t x, uint64_t y) { /* {{{ */
-	Square square;
+	uint64_t index = y * map.width + x;
 
-	return square;
+	return *(map.grid + index);
 } /* }}} */
 
 PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square) { /* {{{ */
+	uint64_t index = y * map.width + x;
+
+	*(map.grid + index) = square;
 } /* }}} */
 
 PUBLIC void PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
