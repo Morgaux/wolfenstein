@@ -200,12 +200,15 @@ PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
 } /* }}} */
 
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
-	Pixel pixel;
+	uint64_t index = y * frame.width + x;
 
-	return pixel;
+	return *(frame.pixels + index);
 } /* }}} */
 
 PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel) { /* {{{ */
+	uint64_t index = y * frame.width + x;
+
+	*(frame.pixels + index) = pixel;
 } /* }}} */
 
 /* }}} */
