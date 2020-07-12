@@ -69,7 +69,7 @@ LIB := ${DRUMMY_FISH_LIBS}
 # These define the C source and header files in relation to each other, and
 # their resultant object files.
 SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
-HDR := ${SRC:.c=.h}
+HDR := ${MAINS:%=%.h} ${MODULES:%=%.h}
 OBJ := ${SRC:.c=.o}
 
 # }}}
@@ -326,6 +326,7 @@ config:
 	@${INDENT} "${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
 	@${INDENT} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
 	@${INDENT} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@${INDENT} "${GREEN}HDR${RESET}     = ${BOLD}${HDR}${RESET}"
 	@${INDENT} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
 	@# DESTDIR SECTION {{{
 	@# This section only shows the 'DESTDIR' if it has been set explicitly.
@@ -358,8 +359,9 @@ clean:
 		${CLEAN}                                                     ; \
 	fi
 
-#
-run: ${BIN}
+# This target allows a quick and easy way of testing a ${BIN} target by
+# incorporating the building and execution into a single stage.
+run: config ${BIN}
 	@./${BIN}
 
 # The 'install' phony target acts as a master trigger for the installation
