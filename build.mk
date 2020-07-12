@@ -182,7 +182,7 @@ ${HDR}:
 		echo "#endif"                                                ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
-		echo "#endif"                                                ; \
+		echo "#endif /* $$(echo '$@' | ${TO_UPPER}) */"              ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 	} > $@

@@ -73,6 +73,6 @@
 #endif
 /* }}} */
 
-#endif
+#endif /* WOLFENSTEIN3D_H */
 /* }}} */
 

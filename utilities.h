@@ -80,6 +80,6 @@ PUBLIC void freeMem(void ** ptr);
 #endif
 /* }}} */
 
-#endif
+#endif /* UTILITIES_H */
 /* }}} */
 

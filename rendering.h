@@ -186,6 +186,6 @@ RCL_Unit QueryPixelHeight(int64_t x, int64_t y);
 #endif
 /* }}} */
 
-#endif
+#endif /* RENDERING_H */
 /* }}} */
 
