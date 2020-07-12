@@ -69,7 +69,7 @@ LIB := ${DRUMMY_FISH_LIBS}
 # These define the C source and header files in relation to each other, and
 # their resultant object files.
 SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
-HDR := ${MAINS:%=%.h} ${MODULES:%=%.h}
+HDR := ${SRC:.c=.h}
 OBJ := ${SRC:.c=.o}
 
 # }}}
