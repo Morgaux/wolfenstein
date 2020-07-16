@@ -201,7 +201,7 @@ ${OBJ}: ${LIB}
 
 .c.o:
 	@echo "${YELLOW}Building $@...${RESET}"
-	${CC} -c ${CFLAGS} $<
+	${CC} -o $@ -c ${CFLAGS} $<
 
 # }}}
 
