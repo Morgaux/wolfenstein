@@ -26,6 +26,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Include the header file for the module this file
@@ -45,8 +46,23 @@
 /* PUBLIC FUNCTIONS {{{ */
 
 PUBLIC int main() { /* {{{ */
-	fail("Not implemented.");
+	/* test utilities.err(char * msg) */
+	warn("utilities.err(char * msg) cannot be tested.");
 
+	/* test utilities.die(char * msg) */
+	warn("utilities.die(char * msg) cannot be tested.");
+
+	/* test utilities.freeMem(void ** ptr) */
+	warn("testing utilities.freeMem(void ** ptr)...");
+	char * foo = malloc(sizeof (char) * 128);
+	strcpy(foo, "Hello World!\n");
+	int predicate = strcmp(foo, "Hello World!\n");
+	assert(predicate == 0, "Test string is invalid.");
+	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
+	assert(foo == NULL, "String pointer was not reset to null.");
+
+	/* If you get here then all the tests must have passed */
+	printf("%s\n", "All tests complete.");
 	exit(EXIT_SUCCESS);
 } /* }}} */
 
