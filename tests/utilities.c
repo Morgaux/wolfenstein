@@ -61,7 +61,7 @@ PUBLIC int main() { /* {{{ */
 	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
 	assert(foo == NULL, "String pointer was not reset to null.");
 
-	/* If you get here then all the tests must have passed */
+	/* If reached then all the tests must have passed */
 	printf("%s\n", "All tests complete.");
 	exit(EXIT_SUCCESS);
 } /* }}} */

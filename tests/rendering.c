@@ -24,6 +24,7 @@
  * Include any external libraries and system headers
  * here, in order.
  */
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -47,6 +48,8 @@
 PUBLIC int main() { /* {{{ */
 	fail("Not implemented.");
 
+	/* If reached then all the tests must have passed */
+	printf("%s\n", "All tests complete.");
 	exit(EXIT_SUCCESS);
 } /* }}} */
 

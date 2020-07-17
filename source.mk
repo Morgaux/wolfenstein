@@ -226,6 +226,8 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo "PUBLIC int main() { /* {{{ */"                         ; \
 		echo "	fail(\"Not implemented.\");"                         ; \
 		echo ""                                                      ; \
+		echo "/* If reached then all the tests must have passed */"  ; \
+		echo "printf(\"%s\\\n\", \"All tests complete.\");"          ; \
 		echo "	exit(EXIT_SUCCESS);"                                 ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
