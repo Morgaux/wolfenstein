@@ -11,7 +11,7 @@
 # and clean up any temporary files created to allow a clean workspace for the
 # next test in the queue. Note that values in ${TEST_ACTIONS} shouldn't conflict
 # with other build targets.
-TEST_ACTIONS := build ${DRUMMY_FISH_LIBS}
+TEST_ACTIONS := build ${DRUMMY_FISH_LIBS} ${MODULES}
 
 # This specifies how long to wait for a test to complete, if this time elapses
 # before the test completes, the test is marked as a failure.
@@ -149,6 +149,9 @@ ${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
 	test -x $</programs/helloWorld
 	./$</programs/helloWorld
 
+${MODULES:%=run_test_%}:
+	make BIN=${@:run_test_%=tests/%} run
+
 # }}}
 
 # HELP MESSAGES {{{
@@ -178,7 +181,14 @@ ${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
 	@${INDENT} "is checked for using one of the provided files in this"
 	@${INDENT} "library's repo, at programs/helloWorld.c, which simply"
 	@${INDENT} "renders a single frame in ASCII art. If this fails then a"
-	@${INDENT} "more complex build will ikely fail also."
+	@${INDENT} "more complex build will likely fail also."
+
+${MODULES:%=test_%_help_message}: %_help_message : %_usage_message
+	@${INDENT} "This test ensures that the ${@:test_%_help_message} module"
+	@${INDENT} "is functioning correctly. This is tested by linking the"
+	@${INDENT} "${@:test_%_help_message} module against a custom main()"
+	@${INDENT} "function that runs the ${@:test_%_help_message} module's"
+	@${INDENT} "functions with dummy inputs and sanity checks the results."
 
 # }}}
 

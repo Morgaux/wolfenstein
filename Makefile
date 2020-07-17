@@ -11,6 +11,10 @@ include config.mk
 # accomplished using 'tput' and is created to fail gracefully.
 include colors.mk
 
+# This file defines the default skeletons of new sources when new modules or
+# tests are being added.
+include source.mk
+
 # This file defines all compilation related targets, it depends internally on
 # the config.mk file but doesn't included it so it may be used as part of a
 # parallel build system in the future, e.g. for unit testing.

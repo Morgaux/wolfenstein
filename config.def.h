@@ -1,5 +1,5 @@
 /**
- * Configuration file for __BIN__
+ * Configuration file for Wolfenstein3D
  *
  * AUTHOR: Morgaux Meyer
  */
