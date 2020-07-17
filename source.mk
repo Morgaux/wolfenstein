@@ -204,7 +204,14 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo " * here, in order."                                    ; \
 		echo " */"                                                   ; \
 		echo "#include <stdio.h>"                                    ; \
-		echo "#include <stdlib.h>"                                    ; \
+		echo "#include <stdlib.h>"                                   ; \
+		echo ""                                                      ; \
+		echo "/**"                                                   ; \
+		echo " * Include the header file for the module this file"   ; \
+		echo " * is testing, this allows this source to call that"   ; \
+		echo " * modules (PUBLIC) functions."                        ; \
+		echo " */"                                                   ; \
+		echo "#include \"${@:tests/%.c=../%.h}\""                    ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
 		echo " * Include the header file for this module, note that" ; \

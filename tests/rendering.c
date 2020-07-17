@@ -28,6 +28,13 @@
 #include <stdlib.h>
 
 /**
+ * Include the header file for the module this file
+ * is testing, this allows this source to call that
+ * modules (PUBLIC) functions.
+ */
+#include "../rendering.h"
+
+/**
  * Include the header file for this module, note that
  * this file should be included last.
  */
@@ -38,7 +45,7 @@
 /* PUBLIC FUNCTIONS {{{ */
 
 PUBLIC int main() { /* {{{ */
-	fail("Not Implemented");
+	fail("Not implemented.");
 
 	exit(EXIT_SUCCESS);
 } /* }}} */

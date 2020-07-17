@@ -28,6 +28,13 @@
 #include <stdlib.h>
 
 /**
+ * Include the header file for the module this file
+ * is testing, this allows this source to call that
+ * modules (PUBLIC) functions.
+ */
+#include "../utilities.h"
+
+/**
  * Include the header file for this module, note that
  * this file should be included last.
  */
