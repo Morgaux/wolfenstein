@@ -82,7 +82,7 @@ typedef struct {
 
 typedef struct {
 	int64_t height; /* vertical size off floor, negative if off ceiling */
-	Pixel* Pixels;  /* array of the Pixels this square has vertically   */
+	Pixel* pixels;  /* array of the Pixels this square has vertically   */
 } Square;
 
 typedef struct {
