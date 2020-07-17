@@ -46,69 +46,9 @@
 /* PUBLIC FUNCTIONS {{{ */
 
 PUBLIC int main() { /* {{{ */
-	/* testing rendering.ConfigureRendering(RenderConfig config); */
-	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
-	warn("there is no direct way to confirm this function's success, but");
-	warn("it must be called for the rest of the module to work correctly.");
-	warn("So if it does indeed fail then the rest of these tests will");
-	warn("fail anyway.");
+	TestConfigureRendering();
 
-	warn("using testing configuration...");
-	RenderConfig config;
-	config.cameraPosX = 0;
-	config.cameraPosY = 0;
-	config.cameraResX = 100;
-	config.cameraResY = 100;
-	config.cameraStartHeight = 2;
-	config.cameraStartDirection = 0;
-	config.cameraViewDistance = 40;
-	config.mapWidth = 100;
-	config.mapHeight = 100;
-	config.frameWidth = 100;
-	config.frameHeight = 100;
-
-	warn("calling rendering.ConfigureRendering(RenderConfig config)");
-	ConfigureRendering(config);
-
-	/* testing rendering.GetSquare(uint64_t x, uint64_t y); */
-	/* testing rendering.SetSquare(uint64_t x, uint64_t y, Square square); */
-	warn("testing rendering.GetSquare(uint64_t x, uint64_t y) and...");
-	warn("testing rendering.SetSquare(uint64_t x, uint64_t y, Square square)...");
-
-	warn("Setting up first square...");
-	Square square;
-	square.height = 2;
-	square.pixels = malloc(sizeof (Pixel) * square.height);
-
-	warn("Setting first square to (0, 0)...");
-	SetSquare(0, 0, square);
-
-	warn("Getting second square from (0, 0)...");
-	Square newSqr = GetSquare(0, 0);
-
-	assert(square.height == newSqr.height, "Square heights don't match.");
-	assert(square.pixels == newSqr.pixels, "Square pixels don't match.");
-
-	/* testing rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture); */
-	warn("No testcases for rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
-
-	/* testing rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture); */
-	warn("No testcases for rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
-
-	/* testing rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture); */
-	warn("No testcases for rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture).");
-
-	/* testing rendering.Render(uint64_t width, uint64_t length); */
-	warn("No testcases for rendering.Render(uint64_t width, uint64_t length).");
-
-	/* testing rendering.Turn(int64_t angle); */
-	warn("No testcases for rendering.Turn(int64_t angle).");
-
-	/* testing rendering.Walk(int64_t distance); */
-	warn("No testcases for rendering.Walk(int64_t distance).");
-
-	/* testing rendering.Strafe(int64_t distance); */
-	warn("No testcases for rendering.Strafe(int64_t distance).");
+	TestGetSetSquare();
 
 	/* If reached then all the tests must have passed */
 	printf("%s\n", "All tests complete.");
@@ -133,6 +73,79 @@ PRIVATE void assert(int cond, char * msg) { /* {{{ */
 		fail(msg);
 	}
 } /* }}} */
+
+PRIVATE void TestConfigureRendering() { /* {{{ */
+	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
+	warn("there is no direct way to confirm this function's success, but");
+	warn("it must be called for the rest of the module to work correctly.");
+	warn("So if it does indeed fail then the rest of these tests will");
+	warn("fail anyway.");
+
+	warn("using testing configuration...");
+	RenderConfig config;
+	config.cameraPosX = 0;
+	config.cameraPosY = 0;
+	config.cameraResX = 100;
+	config.cameraResY = 100;
+	config.cameraStartHeight = 2;
+	config.cameraStartDirection = 0;
+	config.cameraViewDistance = 40;
+	config.mapWidth = 100;
+	config.mapHeight = 100;
+	config.frameWidth = 100;
+	config.frameHeight = 100;
+
+	warn("calling rendering.ConfigureRendering(RenderConfig config)");
+	ConfigureRendering(config);
+} /* }}} */
+
+PRIVATE void TestGetSetSquare() { /* {{{ */
+	warn("testing rendering.GetSquare(uint64_t x, uint64_t y) and...");
+	warn("testing rendering.SetSquare(uint64_t x, uint64_t y, Square square)...");
+
+	warn("Setting up first square...");
+	Square square;
+	square.height = 2;
+	square.pixels = malloc(sizeof (Pixel) * square.height);
+
+	warn("Setting first square to (0, 0)...");
+	SetSquare(0, 0, square);
+
+	warn("Getting second square from (0, 0)...");
+	Square newSqr = GetSquare(0, 0);
+
+	assert(square.height == newSqr.height, "Square heights don't match.");
+	assert(square.pixels == newSqr.pixels, "Square pixels don't match.");
+} /* }}} */
+
+PRIVATE void TestPlaceWall() { /* {{{ */
+	warn("No testcases for rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
+} /* }}} */
+
+PRIVATE void TestPlaceRectangularRoom() { /* {{{ */
+	warn("No testcases for rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
+} /* }}} */
+
+PRIVATE void TestPlaceCircularRoom() { /* {{{ */
+	warn("No testcases for rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture).");
+} /* }}} */
+
+PRIVATE void TestRender() { /* {{{ */
+	warn("No testcases for rendering.Render(uint64_t width, uint64_t length).");
+} /* }}} */
+
+PRIVATE void TestTurn() { /* {{{ */
+	warn("No testcases for rendering.Turn(int64_t angle).");
+} /* }}} */
+
+PRIVATE void TestWalk() { /* {{{ */
+	warn("No testcases for rendering.Walk(int64_t distance).");
+} /* }}} */
+
+PRIVATE void TestStrafe() { /* {{{ */
+	warn("No testcases for rendering.Strafe(int64_t distance).");
+} /* }}} */
+
 
 /* }}} */
 

@@ -33,6 +33,12 @@ PRIVATE void fail(char * msg);
 
 PRIVATE void assert(int cond, char * msg);
 
+PRIVATE void TestErr();
+
+PRIVATE void TestDie();
+
+PRIVATE void TestFreeMem();
+
 /* }}} */
 
 #endif /* TESTS_UTILITIES_H */

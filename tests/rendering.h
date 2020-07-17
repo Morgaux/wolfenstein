@@ -33,6 +33,24 @@ PRIVATE void fail(char * msg);
 
 PRIVATE void assert(int cond, char * msg);
 
+PRIVATE void TestConfigureRendering();
+
+PRIVATE void TestGetSetSquare();
+
+PRIVATE void TestPlaceWall();
+
+PRIVATE void TestPlaceRectangularRoom();
+
+PRIVATE void TestPlaceCircularRoom();
+
+PRIVATE void TestRender();
+
+PRIVATE void TestTurn();
+
+PRIVATE void TestWalk();
+
+PRIVATE void TestStrafe();
+
 /* }}} */
 
 #endif /* TESTS_RENDERING_H */

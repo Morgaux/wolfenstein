@@ -46,20 +46,11 @@
 /* PUBLIC FUNCTIONS {{{ */
 
 PUBLIC int main() { /* {{{ */
-	/* test utilities.err(char * msg) */
-	warn("utilities.err(char * msg) cannot be tested.");
+	TestErr();
 
-	/* test utilities.die(char * msg) */
-	warn("utilities.die(char * msg) cannot be tested.");
+	TestDie();
 
-	/* test utilities.freeMem(void ** ptr) */
-	warn("testing utilities.freeMem(void ** ptr)...");
-	char * foo = malloc(sizeof (char) * 128);
-	strcpy(foo, "Hello World!\n");
-	int predicate = strcmp(foo, "Hello World!\n");
-	assert(predicate == 0, "Test string is invalid.");
-	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
-	assert(foo == NULL, "String pointer was not reset to null.");
+	TestFreeMem();
 
 	/* If reached then all the tests must have passed */
 	printf("%s\n", "All tests complete.");
@@ -83,6 +74,24 @@ PRIVATE void assert(int cond, char * msg) { /* {{{ */
 	if (!cond) {
 		fail(msg);
 	}
+} /* }}} */
+
+PRIVATE void TestErr() { /* {{{ */
+	warn("utilities.err(char * msg) cannot be tested.");
+} /* }}} */
+
+PRIVATE void TestDie() { /* {{{ */
+	warn("utilities.die(char * msg) cannot be tested.");
+} /* }}} */
+
+PRIVATE void TestFreeMem() { /* {{{ */
+	warn("testing utilities.freeMem(void ** ptr)...");
+	char * foo = malloc(sizeof (char) * 128);
+	strcpy(foo, "Hello World!\n");
+	int predicate = strcmp(foo, "Hello World!\n");
+	assert(predicate == 0, "Test string is invalid.");
+	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
+	assert(foo == NULL, "String pointer was not reset to null.");
 } /* }}} */
 
 /* }}} */
