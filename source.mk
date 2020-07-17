@@ -271,6 +271,8 @@ ${MODULES:%=tests/%.h}:
 		echo " * and PUBLIC macros to be defined with any"           ; \
 		echo " * conditional logic."                                 ; \
 		echo " */"                                                   ; \
+		echo "#undef PRIVATE"                                        ; \
+		echo "#undef PUBLIC"                                         ; \
 		echo "#define PRIVATE static"                                ; \
 		echo "#define PUBLIC"                                        ; \
 		echo ""                                                      ; \

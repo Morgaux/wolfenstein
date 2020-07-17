@@ -14,6 +14,8 @@
  * and PUBLIC macros to be defined with any
  * conditional logic.
  */
+#undef PRIVATE
+#undef PUBLIC
 #define PRIVATE static
 #define PUBLIC
 
