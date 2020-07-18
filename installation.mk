@@ -11,7 +11,7 @@
 install_man: ${MAN} uninstall_man
 	@${PRINTF} "${YELLOW}Installing ${MAN_DIR}/${MAN} manpage...${RESET}"
 	mkdir -p ${MAN_DIR}
-	cat ${MAN} | ${SUBSTITUTE}  > ${MAN_DIR}/${MAN}
+	cp -f ${MAN} ${MAN_DIR}/${MAN}
 	chmod 644 ${MAN_DIR}/${MAN}
 
 # The 'uninstall_man' phony target is used to uninstall the ${MAN} page by
