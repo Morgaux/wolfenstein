@@ -316,12 +316,12 @@ all: check_dependencies config ${BIN}
 # before a build begins or on its own for debugging purposes.
 config:
 	@${PRINTF} "${YELLOW}${BIN} build configuration:${RESET}"
-	@${INDENT} "${GREEN}VERSION${RESET} = ${BOLD}${BUILD_V}${RESET}"
-	@${INDENT} "${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
-	@${INDENT} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
-	@${INDENT} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
-	@${INDENT} "${GREEN}HDR${RESET}     = ${BOLD}${HDR}${RESET}"
-	@${INDENT} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
+	@${PRINTF} "${GREEN}VERSION${RESET} = ${BOLD}${BUILD_V}${RESET}"
+	@${PRINTF} "${GREEN}BIN${RESET}     = ${BOLD}${BIN}${RESET}"
+	@${PRINTF} "${GREEN}LIB${RESET}     = ${BOLD}${LIB}${RESET}"
+	@${PRINTF} "${GREEN}SRC${RESET}     = ${BOLD}${SRC}${RESET}"
+	@${PRINTF} "${GREEN}HDR${RESET}     = ${BOLD}${HDR}${RESET}"
+	@${PRINTF} "${GREEN}OBJ${RESET}     = ${BOLD}${OBJ}${RESET}"
 	@# DESTDIR SECTION {{{
 	@# This section only shows the 'DESTDIR' if it has been set explicitly.
 	@# It is in this position the ${BIN_DIR} and ${MAN_DIR} paths are set as
@@ -330,13 +330,13 @@ config:
 	@# the ${BIN_DIR} and ${MAN_DIR} paths.
 	@if [ -n "${DESTDIR}" ]                                              ; \
 	then                                                                   \
-	${INDENT}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"     ; \
+	${PRINTF}  "${GREEN}DESTDIR${RESET} = ${BOLD}${DESTDIR}${RESET}"     ; \
 	fi
 	@# DESTDIR SECTION }}}
-	@${INDENT} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
-	@${INDENT} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
-	@${INDENT} "${GREEN}CFLAGS${RESET}  = ${BOLD}${CFLAGS}${RESET}"
-	@${INDENT} "${GREEN}LDFLAGS${RESET} = ${BOLD}${LDFLAGS}${RESET}"
+	@${PRINTF} "${GREEN}BIN_DIR${RESET} = ${BOLD}${BIN_DIR}${RESET}"
+	@${PRINTF} "${GREEN}MAN_DIR${RESET} = ${BOLD}${MAN_DIR}${RESET}"
+	@${PRINTF} "${GREEN}CFLAGS${RESET}  = ${BOLD}${CFLAGS}${RESET}"
+	@${PRINTF} "${GREEN}LDFLAGS${RESET} = ${BOLD}${LDFLAGS}${RESET}"
 
 # This target defines how to clean up an unneeded files generated during a
 # build, it is useful for running manually during development and before an
