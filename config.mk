@@ -55,6 +55,7 @@ MAINS   := ${WOLF_3D} ${C_TESTS}
 # primary purpose of a build, e.g. for a release or for a test, to be defined
 # while maintaining the same build system.
 BIN ?= ${WOLF_3D}
+MAN := ${WOLF_3D:%=%.1}
 
 # These variables define the way that the modules and specialised libraries work
 # and interact. The ${LIB} variable defines a list of local and/or system

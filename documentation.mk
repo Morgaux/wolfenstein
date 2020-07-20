@@ -30,7 +30,7 @@ MAN_END_INDENT   := .RE
 
 # This target generates a troff manpage for installation of a manpage for
 # wolfenstein3D. This follows the standard Unix documentation conventions.
-${WOLF_3D:%=%.1}:
+${MAN}:
 	@echo "${YELLOW}Generating $@ manpage...${RESET}"
 	@{                                                                     \
 		echo "${MAN_COMMENT} Manpage for ${WOLF_3D}"                 ; \

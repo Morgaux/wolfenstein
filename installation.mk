@@ -4,22 +4,22 @@
 
 # MANPAGE INSTALLATION {{{
 
-# The 'install_man' phony target is used to install the ${WOLF_3D:%=%.1} page to
-# the system's manpage database. To ensure a clean installation, the old manpage
-# is first uninstalled from the system. Note that this action may require root
+# The 'install_man' phony target is used to install the ${MAN} page to the
+# system's manpage database. To ensure a clean installation, the old manpage is
+# first uninstalled from the system. Note that this action may require root
 # privileges.
-install_man: ${WOLF_3D:%=%.1} uninstall_man
+install_man: ${MAN} uninstall_man
 	@${PRINTF} "${YELLOW}Installing ${MAN_DIR}/$< manpage...${RESET}"
 	mkdir -p ${MAN_DIR}
-	cp -f ${WOLF_3D:%=%.1} ${MAN_DIR}/$<
+	cp -f $< ${MAN_DIR}/$<
 	chmod 644 ${MAN_DIR}/$<
 
 # The 'uninstall_man' phony target is used to uninstall the ${MAN} page by
 # removing it from the installed directories. Note that this action may require
 # root privileges.
 uninstall_man:
-	@${PRINTF} "${YELLOW}Uninstalling ${WOLF_3D:%=%.1} manpage...${RESET}"
-	rm -f ${MAN_DIR}/${WOLF_3D:%=%.1}
+	@${PRINTF} "${YELLOW}Uninstalling ${MAN} manpage...${RESET}"
+	rm -f ${MAN_DIR}/${MAN}
 
 # }}}
 
@@ -28,8 +28,8 @@ uninstall_man:
 # The 'install_bin' phony target is used to install the ${WOLF_3D} executable to
 # the defined system path and make it executable, upon completion the user
 # should be able to run the ${WOLF_3D} from their shell by invoking it as
-# defined in the ${WOLF_3D:%=%.1} page and not just locally. Note that this
-# action may require root privileges.
+# defined in the ${MAN} manpage and not just locally. Note that this action may
+# require root privileges.
 install_bin: ${WOLF_3D} uninstall_bin
 	@${PRINTF} "${YELLOW}Installing ${BIN_DIR}/${WOLF_3D}...${RESET}"
 	mkdir -p ${BIN_DIR}
