@@ -177,7 +177,9 @@ ${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
 	./$</programs/helloWorld
 
 ${MODULES:%=run_test_%}:
-	make BIN=${@:run_test_%=tests/%} run
+	make BIN=${@:run_test_%=tests/%} run 2>&1 | \
+		sed "s/^\(warning\)/${MAGENTA}\1${RESET}/gi" | \
+		sed "s/^\(failure\)/${RED}\1${RESET}/gi"
 
 # }}}
 
