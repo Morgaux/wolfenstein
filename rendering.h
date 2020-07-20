@@ -59,7 +59,7 @@
  * provided here with the PUBLIC keyword.
  */
 
-typedef struct { /* {{{ */
+typedef struct { /* RENDER CONFIG {{{ */
 	uint64_t cameraPosX;
 	uint64_t cameraPosY;
 	uint64_t cameraResX;
@@ -73,19 +73,19 @@ typedef struct { /* {{{ */
 	uint64_t frameHeight;
 } RenderConfig; /* }}} */
 
-typedef struct { /* {{{ */
+typedef struct { /* PIXEL {{{ */
 	uint8_t r;     /* r component of the RGB colour code                  */
 	uint8_t g;     /* g component of the RGB colour code                  */
 	uint8_t b;     /* b component of the RGB colour code                  */
 	char    ascii; /* ASCII fallback to use if colours cannot be rendered */
 } Pixel; /* }}} */
 
-typedef struct { /* {{{ */
+typedef struct { /* SQUARE {{{ */
 	int64_t height; /* vertical size off floor, negative if off ceiling */
 	Pixel*  pixels; /* array of the Pixels this square has vertically   */
 } Square; /* }}} */
 
-typedef struct { /* {{{ */
+typedef struct { /* TEXTURE {{{ */
 	uint64_t width;  /* horizontal size of the Texture  */
 	uint64_t height; /* vertical size of the Texture    */
 	Pixel*  pixels;  /* array of Pixels in this Texture */
