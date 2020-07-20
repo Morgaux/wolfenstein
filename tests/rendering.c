@@ -134,7 +134,45 @@ PRIVATE void TestGetSetSquare() { /* {{{ */
 } /* }}} */
 
 PRIVATE void TestPlaceWall() { /* {{{ */
-	warn("No testcases for rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
+	warn("testing rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture)...");
+
+	warn("Setting up dummy texture...");
+	int textureW = 1;
+	int textureH = 1;
+	Pixel * pixels = malloc(sizeof (Pixel) * textureW * textureH);
+
+	for (int i = 0; i < textureW * textureH; i++) {
+		/* Set all of the pixels to a red '@' */
+		(*pixels).r     = 0xFF;
+		(*pixels).g     = 0x00;
+		(*pixels).b     = 0x00;
+		(*pixels).ascii = '@';
+	}
+
+	Texture texture = {
+		.width  = textureW,
+		.height = textureH,
+		.pixels = pixels
+	};
+
+	warn("testing single point wall...");
+	int x  = 0;
+	int y  = 0;
+	int dx = 1;
+	int dy = 1;
+	PlaceWall(x, y, dx, dy, texture);
+	assert(GetSquare(x, y).pixels == pixels,                "Incorrect pixels in wall.");
+	assert(GetSquare(x + dx, y).pixels != pixels,           "Wall exceeds given dimensions.");
+	assert(GetSquare(x, y + dy + dx).pixels != pixels,      "Wall exceeds given dimensions.");
+	assert(GetSquare(x + dx, y + dy + dx).pixels != pixels, "Wall exceeds given dimensions.");
+
+	warn("testing horizontal (x axis) wall...");
+
+	warn("testing vertical (y axis) wall...");
+
+	warn("testing diagonal (45 degrees, north east) wall...");
+
+	warn("testing angled (27.5 degrees, north east) wall...");
 } /* }}} */
 
 PRIVATE void TestPlaceRectangularRoom() { /* {{{ */
