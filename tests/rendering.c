@@ -50,10 +50,6 @@ PUBLIC int main() { /* {{{ */
 
 	TestGetSetSquare();
 
-	TestConfigureRendering();
-
-	TestGetSetSquare();
-
 	TestPlaceWall();
 
 	TestPlaceRectangularRoom();
