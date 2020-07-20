@@ -32,12 +32,12 @@ config.h: config.def.h
 # These targets define the compilation and interrelated dependencies of the
 # object files defined in ${OBJ} that are used to build the final executable.
 
+# This rule defines that all modules depend on the drummyfish libraries.
+${OBJ}: ${LIB}
+
 # This rule defines the compilation of the individual C modules to object files,
 # these are later linked together to for the final ${BIN} target, or may be
 # combined individually with test object files to create unit tests.
-
-${OBJ}: ${LIB}
-
 .c.o:
 	@echo "${YELLOW}Building $@...${RESET}"
 	${CC} -o $@ -c ${CFLAGS} $<

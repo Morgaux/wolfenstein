@@ -81,7 +81,7 @@ The compilation of Wolfenstein3D may be configured via the following variables.
   compliance and portability. Any additional symbols to defined may be passed as
   name only or with values:
   ```sh
-  make DEFINES="_MY_DEFINE=\"My string value for '_MY_DEFINE'\""
+  make DEFINES=\"_MY_DEFINE=\"My string value for '_MY_DEFINE'\"\"
   ```
 * `WARNINGS` - As with the `DEFINES`, the compiler warnings my be configured,
   turned on or off, more or less verbose, as well as severity. Different options

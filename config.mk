@@ -18,7 +18,16 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # ${MODULES} as the plain name of the module with no extensions. The source code
 # files for these ${MODULES} contain the functions and data structures needed,
 # but without a 'main' function. These are compiled to the ${OBJ} files as
-# defined below. The ${MAINS} variable holds the special modules that contain
+# defined below.
+#
+# The ${WOLF_3D} variable holds the name of the final executable of the
+# wolfenstein3D game, this makes it easy to change the name of the final
+# executable without making huge manual change.
+#
+# The ${C_TESTS} variable holds the names of all of the unit tests for the
+# individual modules. These are by convention in a 'tests/' subdirectory.
+#
+# The ${MAINS} variable holds the special modules that contain
 # only the 'main' function. These are also compiled to the ${OBJ} files,
 # however, only the main module defined in the ${BIN} target is built and used
 # as the 'main' function for the resulting executable. This allows the
@@ -129,10 +138,15 @@ DEFINES += ${FLAVOUR} \
 
 # These define the types of warnings to provide during compilation and are
 # passed to the compiler as -W options. By default most verbose warnings are
-# enabled.
-WARNINGS += all \
-            extra \
-            no-unused-function \
+# enabled. However, if provided on the command line, these default values will
+# be overriden by the user defined warnings.
+WARNINGS ?= all extra
+
+# These are the custom warnings that are specific to this project, these are
+# added after the user specified warnings and so are not user over-ridable,
+# unless changed in this file. This is where specific warnings may be enforced
+# or suppressed as needed for the purposes of this project.
+WARNINGS += no-unused-function \
             no-unused-parameter \
             no-unused-variable \
             implicit-fallthrough=4
