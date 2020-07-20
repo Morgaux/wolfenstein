@@ -236,11 +236,11 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
 		echo ""                                                      ; \
 		echo "PRIVATE void warn(char * msg) { /* {{{ */"             ; \
-		echo '	fprintf(stderr, "${@:tests/%.c=%}: %s\\n", msg);'    ; \
+		echo "	fprintf(stderr, \"warning: %s\\\\n\", msg);"         ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
 		echo "PRIVATE void fail(char * msg) { /* {{{ */"             ; \
-		echo "	warn(msg);"                                          ; \
+		echo "	fprintf(stderr, \"FAILURE: %s\\\\n\", msg);"         ; \
 		echo "	exit(EXIT_FAILURE);"                                 ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \

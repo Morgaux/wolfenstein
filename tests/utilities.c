@@ -62,11 +62,11 @@ PUBLIC int main() { /* {{{ */
 /* PRIVATE FUNCTIONS {{{ */
 
 PRIVATE void warn(char * msg) { /* {{{ */
-	fprintf(stderr, "utilities: %s\n", msg);
+	fprintf(stderr, "warning: %s\n", msg);
 } /* }}} */
 
 PRIVATE void fail(char * msg) { /* {{{ */
-	warn(msg);
+	fprintf(stderr, "FAILURE: %s\n", msg);
 	exit(EXIT_FAILURE);
 } /* }}} */
 
