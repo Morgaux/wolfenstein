@@ -2,7 +2,7 @@
 # Main makefile for my Wolfenstein 3D clone
 #
 
-# This is the Main configuration file, it must be included first as it defines
+# This is the main configuration file, it must be included first as it defines
 # all needed targets, variables, macros, and make(1) settings.
 include config.mk
 
@@ -24,6 +24,10 @@ include build.mk
 # allowing useful and user friendly error messages, e.g. for git(1).
 include dependencies.mk 
 
+# This file provides the information needed to generate to relevant
+# documentation files for Wolfenstein3D.
+include documentation.mk
+
 # This file defines the implementations of the installation actions, these are
 # provided as install_FOO or uninstall_BAR phony targets and as such the
 # implementations are separated from the installation logic.
@@ -39,10 +43,9 @@ include distribution.mk
 # itself, save of course for the tests.mk file itself. To test any given
 # component, run:
 # 	make test_FOO
-# or run:
+# or, to run the full test suit, run:
 # 	make test
-# to run the full test suit. For a list of all testable components and their
-# invocations, run:
+# or, for a list of all testable components and their invocations, run:
 # 	make test_help
 include tests.mk
 
