@@ -96,18 +96,19 @@ PRIVATE void TestConfigureRendering() { /* {{{ */
 	warn("fail anyway.");
 
 	warn("using testing configuration...");
-	RenderConfig config;
-	config.cameraPosX = 0;
-	config.cameraPosY = 0;
-	config.cameraResX = 100;
-	config.cameraResY = 100;
-	config.cameraStartHeight = 2;
-	config.cameraStartDirection = 0;
-	config.cameraViewDistance = 40;
-	config.mapWidth = 100;
-	config.mapHeight = 100;
-	config.frameWidth = 100;
-	config.frameHeight = 100;
+	RenderConfig config = {
+		.cameraPosX           = 0,
+		.cameraPosY           = 0,
+		.cameraResX           = 100,
+		.cameraResY           = 100,
+		.cameraStartHeight    = 2,
+		.cameraStartDirection = 0,
+		.cameraViewDistance   = 40,
+		.mapWidth             = 100,
+		.mapHeight            = 100,
+		.frameWidth           = 100,
+		.frameHeight          = 100,
+	};
 
 	warn("calling rendering.ConfigureRendering(RenderConfig config)");
 	ConfigureRendering(config);
