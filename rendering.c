@@ -96,11 +96,19 @@ PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
 PUBLIC Square GetSquare(uint64_t x, uint64_t y) { /* {{{ */
 	uint64_t index = y * map.width + x;
 
+	if (mapCreatedSuccess != initialised) {
+		die("The rendering.c 'map' has not been initialised.");
+	}
+
 	return *(map.grid + index);
 } /* }}} */
 
 PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square) { /* {{{ */
 	uint64_t index = y * map.width + x;
+
+	if (mapCreatedSuccess != initialised) {
+		die("The rendering.c 'map' has not been initialised.");
+	}
 
 	*(map.grid + index) = square;
 } /* }}} */
@@ -133,26 +141,26 @@ PUBLIC void Strafe(int64_t distance) { /* {{{ */
 
 PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	switch (mapCreatedSuccess) {
-	case 0:
+	case uninitialised:
 		/* map has not been initialized yet, do it now */
 		map.width  = width;
 		map.length = length;
 		map.grid   = malloc(sizeof (Square) * width * length);
 
 		/* mark completion */
-		mapCreatedSuccess = 1;
+		mapCreatedSuccess = initialised;
 
 		/* return success */
 		return 0;
 
-	case 1:
+	case initialised:
 		/* map has already be initialized */
 		err("The rendering.c 'map' has already been initialised.");
 		break;
 
-	case 2:
+	case recreate:
 		/* map needs to be re-created, this is ok */
-		mapCreatedSuccess = 0;
+		mapCreatedSuccess = uninitialised;
 		freeMem((void **)&(map.grid));
 		return CreateMap(width, length);
 
@@ -167,26 +175,26 @@ PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 
 PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
 	switch (frameCreatedSuccess) {
-	case 0:
+	case uninitialised:
 		/* frame has not been initialized yet, do it now */
 		frame.width  = width;
 		frame.height = height;
 		frame.pixels = malloc(sizeof (Pixel) * width * height);
 
 		/* mark completion */
-		frameCreatedSuccess = 1;
+		frameCreatedSuccess = initialised;
 
 		/* return success */
 		return 0;
 
-	case 1:
+	case initialised:
 		/* frame has already be initialized */
 		err("The rendering.c 'frame' has already been initialised.");
 		break;
 
-	case 2:
+	case recreate:
 		/* frame needs to be re-created, this is ok */
-		frameCreatedSuccess = 0;
+		frameCreatedSuccess = uninitialised;
 		freeMem((void **)&(frame.pixels));
 		return CreateFrame(width, height);
 
@@ -202,11 +210,19 @@ PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
 PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 	uint64_t index = y * frame.width + x;
 
+	if (frameCreatedSuccess != initialised) {
+		die("The rendering.c 'frame' has not been initialised.");
+	}
+
 	return *(frame.pixels + index);
 } /* }}} */
 
 PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel) { /* {{{ */
 	uint64_t index = y * frame.width + x;
+
+	if (frameCreatedSuccess != initialised) {
+		die("The rendering.c 'frame' has not been initialised.");
+	}
 
 	*(frame.pixels + index) = pixel;
 } /* }}} */

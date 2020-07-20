@@ -59,7 +59,7 @@
  * provided here with the PUBLIC keyword.
  */
 
-typedef struct {
+typedef struct { /* {{{ */
 	uint64_t cameraPosX;
 	uint64_t cameraPosY;
 	uint64_t cameraResX;
@@ -71,25 +71,25 @@ typedef struct {
 	uint64_t mapHeight;
 	uint64_t frameWidth;
 	uint64_t frameHeight;
-} RenderConfig;
+} RenderConfig; /* }}} */
 
-typedef struct {
-	uint8_t r;  /* r component of the RGB colour code                  */
-	uint8_t g;  /* g component of the RGB colour code                  */
-	uint8_t b;  /* b component of the RGB colour code                  */
-	char ascii; /* ASCII fallback to use if colours cannot be rendered */
-} Pixel;
+typedef struct { /* {{{ */
+	uint8_t r;     /* r component of the RGB colour code                  */
+	uint8_t g;     /* g component of the RGB colour code                  */
+	uint8_t b;     /* b component of the RGB colour code                  */
+	char    ascii; /* ASCII fallback to use if colours cannot be rendered */
+} Pixel; /* }}} */
 
-typedef struct {
+typedef struct { /* {{{ */
 	int64_t height; /* vertical size off floor, negative if off ceiling */
-	Pixel* pixels;  /* array of the Pixels this square has vertically   */
-} Square;
+	Pixel*  pixels; /* array of the Pixels this square has vertically   */
+} Square; /* }}} */
 
-typedef struct {
+typedef struct { /* {{{ */
 	uint64_t width;  /* horizontal size of the Texture  */
 	uint64_t height; /* vertical size of the Texture    */
-	Pixel* pixels;   /* array of Pixels in this Texture */
-} Texture;
+	Pixel*  pixels;  /* array of Pixels in this Texture */
+} Texture; /* }}} */
 
 PUBLIC int64_t ConfigureRendering(RenderConfig config);
 
@@ -122,21 +122,35 @@ PUBLIC void Strafe(int64_t distance);
  */
 #ifdef RENDERING_C
 
-PRIVATE struct Map {
+PRIVATE struct Map { /* {{{ */
 	uint64_t width;  /* size of the x axis           */
 	uint64_t length; /* size of the y axis           */
-	Square* grid;    /* array of Squares in this Map */
-} map;
+	Square * grid;   /* array of Squares in this Map */
+} map = {
+	.width  = 0,
+	.length = 0,
+	.grid   = NULL
+}; /* }}} */
 
-PRIVATE struct Frame {
+PRIVATE struct Frame { /* {{{ */
 	uint64_t width;  /* horizontal size of the Frame  */
 	uint64_t height; /* vertical size of the Frame    */
-	Pixel* pixels;   /* array of Pixels in this Frame */
-} frame;
+	Pixel *  pixels; /* array of Pixels in this Frame */
+} frame = {
+	.width  = 0,
+	.height = 0,
+	.pixels = NULL
+}; /* }}} */
 
-PRIVATE int64_t mapCreatedSuccess = 0;
+typedef enum { /* {{{ */
+	uninitialised,
+	initialised,
+	recreate
+} initState; /* }}} */
 
-PRIVATE int64_t frameCreatedSuccess = 0;
+PRIVATE initState mapCreatedSuccess = uninitialised;
+
+PRIVATE initState frameCreatedSuccess = uninitialised;
 
 PRIVATE RCL_Camera camera;
 

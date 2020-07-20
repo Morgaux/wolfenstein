@@ -50,6 +50,24 @@ PUBLIC int main() { /* {{{ */
 
 	TestGetSetSquare();
 
+	TestConfigureRendering();
+
+	TestGetSetSquare();
+
+	TestPlaceWall();
+
+	TestPlaceRectangularRoom();
+
+	TestPlaceCircularRoom();
+
+	TestRender();
+
+	TestTurn();
+
+	TestWalk();
+
+	TestStrafe();
+
 	/* If reached then all the tests must have passed */
 	printf("%s\n", "All tests complete.");
 	exit(EXIT_SUCCESS);
@@ -145,7 +163,6 @@ PRIVATE void TestWalk() { /* {{{ */
 PRIVATE void TestStrafe() { /* {{{ */
 	warn("No testcases for rendering.Strafe(int64_t distance).");
 } /* }}} */
-
 
 /* }}} */
 
