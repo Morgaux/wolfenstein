@@ -74,7 +74,7 @@ test_help: test_before_help_message \
 # 'test_help', this is the only time this target is triggered so it may be as
 # specialised as desired.
 test_before_help_message:
-	@echo "${YELLOW}Automated test cases for ${BIN}:${RESET}"
+	@echo "${YELLOW}Automated test cases for ${WOLF_3D}:${RESET}"
 
 # This target runs after the main body of the help text displayed by
 # 'test_help' OR by any of the individual 'test_FOO_help' targets. (Note is
@@ -170,15 +170,15 @@ ${MODULES:%=run_test_%}:
 test_build_help_message: test_build_usage_message
 	@${INDENT} "This test ensures that the makefile build system is"
 	@${INDENT} "functional and that is will not only allow for the"
-	@${INDENT} "${BIN} target to be compiled, but also that it will"
+	@${INDENT} "${WOLF_3D} target to be compiled, but also that it will"
 	@${INDENT} "clean up after itself throughout the process."
 
 ${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
 	@${INDENT} "This test ensures that this Drummy Fish library has been"
 	@${INDENT} "correctly loaded and compiles successfully using the"
-	@${INDENT} "\$${CFLAGS} used to build ${BIN}, although only in a in a"
-	@${INDENT} "simple configuration similar to a hello world program. This"
-	@${INDENT} "is checked for using one of the provided files in this"
+	@${INDENT} "\$${CFLAGS} used to build ${WOLF_3D}, although only in a in"
+	@${INDENT} "a simple configuration similar to a hello world program."
+	@${INDENT} "This is checked for using one of the provided files in this"
 	@${INDENT} "library's repo, at programs/helloWorld.c, which simply"
 	@${INDENT} "renders a single frame in ASCII art. If this fails then a"
 	@${INDENT} "more complex build will likely fail also."

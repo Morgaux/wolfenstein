@@ -42,7 +42,9 @@ DRUMMY_FISH_LIBS := raycastlib small3dlib
 # for the 'main()' function to manage and allow each module to have it's own
 # independent configuration.
 MODULES := rendering utilities
-MAINS   := wolfenstein3D ${MODULES:%=tests/%}
+WOLF_3D := wolfenstein3D
+C_TESTS := ${MODULES:%=tests/%}
+MAINS   := ${WOLF_3D} ${C_TESTS}
 
 # These are the final targets that get build and installed. ${BIN} must be a
 # single executable name that will get built by the linking of the ${OBJ} object
@@ -51,16 +53,8 @@ MAINS   := wolfenstein3D ${MODULES:%=tests/%}
 # instead of wolfenstein's source. This has the effect of having the same
 # modules available but a different 'main()' function to be called, allowing the
 # primary purpose of a build, e.g. for a release or for a test, to be defined
-# while maintaining the same build system. The ${MAN} targets are any and all
-# man pages for the respective ${MAINS}, as only ${MAINS} are created as final
-# executables, only these can have a section 1 manpage. There is currently no
-# support for other manual sections for the individual modules.
-#
-# Note: The ${BIN} target is also used for installation and uninstallation, be
-# careful to only use the targets in 'installation.mk' with ${BIN} set to
-# wolfenstein3D, unless you know __exactly__ what you are doing.
-BIN ?= wolfenstein3D
-MAN := wolfenstein3D.1
+# while maintaining the same build system.
+BIN ?= ${WOLF_3D}
 
 # These variables define the way that the modules and specialised libraries work
 # and interact. The ${LIB} variable defines a list of local and/or system
@@ -118,8 +112,8 @@ GZIP_FLAGS ?= -v -9
 
 # These control which files are included in a release, in what order, and what
 # the release tar ball is called.
-DIST_FILES := ${REPO_FILES} ${MAKE_FILES} ${SRC}
-DIST_DIR   := ${BIN}-${BUILD_V}
+DIST_FILES := ${CODE_FILES} ${HEAD_FILES} ${REPO_FILES} ${MAKE_FILES}
+DIST_DIR   := ${WOLF_3D}-${BUILD_V}
 DIST_TGZ   := ${DIST_DIR}.tar.gz
 
 # }}}

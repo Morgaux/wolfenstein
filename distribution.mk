@@ -10,8 +10,9 @@
 dist: clean ${DIST_FILES}
 	@${PRINTF} "${YELLOW}Creating ditribution tarball...${RESET}"
 	${CLEAN}
-	mkdir -p ${DIST_DIR}
+	mkdir -p ${DIST_DIR}/tests
 	cp -R ${DIST_FILES} ${DIST_DIR}
+	cp -R ${TEST_FILES} ${DIST_DIR}/tests
 	tar ${TAR_FLAGS} -cf - ${DIST_DIR} | gzip ${GZIP_FLAGS} > ${DIST_TGZ}
 	rm -rf ${DIST_DIR} ${DIST_TAR}
 
