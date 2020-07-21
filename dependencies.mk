@@ -24,9 +24,7 @@ ${DEPENDENCIES:%=depends_on_%}: depends_on_% : %
 	@if [ ! -x "$$(command -v $<)" ] ;                                     \
 	then                                                                   \
 		${PRINTF} "${RED}ERROR:${RESET}"                               \
-		          "${BOLD}${BIN}${RESET}"                              \
-		          "depends on"                                         \
-		          "${YELLOW}${BOLD}$<${RESET}"                       ; \
+		          "${BOLD}${WOLF_3D}${RESET}depends on $<"           ; \
 		exit 1 ;                                                       \
 	fi
 
