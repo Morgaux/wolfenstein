@@ -207,6 +207,13 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo "#include <stdlib.h>"                                   ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
+		echo " * Include the main unit test header file. This file"  ; \
+		echo " * provides general functions for assertion, handling" ; \
+		echo " * errors, and test related IO."                       ; \
+		echo " */"                                                   ; \
+		echo "#include \"tests.h\""                                  ; \
+		echo ""                                                      ; \
+		echo "/**"                                                   ; \
 		echo " * Include the header file for the module this file"   ; \
 		echo " * is testing, this allows this source to call that"   ; \
 		echo " * modules (PUBLIC) functions."                        ; \
@@ -235,26 +242,6 @@ ${MODULES:%=tests/%.c}: %.c : %.h
 		echo ""                                                      ; \
 		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
 		echo ""                                                      ; \
-		echo "PRIVATE void warn(char * msg) { /* {{{ */"             ; \
-		echo "	__YELLOW__"                                          ; \
-		echo "	fprintf(stderr, \"warning\");"                       ; \
-		echo "	__RESET__"                                           ; \
-		echo "	fprintf(stderr, \": %s\\\\n\", msg);"                ; \
-		echo "} /* }}} */"                                           ; \
-		echo ""                                                      ; \
-		echo "PRIVATE void fail(char * msg) { /* {{{ */"             ; \
-		echo "	__RED__"                                             ; \
-		echo "	fprintf(stderr, \"FAILURE\");"                       ; \
-		echo "	__RESET__"                                           ; \
-		echo "	fprintf(stderr, \": %s\\\\n\", msg);"                ; \
-		echo "	exit(EXIT_FAILURE);"                                 ; \
-		echo "} /* }}} */"                                           ; \
-		echo ""                                                      ; \
-		echo "PRIVATE void assert(int cond, char * msg) { /* {{{ */" ; \
-		echo "	if (!cond) {"                                        ; \
-		echo "		fail(msg);"                                  ; \
-		echo "	}"                                                   ; \
-		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
@@ -292,11 +279,6 @@ ${MODULES:%=tests/%.h}:
 		echo ""                                                      ; \
 		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
 		echo ""                                                      ; \
-		echo "PRIVATE void warn(char * msg);"                        ; \
-		echo ""                                                      ; \
-		echo "PRIVATE void fail(char * msg);"                        ; \
-		echo ""                                                      ; \
-		echo "PRIVATE void assert(int cond, char * msg);"            ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \

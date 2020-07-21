@@ -29,6 +29,13 @@
 #include <string.h>
 
 /**
+ * Include the main unit test header file. This file
+ * provides general functions for assertion, handling
+ * errors, and test related IO.
+ */
+#include "tests.h"
+
+/**
  * Include the header file for the module this file
  * is testing, this allows this source to call that
  * modules (PUBLIC) functions.
@@ -60,27 +67,6 @@ PUBLIC int main() { /* {{{ */
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
-
-PRIVATE void warn(char * msg) { /* {{{ */
-	__YELLOW__
-	fprintf(stderr, "warning");
-	__RESET__
-	fprintf(stderr, ": %s\n", msg);
-} /* }}} */
-
-PRIVATE void fail(char * msg) { /* {{{ */
-	__RED__
-	fprintf(stderr, "FAILURE");
-	__RESET__
-	fprintf(stderr, ": %s\n", msg);
-	exit(EXIT_FAILURE);
-} /* }}} */
-
-PRIVATE void assert(int cond, char * msg) { /* {{{ */
-	if (!cond) {
-		fail(msg);
-	}
-} /* }}} */
 
 PRIVATE void TestErr() { /* {{{ */
 	warn("utilities.err(char * msg) cannot be tested.");

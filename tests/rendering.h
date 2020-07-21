@@ -27,12 +27,6 @@ PUBLIC int main();
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PRIVATE void warn(char * msg);
-
-PRIVATE void fail(char * msg);
-
-PRIVATE void assert(int cond, char * msg);
-
 PRIVATE void TestConfigureRendering();
 
 PRIVATE void TestGetSetSquare();
