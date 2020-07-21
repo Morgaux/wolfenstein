@@ -192,7 +192,7 @@ CFLAGS += -g -pedantic \
 LDFLAGS += 
 
 # This defines the C language compiler.
-CC := c99
+CC := cc
 
 # }}}
 
