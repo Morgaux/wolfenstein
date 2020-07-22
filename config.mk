@@ -145,7 +145,8 @@ WARNINGS ?= all extra
 WARNINGS += no-unused-function \
             no-unused-parameter \
             no-unused-variable \
-            implicit-fallthrough=4
+            implicit-fallthrough=4 \
+            no-unknown-warning-option
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
 # errors and halting the compilation process. This is desirable but not always
