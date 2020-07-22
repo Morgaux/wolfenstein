@@ -95,17 +95,19 @@ BUILD_V := ${VERSION}-${FLAVOUR}
 # These define the important files in this repository, by their type and
 # functionality.
 CODE_FILES := ${WOLF_3D:%=%.c} ${MODULES:%=%.c}
-HEAD_FILES := ${CODE_FILES:.c=.h}
-TEST_FILES := ${C_TESTS:%=%.c} ${C_TESTS:%=%.h}
+HEAD_FILES := ${CODE_FILES:.c=.h} config.def.h defines.h
+TEST_FILES := ${C_TESTS:%=%.c} ${C_TESTS:%=%.h} tests/tests.h
 REPO_FILES := README.md LICENSE img
 MAKE_FILES := Makefile \
               build.mk \
               colors.mk \
               config.mk \
               dependencies.mk \
+              distribution.mk \
               documentation.mk \
               installation.mk \
-              source.mk
+              source.mk \
+              tests.mk
 
 # These flags control the compression and bundling tools.
 TAR_FLAGS  ?= -v
