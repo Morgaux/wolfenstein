@@ -167,7 +167,7 @@ run_test_clean:
 
 run_test_dist:
 	make dist
-	tar xvf ${DIST_TGZ}
+	tar xzvf ${DIST_TGZ}
 	${ASSERT_DIRECTORY_EXISTS} ${DIST_DIR}
 	cd ${DIST_DIR} && make ${WOLF_3D:%=test_%}
 
