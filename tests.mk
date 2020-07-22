@@ -209,13 +209,15 @@ run_test_uninstall:
 	${ASSERT_FALSE} -f tmp${BIN_DIR}/${WOLF_3D}
 	${ASSERT_FALSE} -f tmp${MAN_DIR}/${WOLF_3D:%=%.1}
 
-${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
-	${ASSERT_DIRECTORY_EXISTS} $<
-	${ASSERT_DIRECTORY_EXISTS} $</programs
-	${ASSERT_FILE_EXISTS} $</programs/helloWorld.c
-	cd $</programs && ${CC} ${CFLAGS} -o helloWorld helloWorld.c
-	${ASSERT_FILE_EXECUTABLE} $</programs/helloWorld
-	./$</programs/helloWorld
+${DRUMMY_FISH_LIBS:%=run_test_%}:
+	make ${@:run_test_%=%}
+	${ASSERT_DIRECTORY_EXISTS} ${@:run_test_%=%}
+	${ASSERT_DIRECTORY_EXISTS} ${@:run_test_%=%}/programs
+	${ASSERT_FILE_EXISTS} ${@:run_test_%=%}/programs/helloWorld.c
+	cd ${@:run_test_%=%}/programs && \
+		${CC} ${CFLAGS} -o helloWorld helloWorld.c
+	${ASSERT_FILE_EXECUTABLE} ${@:run_test_%=%}/programs/helloWorld
+	./${@:run_test_%=%}/programs/helloWorld
 
 ${MODULES:%=run_test_%}:
 	make BIN=${@:run_test_%=tests/%} run
