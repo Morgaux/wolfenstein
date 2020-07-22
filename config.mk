@@ -103,7 +103,6 @@ MAKE_FILES := Makefile \
               colors.mk \
               config.mk \
               dependencies.mk \
-              distribution.mk \
               documentation.mk \
               installation.mk \
               source.mk \
@@ -284,6 +283,11 @@ TO_UPPER := tr '[:lower:]./' '[:upper:]_'
 # Note: this section must be after any configuration as it may require macros
 # and variables to be loaded.
 
+# This variable defines the below targets as .PHONY targets, it also serves as a
+# way to specify that these are the user exposed targets, so called 'actions',
+# and to define unit tests for these.
+PHONIES := all config clean dist run install uninstall
+
 # This is the default target, show the configuration for the build and build the
 # target but don't install or clean. Note that the dependencies are checked here
 # at the beginning to catch any missing tools as early as possible, also note
@@ -334,6 +338,18 @@ clean:
 		${CLEAN}                                                     ; \
 	fi
 
+# The 'dist' phony target triggers the creation of a distributable tar ball of
+# all source files. This allows for a release to be created as a single stage
+# and within a single action.
+dist: clean ${DIST_FILES}
+	@${PRINTF} "${YELLOW}Creating ditribution tarball...${RESET}"
+	${CLEAN}
+	mkdir -p ${DIST_DIR}/tests
+	cp -R ${DIST_FILES} ${DIST_DIR}
+	cp -R ${TEST_FILES} ${DIST_DIR}/tests
+	tar ${TAR_FLAGS} -cf - ${DIST_DIR} | gzip ${GZIP_FLAGS} > ${DIST_TGZ}
+	rm -rf ${DIST_DIR} ${DIST_TAR}
+
 # This target allows a quick and easy way of testing a ${BIN} target by
 # incorporating the building and execution into a single stage.
 run: config ${BIN}
@@ -374,7 +390,7 @@ SHELL := /bin/sh
 # This target specifies that the these target should be built even if a file
 # with the same file name exists, these targets specify action that should be
 # given by the user or as dependencies of other actions.
-.PHONY: all clean config run install uninstall
+.PHONY: ${PHONIES}
 
 # }}}
 

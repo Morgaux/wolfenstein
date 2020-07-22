@@ -33,11 +33,6 @@ include documentation.mk
 # implementations are separated from the installation logic.
 include installation.mk
 
-# This file provided the implementation of creating any distribution files, such
-# as a tar ball of all sources or executable packages for package management
-# systems such as pacman or apt.
-include distribution.mk
-
 # This file defines all test cases and testing structures to run automation
 # tests on all components of this repository, including the makefile system
 # itself, save of course for the tests.mk file itself. To test any given

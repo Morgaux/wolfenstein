@@ -1,3 +1,4 @@
+#B
 #
 # This file defines the main test cases and testing structures
 #
@@ -34,7 +35,10 @@ ASSERT_STRING_NOT_EMPTY := echo "${YELLOW}[ASSERT NOT EMPTY]${RESET}" ; test -n
 # and clean up any temporary files created to allow a clean workspace for the
 # next test in the queue. Note that values in ${TEST_ACTIONS} shouldn't conflict
 # with other build targets.
-TEST_ACTIONS := build ${DRUMMY_FISH_LIBS} ${MODULES}
+TEST_ACTIONS := ${WOLF_3D} \
+                ${PHONIES} \
+                ${DRUMMY_FISH_LIBS} \
+                ${MODULES}
 
 # This specifies how long to wait for a test to complete, if this time elapses
 # before the test completes, the test is marked as a failure.
@@ -155,18 +159,67 @@ ALL_TEST_TARGETS := ${TEST_ACTIONS}                                            \
 # ${TEST_ACTIONS} list, be sure to provide a matching 'test_FOO_help_message'
 # target under "HELP MESSAGES" below.
 
-run_test_build:
+${WOLF_3D:%=run_test_%}:
+	make BIN=${@:run_test_%=%} run
+
+run_test_all:
+	rm -f ${BIN}
+	make all
+	${ASSERT_FILE_EXISTS} ${BIN}
+
+run_test_config:
+	${ASSERT_STRING_NOT_EMPTY} "$$(make config)"
+
+run_test_clean:
+	rm -f ${MAN}
+	touch ${MAN}
+	${ASSERT_FILE_EXISTS} ${MAN}
+	make clean
+	${ASSERT_FALSE} -f ${MAN}
+
+run_test_dist:
+	make dist
+	tar xvf ${DIST_TGZ}
+	${ASSERT_DIRECTORY_EXISTS} ${DIST_DIR}
+	cd ${DIST_DIR} && make ${WOLF_3D:%=test_%}
+
+run_test_run:
+	{                                                                      \
+		echo "#!/bin/sh"                                             ; \
+		echo ""                                                      ; \
+		echo "echo \"Hello World!\" > foo.txt"                       ; \
+		echo ""                                                      ; \
+	} > foo.sh
+	chmod 755 foo.sh
+	make BIN=foo.sh run
+	${ASSERT_TRUE} "$$(cat foo.txt)" = "Hello World!"
+	rm -f foo.sh foo.txt
+
+run_test_install:
 	mkdir -p tmp
-	make DESTDIR=tmp clean config all install uninstall dist
+	make DESTDIR=tmp install
 	${ASSERT_DIRECTORY_EXISTS} tmp${BIN_DIR}/
 	${ASSERT_DIRECTORY_EXISTS} tmp${MAN_DIR}/
+	${ASSERT_FILE_EXISTS}      tmp${BIN_DIR}/${WOLF_3D}
 	${ASSERT_FILE_EXECUTABLE}  tmp${BIN_DIR}/${WOLF_3D}
+	${ASSERT_FILE_NOT_EMPTY}   tmp${BIN_DIR}/${WOLF_3D}
 	${ASSERT_FILE_EXISTS}      tmp${MAN_DIR}/${WOLF_3D:%=%.1}
 	${ASSERT_FILE_READABLE}    tmp${MAN_DIR}/${WOLF_3D:%=%.1}
 	${ASSERT_FILE_NOT_EMPTY}   tmp${MAN_DIR}/${WOLF_3D:%=%.1}
 	${CLEAN}
 	${DELETE} tmp
 	${ASSERT_FALSE} -d tmp
+
+run_test_uninstall:
+	mkdir -p tmp
+	make DESTDIR=tmp install
+	${ASSERT_DIRECTORY_EXISTS} tmp${BIN_DIR}/
+	${ASSERT_DIRECTORY_EXISTS} tmp${MAN_DIR}/
+	${ASSERT_FILE_EXISTS} tmp${BIN_DIR}/${WOLF_3D}
+	${ASSERT_FILE_EXISTS} tmp${MAN_DIR}/${WOLF_3D:%=%.1}
+	make DESTDIR=tmp uninstall
+	${ASSERT_FALSE} -f tmp${BIN_DIR}/${WOLF_3D}
+	${ASSERT_FALSE} -f tmp${MAN_DIR}/${WOLF_3D:%=%.1}
 
 ${DRUMMY_FISH_LIBS:%=run_test_%}: run_test_% : %
 	${ASSERT_DIRECTORY_EXISTS} $<
@@ -194,28 +247,36 @@ ${MODULES:%=run_test_%}:
 # message add 'FOO' to the ${TEST_ACTIONS} list, be sure to provide a matching
 # 'run_test_FOO' target above under "TEST CASES".
 
-test_build_help_message: test_build_usage_message
-	@${INDENT} "This test ensures that the makefile build system is"
-	@${INDENT} "functional and that is will not only allow for the"
-	@${INDENT} "${WOLF_3D} target to be compiled, but also that it will"
-	@${INDENT} "clean up after itself throughout the process."
+${WOLF_3D:%=test_%_help_message}: %_help_message : %_usage_message
+	@${INDENT} "This test ensures that ${WOLF_3D} project as a whole can be"
+	@${INDENT} "build and run, it leaves the finer details and subtleties"
+	@${INDENT} "of the project to the other test cases."
+
+${PHONIES:%=test_%_help_message}: %_help_message : %_usage_message
+	@${INDENT} "This test ensures that the ${@:test_%_help_message=%} make"
+	@${INDENT} "target can successfully run and does what it is meant to."
+	@${INDENT} "This test is a smoke screen that simply breaks down the big"
+	@${INDENT} "picture into the individual actions that a user can invoke:"
+	@${INDENT} "	${BOLD}make ${@:test_%_help_message=%}${RESET}"
 
 ${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
 	@${INDENT} "This test ensures that this Drummy Fish library has been"
 	@${INDENT} "correctly loaded and compiles successfully using the"
-	@${INDENT} "\$${CFLAGS} used to build ${WOLF_3D}, although only in a in"
-	@${INDENT} "a simple configuration similar to a hello world program."
-	@${INDENT} "This is checked for using one of the provided files in this"
-	@${INDENT} "library's repo, at programs/helloWorld.c, which simply"
-	@${INDENT} "renders a single frame in ASCII art. If this fails then a"
-	@${INDENT} "more complex build will likely fail also."
+	@${INDENT} "${BOLD}\$${CFLAGS}${RESET} used to build ${WOLF_3D},"
+	@${INDENT} "although only in a in a simple configuration similar to a"
+	@${INDENT} "hello world program. This is checked for using one of the"
+	@${INDENT} "provided files in this library's repo, at:"
+	@${INDENT} "	${BOLD}${@:test_%_help_message=%}/programs/${RESET}"
+	@${INDENT} "which simply renders a single frame in ASCII art. If this"
+	@${INDENT} "fails then a more complex build will likely fail also."
 
 ${MODULES:%=test_%_help_message}: %_help_message : %_usage_message
-	@${INDENT} "This test ensures that the ${@:test_%_help_message} module"
-	@${INDENT} "is functioning correctly. This is tested by linking the"
-	@${INDENT} "${@:test_%_help_message} module against a custom main()"
-	@${INDENT} "function that runs the ${@:test_%_help_message} module's"
-	@${INDENT} "functions with dummy inputs and sanity checks the results."
+	@${INDENT} "This test ensures that the ${@:test_%_help_message=%}"
+	@${INDENT} "module is functioning correctly. This is tested by linking"
+	@${INDENT} "the ${@:test_%_help_message=%} module against a custom"
+	@${INDENT} "main() function that runs the ${@:test_%_help_message=%}"
+	@${INDENT} "module's functions with dummy inputs and sanity checks the"
+	@${INDENT} "results."
 
 # }}}
 
