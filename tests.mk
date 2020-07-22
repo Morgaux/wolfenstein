@@ -66,26 +66,14 @@ TMOUT := 30s
 # success state of each.
 ${TEST_ACTIONS:%=test_%}:
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
-	@case                                                                  \
-		"$$(                                                           \
-			timeout ${TMOUT}                                       \
-			make -s run_$@ clean >/dev/null 2>&1                 ; \
-			echo $$?                                               \
-		)"                                                             \
-	in                                                                     \
-		124|143)                                                       \
-			${CLEAR_LINE}                                        ; \
-			${PRINTF} "${RED}TIMEOUT${RESET} for ${@:test_%=%}"  ; \
-		;;                                                             \
-		0)                                                             \
-			${CLEAR_LINE}                                        ; \
-			${PRINTF} "${GREEN}PASS${RESET} for ${@:test_%=%}"   ; \
-		;;                                                             \
-		*)                                                             \
-			${CLEAR_LINE}                                        ; \
-			${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"     ; \
-		;;                                                             \
-	esac || true
+	@if make -s run_$@ clean >/dev/null 2>&1                             ; \
+	then                                                                   \
+		${CLEAR_LINE}                                                ; \
+		${PRINTF} "${GREEN}PASS${RESET} for ${@:test_%=%}"           ; \
+	else                                                                   \
+		${CLEAR_LINE}                                                ; \
+		${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"             ; \
+	fi || true
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.

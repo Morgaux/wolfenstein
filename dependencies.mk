@@ -9,7 +9,7 @@
 # question, where FOO is defined in ${DEPENDENCIES}. This will trigger the check
 # target for that tool which will provide a clear error message and halt the
 # build progress. These may be added to on the commandline.
-DEPENDENCIES += git sed tar gzip grep tee timeout
+DEPENDENCIES += git sed tar gzip grep tee
 
 # This target is run for every call of 'depends_on_FOO' for 'FOO's in
 # ${DEPENDENCIES}, passing 'FOO' as $<. This allow a shell to check for 'FOO' in
