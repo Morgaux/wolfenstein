@@ -208,6 +208,9 @@ run_test_uninstall:
 	make DESTDIR=tmp uninstall
 	${ASSERT_FALSE} -f tmp${BIN_DIR}/${WOLF_3D}
 	${ASSERT_FALSE} -f tmp${MAN_DIR}/${WOLF_3D:%=%.1}
+	${CLEAN}
+	${DELETE} tmp
+	${ASSERT_FALSE} -d tmp
 
 ${DRUMMY_FISH_LIBS:%=run_test_%}:
 	make ${@:run_test_%=%}
