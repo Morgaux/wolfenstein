@@ -9,10 +9,10 @@
 # first uninstalled from the system. Note that this action may require root
 # privileges.
 install_man: ${MAN} uninstall_man
-	@${PRINTF} "${YELLOW}Installing ${MAN_DIR}/$< manpage...${RESET}"
+	@${PRINTF} "${YELLOW}Installing ${MAN_DIR}/${MAN} manpage...${RESET}"
 	mkdir -p ${MAN_DIR}
-	cp -f $< ${MAN_DIR}/$<
-	chmod 644 ${MAN_DIR}/$<
+	cp -f ${MAN} ${MAN_DIR}/${MAN}
+	chmod 644 ${MAN_DIR}/${MAN}
 
 # The 'uninstall_man' phony target is used to uninstall the ${MAN} page by
 # removing it from the installed directories. Note that this action may require

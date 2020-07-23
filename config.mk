@@ -206,7 +206,6 @@ CC := cc
 AUTHOR    := Morgaux Meyer
 CONTACT   := 3158796-morgaux@users.noreply.gitlab.com
 LICENSE   := MIT
-DATE      := $$(date '+%d %b %Y')
 COPYRIGHT += ${LICENSE} (C) $$(date +%Y) ${AUTHOR} (${CONTACT})
 
 # }}}
@@ -237,7 +236,7 @@ SWALLOW_ERR := 2>/dev/null || true
 # is a text processor command wrapper that strips repeating whitespace, CREATE
 # and TO write STRIP'd stdin to a file and to stdout, CREATE overwrites the
 # existing file and TO appends to it.
-STRIP  := grep -Ev '^$$' | sed 's/\s\s*/ /g'
+STRIP  := sed 's/\s\s*/ /g'
 CREATE := ${STRIP} | tee
 TO     := ${CREATE} -a
 
