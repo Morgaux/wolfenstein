@@ -136,17 +136,41 @@ DEFINES += ${FLAVOUR} \
 # passed to the compiler as -W options. By default most verbose warnings are
 # enabled. However, if provided on the command line, these default values will
 # be overriden by the user defined warnings.
+#
+# NOTE: Use ${WARNINGS} to provide compiler warnings to issue, and ${W_IGNORE}
+# to provide the warnings to ignore if found, by default any unknown warning
+# options will be ignored.
 WARNINGS ?= all extra
+W_IGNORE ?= unknown-warning-option
 
 # These are the custom warnings that are specific to this project, these are
 # added after the user specified warnings and so are not user over-ridable,
 # unless changed in this file. This is where specific warnings may be enforced
 # or suppressed as needed for the purposes of this project.
-WARNINGS += no-unused-function \
-            no-unused-parameter \
-            no-unused-variable \
+#
+# NOTE: -Wimplicit-fallthrough only takes a level option on some compilers,
+# passing the level of control with be an unrecognised option ignored by
+# -Wno-unknown-warning-option but we still want the available
+# -Wimplicit-fallthrough to be selected.
+WARNINGS += implicit-fallthrough \
             implicit-fallthrough=4 \
-            no-unknown-warning-option
+            comment \
+            conversion \
+            dangling-else \
+            declaration-after-statement \
+            deprecated \
+            empty-body \
+            format \
+            implicit \
+            main \
+            misleading-indentation \
+            unreachable-code \
+            unused-macros
+W_IGNORE += unused \
+            unused-function \
+            unused-parameter \
+            unused-variable
+
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
 # errors and halting the compilation process. This is desirable but not always
@@ -185,6 +209,7 @@ INCLUDES := ${LIB}
 # commandline.
 CFLAGS += -g -pedantic \
           ${DEFINES:%=-D%} \
+          ${W_IGNORE:%=-Wno-%} \
           ${WARNINGS:%=-W%} \
           ${OPTIMISATION_LEVEL:%=-O%} \
           -x ${LANGUAGE} \
