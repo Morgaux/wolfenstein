@@ -40,10 +40,6 @@ TEST_ACTIONS := ${WOLF_3D} \
                 ${DRUMMY_FISH_LIBS} \
                 ${MODULES}
 
-# This specifies how long to wait for a test to complete, if this time elapses
-# before the test completes, the test is marked as a failure.
-TMOUT := 30s
-
 # }}}
 
 # TEST STRUCTURE {{{
@@ -110,7 +106,8 @@ ${TEST_ACTIONS:%=test_%_usage_message}:
 	@${INDENT} "${BOLD}make test_${@:test_%_usage_message=%}_help${RESET}"
 	@${PRINTF} "${YELLOW}Description:${RESET}"
 
-${TEST_ACTIONS:%=test_%_help}: % : %_message test_after_help_message
+${TEST_ACTIONS:%=test_%_help}:
+	@make ${@:%=%_message} test_after_help_message
 
 # This variable defines all of the possible targets that may be used, including
 # those that are only used internally.
@@ -240,19 +237,22 @@ ${MODULES:%=run_test_%}:
 # message add 'FOO' to the ${TEST_ACTIONS} list, be sure to provide a matching
 # 'run_test_FOO' target above under "TEST CASES".
 
-${WOLF_3D:%=test_%_help_message}: %_help_message : %_usage_message
+${WOLF_3D:%=test_%_help_message}:
+	@make ${@:%_help_message=%_usage_message}
 	@${INDENT} "This test ensures that ${WOLF_3D} project as a whole can be"
 	@${INDENT} "build and run, it leaves the finer details and subtleties"
 	@${INDENT} "of the project to the other test cases."
 
-${PHONIES:%=test_%_help_message}: %_help_message : %_usage_message
+${PHONIES:%=test_%_help_message}:
+	@make ${@:%_help_message=%_usage_message}
 	@${INDENT} "This test ensures that the ${@:test_%_help_message=%} make"
 	@${INDENT} "target can successfully run and does what it is meant to."
 	@${INDENT} "This test is a smoke screen that simply breaks down the big"
 	@${INDENT} "picture into the individual actions that a user can invoke:"
 	@${INDENT} "	${BOLD}make ${@:test_%_help_message=%}${RESET}"
 
-${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
+${DRUMMY_FISH_LIBS:%=test_%_help_message}:
+	@make ${@:%_help_message=%_usage_message}
 	@${INDENT} "This test ensures that this Drummy Fish library has been"
 	@${INDENT} "correctly loaded and compiles successfully using the"
 	@${INDENT} "${BOLD}\$${CFLAGS}${RESET} used to build ${WOLF_3D},"
@@ -263,7 +263,8 @@ ${DRUMMY_FISH_LIBS:%=test_%_help_message}: %_help_message : %_usage_message
 	@${INDENT} "which simply renders a single frame in ASCII art. If this"
 	@${INDENT} "fails then a more complex build will likely fail also."
 
-${MODULES:%=test_%_help_message}: %_help_message : %_usage_message
+${MODULES:%=test_%_help_message}:
+	@make ${@:%_help_message=%_usage_message}
 	@${INDENT} "This test ensures that the ${@:test_%_help_message=%}"
 	@${INDENT} "module is functioning correctly. This is tested by linking"
 	@${INDENT} "the ${@:test_%_help_message=%} module against a custom"
