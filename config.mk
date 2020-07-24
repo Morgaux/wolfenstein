@@ -138,10 +138,9 @@ DEFINES += ${FLAVOUR} \
 # be overriden by the user defined warnings.
 #
 # NOTE: Use ${WARNINGS} to provide compiler warnings to issue, and ${W_IGNORE}
-# to provide the warnings to ignore if found, by default any unknown warning
-# options will be ignored.
+# to provide the warnings to ignore if found.
 WARNINGS ?= all extra
-W_IGNORE ?= unknown-warning-option
+W_IGNORE ?= unused
 
 # These are the custom warnings that are specific to this project, these are
 # added after the user specified warnings and so are not user over-ridable,
@@ -187,7 +186,7 @@ WARNINGS += bool-operation \
 # These are the custom warnings to ignore that are specific to the project,
 # these are added before the other warning options are given, the order
 # shouldn't matter but just in case.
-W_IGNORE += missing-include-dirs unused
+W_IGNORE += missing-include-dirs
 
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
