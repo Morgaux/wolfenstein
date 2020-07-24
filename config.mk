@@ -231,7 +231,7 @@ CFLAGS += -g -pedantic \
           ${OPTIMISATION_LEVEL:%=-O%} \
           -x ${LANGUAGE} \
           -std=${STANDARD} \
-          ${INCLUDES:%=-isystem %}
+          ${INCLUDES:%=-I%}
 
 LDFLAGS += 
 

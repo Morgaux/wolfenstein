@@ -53,7 +53,15 @@
  * to allow it to be included via <...> syntax rather
  * than "..." syntax.
  */
+_Pragma("GCC diagnostic push")
+_Pragma("GCC diagnostic ignored \"-Wconversion\"")
+_Pragma("GCC diagnostic ignored \"-Wdeclaration-after-statement\"")
+_Pragma("GCC diagnostic ignored \"-Wmissing-prototypes\"")
+_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
+_Pragma("GCC diagnostic ignored \"-Wtraditional\"")
+_Pragma("GCC diagnostic ignored \"-Wtraditional-conversion\"")
 #include <raycastlib.h>
+_Pragma("GCC diagnostic pop")
 
 /**
  * This module provides useful abstractions for some
