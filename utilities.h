@@ -59,11 +59,11 @@
  * provided here with the PUBLIC keyword.
  */
 
-PUBLIC void err(char * msg);
+PUBLIC void err(char *);
 
-PUBLIC void die(char * msg);
+PUBLIC void die(char *);
 
-PUBLIC void freeMem(void ** ptr);
+PUBLIC void freeMem(void **);
 
 /* }}} */
 

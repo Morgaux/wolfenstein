@@ -91,25 +91,25 @@ typedef struct { /* TEXTURE {{{ */
 	Pixel*  pixels;  /* array of Pixels in this Texture */
 } Texture; /* }}} */
 
-PUBLIC int64_t ConfigureRendering(RenderConfig config);
+PUBLIC int64_t ConfigureRendering(RenderConfig);
 
-PUBLIC Square GetSquare(uint64_t x, uint64_t y);
+PUBLIC Square GetSquare(uint64_t, uint64_t);
 
-PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square);
+PUBLIC void SetSquare(uint64_t, uint64_t, Square);
 
-PUBLIC void PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture);
+PUBLIC void PlaceWall(uint64_t, uint64_t, int64_t, int64_t, Texture);
 
-PUBLIC void PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture);
+PUBLIC void PlaceRectangularRoom(uint64_t, uint64_t, int64_t, int64_t, Texture);
 
-PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture);
+PUBLIC void PlaceCircularRoom(uint64_t, uint64_t, uint64_t, Texture);
 
-PUBLIC void Render(uint64_t width, uint64_t length);
+PUBLIC void Render(uint64_t, uint64_t);
 
-PUBLIC void Turn(int64_t angle);
+PUBLIC void Turn(int64_t);
 
-PUBLIC void Walk(int64_t distance);
+PUBLIC void Walk(int64_t);
 
-PUBLIC void Strafe(int64_t distance);
+PUBLIC void Strafe(int64_t);
 
 /* }}} */
 
@@ -156,13 +156,13 @@ PRIVATE RCL_Camera camera;
 
 PRIVATE RCL_RayConstraints constraints;
 
-PRIVATE int64_t CreateMap(uint64_t width, uint64_t length);
+PRIVATE int64_t CreateMap(uint64_t, uint64_t);
 
-PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height);
+PRIVATE int64_t CreateFrame(uint64_t, uint64_t);
 
-PRIVATE Pixel GetPixel(uint64_t x, uint64_t y);
+PRIVATE Pixel GetPixel(uint64_t, uint64_t);
 
-PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel);
+PRIVATE void SetPixel(uint64_t, uint64_t, Pixel);
 
 #endif
 /* }}} */
@@ -187,7 +187,7 @@ PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel);
  * struct variable and using that pixel struct within
  * this module.
  */
-void RenderPixel(RCL_PixelInfo* pixel);
+void RenderPixel(RCL_PixelInfo *);
 
 /**
  * This function is passed to the raycastlib
@@ -195,7 +195,7 @@ void RenderPixel(RCL_PixelInfo* pixel);
  * allows the library to see the Squares in our map
  * without hampering our implementation of the map.
  */
-RCL_Unit QueryPixelHeight(int64_t x, int64_t y);
+RCL_Unit QueryPixelHeight(int64_t, int64_t);
 
 #endif
 /* }}} */

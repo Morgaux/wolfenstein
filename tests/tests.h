@@ -8,11 +8,11 @@
 
 /* TEST FUNCTION DECLARATIONS {{{ */
 
-void warn(const char * msg);
+void warn(const char *);
 
-void fail(const char * msg);
+void fail(const char *);
 
-void assert(int cond, const char * msg);
+void assert(int, const char *);
 
 /* }}} */
 
