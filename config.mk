@@ -152,24 +152,42 @@ W_IGNORE ?= unknown-warning-option
 # passing the level of control with be an unrecognised option ignored by
 # -Wno-unknown-warning-option but we still want the available
 # -Wimplicit-fallthrough to be selected.
-WARNINGS += implicit-fallthrough \
-            implicit-fallthrough=4 \
+WARNINGS += bool-operation \
             comment \
+            comments \
             conversion \
             dangling-else \
             declaration-after-statement \
             deprecated \
             empty-body \
+            duplicated-branches \
+            duplicated-cond \
+            expansion-to-defined \
             format \
             implicit \
+            implicit-fallthrough \
+            implicit-fallthrough=4 \
+            logical-not-parentheses \
             main \
+            missing-declarations \
             misleading-indentation \
+            missing-prototypes \
+            parentheses \
+            switch \
+            switch-bool \
+            switch-default \
+            switch-enum \
+            switch-unreachable \
+            traditional \
+            traditional-conversion \
+            undef \
             unreachable-code \
             unused-macros
-W_IGNORE += unused \
-            unused-function \
-            unused-parameter \
-            unused-variable
+
+# These are the custom warnings to ignore that are specific to the project,
+# these are added before the other warning options are given, the order
+# shouldn't matter but just in case.
+W_IGNORE += missing-include-dirs unused
 
 
 # Adding 'error' to ${WARNINGS} will result in all warnings being treated as
