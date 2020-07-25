@@ -79,7 +79,7 @@ _Pragma("GCC diagnostic pop")
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
+PUBLIC int ConfigureRendering(RenderConfig config) { /* {{{ */
 	RCL_initCamera(&camera);
 
 	camera.position.x   = config.cameraPosX;
@@ -101,8 +101,8 @@ PUBLIC int64_t ConfigureRendering(RenderConfig config) { /* {{{ */
 	return 0;
 } /* }}} */
 
-PUBLIC Square GetSquare(uint64_t x, uint64_t y) { /* {{{ */
-	uint64_t index = y * map.width + x;
+PUBLIC Square GetSquare(int x, int y) { /* {{{ */
+	int index = y * map.width + x;
 
 	if (mapCreatedSuccess != initialised) {
 		die("The rendering.c 'map' has not been initialised.");
@@ -111,8 +111,8 @@ PUBLIC Square GetSquare(uint64_t x, uint64_t y) { /* {{{ */
 	return *(map.grid + index);
 } /* }}} */
 
-PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square) { /* {{{ */
-	uint64_t index = y * map.width + x;
+PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
+	int index = y * map.width + x;
 
 	if (mapCreatedSuccess != initialised) {
 		die("The rendering.c 'map' has not been initialised.");
@@ -121,39 +121,39 @@ PUBLIC void SetSquare(uint64_t x, uint64_t y, Square square) { /* {{{ */
 	*(map.grid + index) = square;
 } /* }}} */
 
-PUBLIC void PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture) { /* {{{ */
+PUBLIC void PlaceRectangularRoom(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture) { /* {{{ */
+PUBLIC void PlaceCircularRoom(int x, int y, int r, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Render(uint64_t width, uint64_t length) { /* {{{ */
+PUBLIC void Render(int width, int length) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Turn(int64_t angle) { /* {{{ */
+PUBLIC void Turn(int angle) { /* {{{ */
 	camera.direction += angle;
 } /* }}} */
 
-PUBLIC void Walk(int64_t distance) { /* {{{ */
+PUBLIC void Walk(int distance) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Strafe(int64_t distance) { /* {{{ */
+PUBLIC void Strafe(int distance) { /* {{{ */
 } /* }}} */
 
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
+PRIVATE initState CreateMap(int width, int length) { /* {{{ */
 	switch (mapCreatedSuccess) {
 	case uninitialised:
 		/* map has not been initialized yet, do it now */
 		map.width  = width;
 		map.length = length;
-		map.grid   = malloc(sizeof (Square) * width * length);
+		map.grid   = malloc(sizeof (Square) * (size_t)(width * length));
 
 		/* mark completion */
 		mapCreatedSuccess = initialised;
@@ -181,13 +181,13 @@ PRIVATE int64_t CreateMap(uint64_t width, uint64_t length) { /* {{{ */
 	return mapCreatedSuccess;
 } /* }}} */
 
-PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
+PRIVATE initState CreateFrame(int width, int height) { /* {{{ */
 	switch (frameCreatedSuccess) {
 	case uninitialised:
 		/* frame has not been initialized yet, do it now */
 		frame.width  = width;
 		frame.height = height;
-		frame.pixels = malloc(sizeof (Pixel) * width * height);
+		frame.pixels = malloc(sizeof (Pixel) * (size_t)(width * height));
 
 		/* mark completion */
 		frameCreatedSuccess = initialised;
@@ -215,8 +215,8 @@ PRIVATE int64_t CreateFrame(uint64_t width, uint64_t height) { /* {{{ */
 	return frameCreatedSuccess;
 } /* }}} */
 
-PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
-	uint64_t index = y * frame.width + x;
+PRIVATE Pixel GetPixel(int x, int y) { /* {{{ */
+	int index = y * frame.width + x;
 
 	if (frameCreatedSuccess != initialised) {
 		die("The rendering.c 'frame' has not been initialised.");
@@ -225,8 +225,8 @@ PRIVATE Pixel GetPixel(uint64_t x, uint64_t y) { /* {{{ */
 	return *(frame.pixels + index);
 } /* }}} */
 
-PRIVATE void SetPixel(uint64_t x, uint64_t y, Pixel pixel) { /* {{{ */
-	uint64_t index = y * frame.width + x;
+PRIVATE void SetPixel(int x, int y, Pixel pixel) { /* {{{ */
+	int index = y * frame.width + x;
 
 	if (frameCreatedSuccess != initialised) {
 		die("The rendering.c 'frame' has not been initialised.");
@@ -256,12 +256,13 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	static const char asciiShades[] = "HXi/:;.              ";
 
 	char c;
-	uint8_t shade = 3 - RCL_min(3, pixel->depth / RCL_UNITS_PER_SQUARE);
+	/* These casts are safe since we are casting literals */
+	uint8_t shade = (uint8_t)3 - (uint8_t)RCL_min((uint8_t)3, pixel->depth / RCL_UNITS_PER_SQUARE);
 
 	if (pixel->isWall) {
 		switch (pixel->hit.direction) {
 		case 0:
-			shade += 2; /* FALLTHROUGH */
+			shade += (uint8_t)2; /* FALLTHROUGH */
 		case 1:
 			c = asciiShades[shade];
 			break;
@@ -293,7 +294,7 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
  * allows the library to see the Squares in our map
  * without hampering our implementation of the map.
  */
-RCL_Unit QueryPixelHeight(int64_t x, int64_t y) { /* {{{ */
+RCL_Unit QueryPixelHeight(int x, int y) { /* {{{ */
 	int64_t index = y * map.width + x;
 
 	return (index < 0 || (index >= (int64_t)(map.width * map.length))

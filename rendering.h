@@ -60,17 +60,17 @@
  */
 
 typedef struct { /* RENDER CONFIG {{{ */
-	uint64_t cameraPosX;
-	uint64_t cameraPosY;
-	uint64_t cameraResX;
-	uint64_t cameraResY;
-	uint64_t cameraStartHeight;
-	uint64_t cameraStartDirection;
-	uint64_t cameraViewDistance;
-	uint64_t mapWidth;
-	uint64_t mapHeight;
-	uint64_t frameWidth;
-	uint64_t frameHeight;
+	int      cameraPosX;
+	int      cameraPosY;
+	int      cameraResX;
+	int      cameraResY;
+	int      cameraStartHeight;
+	int      cameraStartDirection;
+	uint16_t cameraViewDistance; /* raycastlib uses uint16_t here */
+	int      mapWidth;
+	int      mapHeight;
+	int      frameWidth;
+	int      frameHeight;
 } RenderConfig; /* }}} */
 
 typedef struct { /* PIXEL {{{ */
@@ -81,35 +81,35 @@ typedef struct { /* PIXEL {{{ */
 } Pixel; /* }}} */
 
 typedef struct { /* SQUARE {{{ */
-	int64_t height; /* vertical size off floor, negative if off ceiling */
+	int height; /* vertical size off floor, negative if off ceiling */
 	Pixel*  pixels; /* array of the Pixels this square has vertically   */
 } Square; /* }}} */
 
 typedef struct { /* TEXTURE {{{ */
-	uint64_t width;  /* horizontal size of the Texture  */
-	uint64_t height; /* vertical size of the Texture    */
-	Pixel*  pixels;  /* array of Pixels in this Texture */
+	int     width;  /* horizontal size of the Texture  */
+	int     height; /* vertical size of the Texture    */
+	Pixel * pixels; /* array of Pixels in this Texture */
 } Texture; /* }}} */
 
-PUBLIC int64_t ConfigureRendering(RenderConfig);
+PUBLIC int ConfigureRendering(RenderConfig);
 
-PUBLIC Square GetSquare(uint64_t, uint64_t);
+PUBLIC Square GetSquare(int, int);
 
-PUBLIC void SetSquare(uint64_t, uint64_t, Square);
+PUBLIC void SetSquare(int, int, Square);
 
-PUBLIC void PlaceWall(uint64_t, uint64_t, int64_t, int64_t, Texture);
+PUBLIC void PlaceWall(int, int, int, int, Texture);
 
-PUBLIC void PlaceRectangularRoom(uint64_t, uint64_t, int64_t, int64_t, Texture);
+PUBLIC void PlaceRectangularRoom(int, int, int, int, Texture);
 
-PUBLIC void PlaceCircularRoom(uint64_t, uint64_t, uint64_t, Texture);
+PUBLIC void PlaceCircularRoom(int, int, int, Texture);
 
-PUBLIC void Render(uint64_t, uint64_t);
+PUBLIC void Render(int, int);
 
-PUBLIC void Turn(int64_t);
+PUBLIC void Turn(int);
 
-PUBLIC void Walk(int64_t);
+PUBLIC void Walk(int);
 
-PUBLIC void Strafe(int64_t);
+PUBLIC void Strafe(int);
 
 /* }}} */
 
@@ -123,8 +123,8 @@ PUBLIC void Strafe(int64_t);
 #ifdef RENDERING_C
 
 PRIVATE struct Map { /* {{{ */
-	uint64_t width;  /* size of the x axis           */
-	uint64_t length; /* size of the y axis           */
+	int      width;  /* size of the x axis           */
+	int      length; /* size of the y axis           */
 	Square * grid;   /* array of Squares in this Map */
 } map = {
 	.width  = 0,
@@ -133,16 +133,16 @@ PRIVATE struct Map { /* {{{ */
 }; /* }}} */
 
 PRIVATE struct Frame { /* {{{ */
-	uint64_t width;  /* horizontal size of the Frame  */
-	uint64_t height; /* vertical size of the Frame    */
-	Pixel *  pixels; /* array of Pixels in this Frame */
+	int     width;  /* horizontal size of the Frame  */
+	int     height; /* vertical size of the Frame    */
+	Pixel * pixels; /* array of Pixels in this Frame */
 } frame = {
 	.width  = 0,
 	.height = 0,
 	.pixels = NULL
 }; /* }}} */
 
-typedef enum { /* {{{ */
+typedef enum { /* initState {{{ */
 	uninitialised,
 	initialised,
 	recreate
@@ -156,13 +156,13 @@ PRIVATE RCL_Camera camera;
 
 PRIVATE RCL_RayConstraints constraints;
 
-PRIVATE int64_t CreateMap(uint64_t, uint64_t);
+PRIVATE initState CreateMap(int, int);
 
-PRIVATE int64_t CreateFrame(uint64_t, uint64_t);
+PRIVATE initState CreateFrame(int, int);
 
-PRIVATE Pixel GetPixel(uint64_t, uint64_t);
+PRIVATE Pixel GetPixel(int, int);
 
-PRIVATE void SetPixel(uint64_t, uint64_t, Pixel);
+PRIVATE void SetPixel(int, int, Pixel);
 
 #endif
 /* }}} */
@@ -195,7 +195,7 @@ void RenderPixel(RCL_PixelInfo *);
  * allows the library to see the Squares in our map
  * without hampering our implementation of the map.
  */
-RCL_Unit QueryPixelHeight(int64_t, int64_t);
+RCL_Unit QueryPixelHeight(int, int);
 
 #endif
 /* }}} */
