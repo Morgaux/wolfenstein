@@ -171,7 +171,6 @@ WARNINGS += all \
             logical-not-parentheses \
             misleading-indentation \
             parentheses \
-            traditional-conversion \
             undef \
             unused-macros
 
@@ -210,6 +209,7 @@ ERR_WARN += declaration-after-statement \
             switch-default \
             switch-enum \
             switch-unreachable \
+            traditional-conversion \
             unreachable-code
 
 # This variable is expanded in the compiler options as -Wno-error=<FOO>, which
