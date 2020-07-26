@@ -122,25 +122,30 @@ DIST_TGZ   := ${DIST_DIR}.tar.gz
 
 # COMPILATION {{{
 
-# These define compiler options to be passed to the complier during the build
-# process. These may be given on their own or with the specific value. These
-# values are appended to the ${DEFINES} variable so any additions my be given on
-# the commandline invocation of make.
+# DEFINES {{{
+# These variables define symbols to be passed to the preprocessor during the
+# compilation process. These may be given on their own or with specific values,
+# such as for use with #ifdef and similar directives, or to be expanded in the
+# source. Examples of the later are the ${FLAVOUR} and ${VERSION} variables,
+# which are accessible in the source code as well.
+
+# The ${DEFINES} variable is expanded and each symbol (and value if given) is
+# passed to the compiler using the -D flag.
 DEFINES += ${FLAVOUR} \
+           FLAVOUR=\"${FLAVOUR}\" \
            VERSION=\"${VERSION}\" \
            _POSIX_C_SOURCE=200809L \
            _DEFAULT_SOURCE \
            _BSD_SOURCE
 
+# }}}
+
+# WARNINGS {{{
 # These define the types of warnings to provide during compilation and are
 # passed to the compiler as -W options. By default most verbose warnings are
-# enabled. However, if provided on the command line, these default values will
-# be overriden by the user defined warnings.
-#
-# NOTE: Use ${WARNINGS} to provide compiler warnings to issue, and ${W_IGNORE}
-# to provide the warnings to ignore if found.
-WARNINGS ?= all extra
-W_IGNORE ?= unused
+# enabled. Both ${WARNINGS} and ${W_IGNORE} may be added to on the commandline
+# invocation of make(1). Use ${WARNINGS} to provide compiler warnings to issue,
+# and ${W_IGNORE} to provide the warnings to ignore if found.
 
 # These are the custom warnings that are specific to this project, these are
 # added after the user specified warnings and so are not user over-ridable,
@@ -151,49 +156,71 @@ W_IGNORE ?= unused
 # passing the level of control with be an unrecognised option ignored by
 # -Wno-unknown-warning-option but we still want the available
 # -Wimplicit-fallthrough to be selected.
-WARNINGS += bool-operation \
+WARNINGS += all \
+            extra \
+            bool-operation \
             comment \
             comments \
             conversion \
             dangling-else \
-            declaration-after-statement \
-            deprecated \
             empty-body \
             duplicated-branches \
             duplicated-cond \
             expansion-to-defined \
             format \
-            implicit \
-            implicit-fallthrough \
-            implicit-fallthrough=4 \
             logical-not-parentheses \
-            main \
-            missing-declarations \
             misleading-indentation \
-            missing-prototypes \
             parentheses \
-            switch \
-            switch-bool \
-            switch-default \
-            switch-enum \
-            switch-unreachable \
             traditional \
             traditional-conversion \
             undef \
-            unreachable-code \
             unused-macros
 
 # These are the custom warnings to ignore that are specific to the project,
 # these are added before the other warning options are given, the order
 # shouldn't matter but just in case.
-W_IGNORE += missing-include-dirs
+W_IGNORE += unused missing-include-dirs
 
+# }}}
 
-# Adding 'error' to ${WARNINGS} will result in all warnings being treated as
-# errors and halting the compilation process. This is desirable but not always
-# possible, if this behaviour is desired, pass WARNINGS=error on the commandline
-# invocation of make or uncomment this line.
-#WARNINGS += error
+# ERRORS {{{
+# These are the warnings that we want the compiler to issue errors for rather
+# than just warnings, as well as the errors we want to downgrade to simply be
+# warnings. This allows for broad error options to be selected, e.g. -Werror,
+# while still allowing any warnings we don't care about to be allowed.
+#
+# NOTE: Any values given in ${W_IGNORE} are not issues as warnings and so will
+# already not trigger errors even if -Werror is given. Also note that passing an
+# option to ${ERR_WARN} implies that it is in ${WARNINGS} and will be treated as
+# such by the compiler, but %{E_IGNORE} does not necessarily imply ${W_IGNORE}.
+
+# This variable is later expanded in the compiler options as -Werror=<FOO>,
+# explicitly stating that these warnings should be enabled, as if -W<FOO> was
+# given, and that they should be treated as errors.
+ERR_WARN += declaration-after-statement \
+            deprecated \
+            implicit \
+            implicit-fallthrough \
+            implicit-fallthrough=4 \
+            main \
+            missing-declarations \
+            missing-prototypes \
+            switch \
+            switch-bool \
+            switch-default \
+            switch-enum \
+            switch-unreachable \
+            unreachable-code
+
+# This variable is expanded in the compiler options as -Wno-error=<FOO>, which
+# prevents these warnings from triggering errors.
+E_IGNORE += 
+
+# }}}
+
+# OPTIMISATIONS {{{
+# This section defines the options used for the optimisation of the compilation
+# process and resultant executable.
 
 # This defines the level and type of optimisation to use during compilation. The
 # available options are '0', '1', '2', '3', 's', 'g', or 'fast'. The numbers
@@ -208,17 +235,35 @@ W_IGNORE += missing-include-dirs
 # recommended that the optimisation level used is '3'.
 OPTIMISATION_LEVEL ?= 3
 
+# }}}
+
+# LANGUAGE STANDARDS {{{
+# This section defines the specific language standard to use, e.g. c89 or c++17.
+
 # These define the compilation language and language standard. Both of these are
 # required options but my be overwritten in the command invocation. Note that
 # this entire project is written assuming that these are set to 'c' and 'c99'.
 LANGUAGE ?= c
 STANDARD ?= c99
 
+# }}}
+
+# LIBRARIES {{{
+# This section defines the management of the libraries needed at compile time,
+# both the rendering backends, raycastlib and small3dlib, and system libraries.
+
 # This defines any dirs to search for included header files. By default the
 # ${LIB} dirs are included in the search path, this is mainly so that the
 # raycastlib and small3dlib libraries can be simply included as "normal" system
 # headerfiles.
 INCLUDES := ${LIB}
+
+# }}}
+
+# CFLAGS AND LDFLAGS {{{
+# This section defines the CFLAGS and LDFLAGS options, these are well known and
+# documented, and it is likely that a user will have their own flags set in
+# their corresponding ENV variables.
 
 # These are the generic compiler options to control the compilation of ${BIN}
 # and ${OBJ}. Note that these are added to any existing value of ${CFLAGS} so
@@ -228,15 +273,27 @@ CFLAGS += -g -pedantic \
           ${DEFINES:%=-D%} \
           ${W_IGNORE:%=-Wno-%} \
           ${WARNINGS:%=-W%} \
+          ${ERR_WARN:%=-Werror=%} \
+          ${E_IGNORE:%=-Wno-error=%} \
           ${OPTIMISATION_LEVEL:%=-O%} \
           -x ${LANGUAGE} \
           -std=${STANDARD} \
           ${INCLUDES:%=-I%}
 
+# This defines the compiler options used to link together the full executable
+# from the *.o files defined by that specific build.
 LDFLAGS += 
+
+# }}}
+
+# COMPILER {{{
+# This section defines the compiler itself, including it's invocation command,
+# and any other configuration details needed for compilation and linking.
 
 # This defines the C language compiler.
 CC := cc
+
+# }}}
 
 # }}}
 

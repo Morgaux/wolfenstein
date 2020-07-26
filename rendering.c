@@ -254,10 +254,12 @@ PRIVATE void SetPixel(int x, int y, Pixel pixel) { /* {{{ */
  */
 void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	static const char asciiShades[] = "HXi/:;.              ";
-
+	Pixel ourPixel;
 	char c;
+	uint8_t shade;
+
 	/* These casts are safe since we are casting literals */
-	uint8_t shade = (uint8_t)3 - (uint8_t)RCL_min((uint8_t)3, pixel->depth / RCL_UNITS_PER_SQUARE);
+	shade = (uint8_t)(3 - RCL_min(3, pixel->depth / RCL_UNITS_PER_SQUARE));
 
 	if (pixel->isWall) {
 		switch (pixel->hit.direction) {
@@ -277,8 +279,6 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	} else {
 		c = pixel->isFloor ? '.' : ':';
 	}
-
-	Pixel ourPixel;
 
 	ourPixel.r = 0xff;
 	ourPixel.g = 0xff;
