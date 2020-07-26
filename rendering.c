@@ -55,10 +55,15 @@
  */
 _Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wconversion\"")
+_Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wdeclaration-after-statement\"")
+_Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wmissing-prototypes\"")
+_Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
+_Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wtraditional\"")
+_Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wtraditional-conversion\"")
 #include <raycastlib.h>
 _Pragma("GCC diagnostic pop")
