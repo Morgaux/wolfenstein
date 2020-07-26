@@ -77,11 +77,16 @@ PRIVATE void TestDie() { /* {{{ */
 } /* }}} */
 
 PRIVATE void TestFreeMem() { /* {{{ */
+	char * foo;
+	int predicate;
+
 	warn("testing utilities.freeMem(void ** ptr)...");
-	char * foo = malloc(sizeof (char) * 128);
+	foo = malloc(sizeof (char) * 128);
+
 	strcpy(foo, "Hello World!\n");
-	int predicate = strcmp(foo, "Hello World!\n");
+	predicate = strcmp(foo, "Hello World!\n");
 	assert(predicate == 0, "Test string is invalid.");
+
 	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
 	assert(foo == NULL, "String pointer was not reset to null.");
 } /* }}} */
