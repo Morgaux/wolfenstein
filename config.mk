@@ -171,7 +171,6 @@ WARNINGS += all \
             logical-not-parentheses \
             misleading-indentation \
             parentheses \
-            traditional \
             traditional-conversion \
             undef \
             unused-macros
