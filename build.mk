@@ -16,7 +16,7 @@ ${DRUMMY_FISH_LIBS}:
 	@if ! test -d $@ >/dev/null 2>&1                                     ; \
 	then                                                                   \
 		echo "${YELLOW}Fetching $@...${RESET}"                       ; \
-		git clone https://gitlab.com/drummyfish/$@.git/              ; \
+		git clone https://gitlab.com/morgaux/$@.git/                 ; \
 	fi
 
 # The config.h file is used to define user level configuration that isn't
