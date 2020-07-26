@@ -256,15 +256,15 @@ void RenderPixel(RCL_PixelInfo* pixel) { /* {{{ */
 	static const char asciiShades[] = "HXi/:;.              ";
 	Pixel ourPixel;
 	char c;
-	uint8_t shade;
+	int shade;
 
 	/* These casts are safe since we are casting literals */
-	shade = (uint8_t)(3 - RCL_min(3, pixel->depth / RCL_UNITS_PER_SQUARE));
+	shade = 3 - RCL_min(3, pixel->depth / RCL_UNITS_PER_SQUARE);
 
 	if (pixel->isWall) {
 		switch (pixel->hit.direction) {
 		case 0:
-			shade += (uint8_t)2; /* FALLTHROUGH */
+			shade += 2; /* FALLTHROUGH */
 		case 1:
 			c = asciiShades[shade];
 			break;
