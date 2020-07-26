@@ -21,17 +21,17 @@
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC int main();
+PUBLIC int main(void);
 
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PRIVATE void TestErr();
+PRIVATE void TestErr(void);
 
-PRIVATE void TestDie();
+PRIVATE void TestDie(void);
 
-PRIVATE void TestFreeMem();
+PRIVATE void TestFreeMem(void);
 
 /* }}} */
 

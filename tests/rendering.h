@@ -21,29 +21,29 @@
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC int main();
+PUBLIC int main(void);
 
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PRIVATE void TestConfigureRendering();
+PRIVATE void TestConfigureRendering(void);
 
-PRIVATE void TestGetSetSquare();
+PRIVATE void TestGetSetSquare(void);
 
-PRIVATE void TestPlaceWall();
+PRIVATE void TestPlaceWall(void);
 
-PRIVATE void TestPlaceRectangularRoom();
+PRIVATE void TestPlaceRectangularRoom(void);
 
-PRIVATE void TestPlaceCircularRoom();
+PRIVATE void TestPlaceCircularRoom(void);
 
-PRIVATE void TestRender();
+PRIVATE void TestRender(void);
 
-PRIVATE void TestTurn();
+PRIVATE void TestTurn(void);
 
-PRIVATE void TestWalk();
+PRIVATE void TestWalk(void);
 
-PRIVATE void TestStrafe();
+PRIVATE void TestStrafe(void);
 
 /* }}} */
 

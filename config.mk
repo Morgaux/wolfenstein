@@ -204,6 +204,7 @@ ERR_WARN += declaration-after-statement \
             main \
             missing-declarations \
             missing-prototypes \
+            strict-prototypes \
             switch \
             switch-bool \
             switch-default \
