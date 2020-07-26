@@ -159,6 +159,8 @@ DEFINES += ${FLAVOUR} \
 WARNINGS += all \
             extra \
             bool-operation \
+            c99-c11-compat \
+            c++-compat \
             comment \
             comments \
             conversion \
@@ -172,7 +174,8 @@ WARNINGS += all \
             misleading-indentation \
             parentheses \
             undef \
-            unused-macros
+            unused-macros \
+            write-strings
 
 # These are the custom warnings to ignore that are specific to the project,
 # these are added before the other warning options are given, the order

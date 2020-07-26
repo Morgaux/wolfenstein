@@ -59,9 +59,9 @@
  * provided here with the PUBLIC keyword.
  */
 
-PUBLIC void err(char *);
+PUBLIC void err(const char *);
 
-PUBLIC void die(char *);
+PUBLIC void die(const char *);
 
 PUBLIC void freeMem(void **);
 

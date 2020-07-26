@@ -153,13 +153,13 @@ PRIVATE initState CreateMap(int width, int length) { /* {{{ */
 		/* map has not been initialized yet, do it now */
 		map.width  = width;
 		map.length = length;
-		map.grid   = malloc(sizeof (Square) * (size_t)(width * length));
+		map.grid   = (Square *)malloc(sizeof (Square) * (size_t)(width * length));
 
 		/* mark completion */
 		mapCreatedSuccess = initialised;
 
 		/* return success */
-		return 0;
+		return initialised;
 
 	case initialised:
 		/* map has already be initialized */
@@ -187,13 +187,13 @@ PRIVATE initState CreateFrame(int width, int height) { /* {{{ */
 		/* frame has not been initialized yet, do it now */
 		frame.width  = width;
 		frame.height = height;
-		frame.pixels = malloc(sizeof (Pixel) * (size_t)(width * height));
+		frame.pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)(width * height));
 
 		/* mark completion */
 		frameCreatedSuccess = initialised;
 
 		/* return success */
-		return 0;
+		return initialised;
 
 	case initialised:
 		/* frame has already be initialized */

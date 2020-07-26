@@ -59,6 +59,8 @@
  * provided here with the PUBLIC keyword.
  */
 
+PUBLIC int main(void);
+
 /* }}} */
 
 /* PRIVATES {{{ */

@@ -38,11 +38,11 @@
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC void err(char * msg) {
+PUBLIC void err(const char * msg) {
 	fprintf(stderr, "%s\n", msg);
 }
 
-PUBLIC void die(char * msg) {
+PUBLIC void die(const char * msg) {
 	err(msg);
 	exit((errno == 0) ? 1 : errno);
 }
