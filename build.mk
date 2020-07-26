@@ -55,7 +55,7 @@ ${OBJ}: ${LIB}
 # together the compiled ${OBJ} object files for each of the modules and
 # additionally triggers the creation of the config.h file as it is used for all
 # of the ${MAINS} builds.
-${MAINS}: config.h ${OBJ}
+${MAINS}: config.h defines.h tests/tests.h ${OBJ}
 	@echo "${YELLOW}Linking $@...${RESET}"
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
