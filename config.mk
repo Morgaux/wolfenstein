@@ -157,7 +157,6 @@ DEFINES += ${FLAVOUR} \
 # -Wno-unknown-warning-option but we still want the available
 # -Wimplicit-fallthrough to be selected.
 WARNINGS += all \
-            extra \
             bool-operation \
             c99-c11-compat \
             c++-compat \
@@ -165,10 +164,11 @@ WARNINGS += all \
             comments \
             conversion \
             dangling-else \
-            empty-body \
             duplicated-branches \
             duplicated-cond \
+            empty-body \
             expansion-to-defined \
+            extra \
             format \
             logical-not-parentheses \
             misleading-indentation \
