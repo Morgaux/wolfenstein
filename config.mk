@@ -264,32 +264,108 @@ INCLUDES := ${LIB}
 # documented, and it is likely that a user will have their own flags set in
 # their corresponding ENV variables.
 
+# FLAG SUB GROUPS {{{
+
+# FLAVOUR FLAGS {{{
+# This section defines the flags that are only passed to CFLAGS when in a
+# certain ${FLAVOUR}, for example to only pass certain warnings or errors when
+# building with the DEBUG ${FLAVOUR}.
+
+# These are the flags that are only passed to the compiler when the ${FLAVOUR}
+# is DEBUG. This is done by replacing DEBUG with the flags and then replacing
+# RELEASE and CURRENT with nothing, meaning that the actual value of ${FLAVOUR}
+# is not included in the value of ${DEBUG_FLAGS}.
+#
+# NOTE: This same pattern works for other values of ${FLAVOUR}, however, this
+# means that there are cascading changes needed if the possible values of
+# ${FLAVOUR} ever change from DEBUG, CURRENT, and RELEASE.
+DEBUG_FLAGS := ${FLAVOUR:DEBUG=-g}
+DEBUG_FLAGS := ${DEBUG_FLAGS:RELEASE=}
+DEBUG_FLAGS := ${DEBUG_FLAGS:CURRENT=}
+
+# These are the flags passed when ${FLAVOUR} is CURRENT, again, following the
+# above pattern.
+CURRENT_FLAGS := ${FLAVOUR:CURRENT=}
+CURRENT_FLAGS := ${CURRENT_FLAGS:DEBUG=}
+CURRENT_FLAGS := ${CURRENT_FLAGS:RELEASE=}
+
+# And finally these are the flags passed when ${FLAVOUR} is RELEASE.
+RELEASE_FLAGS := ${FLAVOUR:RELEASE=-Werror}
+RELEASE_FLAGS := ${RELEASE_FLAGS:DEBUG=}
+RELEASE_FLAGS := ${RELEASE_FLAGS:CURRENT=}
+
+# This it the combined result of the above so that the ${FLAVOUR} specific flags
+# may be passed as one systematically.
+FLAVOUR_FLAGS := ${DEBUG_FLAGS} ${CURRENT_FLAGS} ${RELEASE_FLAGS}
+
+# }}}
+
+# DEFINE FLAGS {{{
+# This section defines ${DEFINE_FLAGS} which hold the expanded flags for the
+# preprocessor define symbols.
+
+DEFINE_FLAGS := ${DEFINES:%=-D%}
+
+# }}}
+
+# WARNING AND ERROR FLAGS {{{
+# This section defines a new variable;, ${WARNING_FLAGS}, which defines the
+# flags from the ${WARNINGS}, ${W_IGNORE}, ${ERR_WARN}, and ${E_IGNORE} values
+# defined above. This allows for all of the warning and error related flags to
+# be formatted and bundled together.
+
+WARNING_FLAGS := -pedantic \
+                 ${W_IGNORE:%=-Wno-%} \
+                 ${WARNINGS:%=-W%} \
+                 ${ERR_WARN:%=-Werror=%} \
+                 ${E_IGNORE:%=-Wno-error=%}
+
+# }}}
+
+# OPTIMISATION FLAGS {{{
+# This section defines the optimisation flags for the compiler.
+
+OPTIMISATION_FLAGS := ${OPTIMISATION_LEVEL:%=-O%}
+
+# }}}
+
+# LANGUAGE STANDARD FLAGS {{{
+# This section defines both the language used, e.g. C vs C++, as well as the
+# particular standard to use, e.g. C89 vs C11, and converts these to the
+# appropriate flags.
+
+LANGUAGE_STANDARD_FLAGS := -x ${LANGUAGE} -std=${STANDARD}
+
+# }}}
+
+# LIBRARY FLAGS {{{
+# This section defines all the library managment flags needed for compilation
+# and linking, such as the -I, -L and -l flags.
+
+LIBRARY_FLAGS := ${INCLUDES:%=-I%}
+
+# }}}
+
+# }}}
+
 # These are the generic compiler options to control the compilation of ${BIN}
 # and ${OBJ}. Note that these are added to any existing value of ${CFLAGS} so
 # these may be configured further by passing value to the make invocation on the
 # commandline.
-CFLAGS += -g -pedantic \
-          ${DEFINES:%=-D%} \
-          ${W_IGNORE:%=-Wno-%} \
-          ${WARNINGS:%=-W%} \
-          ${ERR_WARN:%=-Werror=%} \
-          ${E_IGNORE:%=-Wno-error=%} \
-          ${OPTIMISATION_LEVEL:%=-O%} \
-          -x ${LANGUAGE} \
-          -std=${STANDARD} \
-          ${INCLUDES:%=-I%}
+CFLAGS += ${FLAVOUR_FLAGS} \
+          ${DEFINE_FLAGS} \
+          ${WARNING_FLAGS} \
+          ${OPTIMISATION_FLAGS} \
+          ${LANGUAGE_STANDARD_FLAGS} \
+          ${LIBRARY_FLAGS}
 
 # This defines the compiler options used to link together the full executable
 # from the *.o files defined by that specific build.
 LDFLAGS += 
 
-# }}}
-
-# COMPILER {{{
-# This section defines the compiler itself, including it's invocation command,
-# and any other configuration details needed for compilation and linking.
-
-# This defines the C language compiler.
+# This defines the C language compiler command to be used, although compiler
+# flags should be passed through ${CFLAGS} and ${LDFLAGS}, special exceptions
+# may be added here to be directly in the compiler invocation.
 CC := cc
 
 # }}}
