@@ -205,6 +205,8 @@ ERR_WARN += declaration-after-statement \
             implicit-fallthrough=4 \
             main \
             missing-declarations \
+            missing-field-initializers \
+            missing-parameter-type \
             missing-prototypes \
             strict-prototypes \
             switch \
