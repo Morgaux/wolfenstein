@@ -178,7 +178,7 @@ WARNINGS += all \
 # These are the custom warnings to ignore that are specific to the project,
 # these are added before the other warning options are given, the order
 # shouldn't matter but just in case.
-W_IGNORE += unused missing-include-dirs
+W_IGNORE += missing-include-dirs unknown-warning-option unused
 
 # }}}
 
