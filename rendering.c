@@ -62,6 +62,11 @@ _Pragma("GCC diagnostic ignored \"-Wtraditional\"")
 _Pragma("GCC diagnostic ignored \"-Wtraditional-conversion\"")
 #include <raycastlib.h>
 _Pragma("GCC diagnostic pop")
+_Pragma("GCC diagnostic pop")
+_Pragma("GCC diagnostic pop")
+_Pragma("GCC diagnostic pop")
+_Pragma("GCC diagnostic pop")
+_Pragma("GCC diagnostic pop")
 
 /**
  * This module provides useful abstractions for some
