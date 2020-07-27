@@ -78,10 +78,12 @@ ${TEST_ACTIONS:%=test_%}:
 test: ${TEST_ACTIONS:%=test_%}
 	@if grep -q FAIL .test_results                                       ; \
 	then                                                                   \
+		rm -f .test_results                                          ; \
 		echo " "                                                     ; \
 		echo "${RED}THERE ARE TEST FAILURES${RESET}"                 ; \
 		exit 1                                                       ; \
-	fi
+	fi                                                                   ; \
+	rm -f .test_results || true
 
 # This target displays a help message of the available test cases to run in bulk
 # via the 'test' action or individually via each respective 'test_FOO' action.
