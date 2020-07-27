@@ -39,7 +39,8 @@ TEST_ACTIONS := ${WOLF_3D} \
                 ${WOLF_3D:%=%_no_warnings} \
                 ${PHONIES} \
                 ${DRUMMY_FISH_LIBS} \
-                ${MODULES}
+                ${MODULES} \
+                ${COMPILERS}
 
 # }}}
 
@@ -227,6 +228,9 @@ ${DRUMMY_FISH_LIBS:%=run_test_%}:
 ${MODULES:%=run_test_%}:
 	make BIN=${@:run_test_%=tests/%} run
 
+${COMPILERS:%=run_test_%}:
+	make CC=${@:run_test_%=%} run
+
 # }}}
 
 # HELP MESSAGES {{{
@@ -284,6 +288,14 @@ ${MODULES:%=test_%_help_message}:
 	@${INDENT} "main() function that runs the ${@:test_%_help_message=%}"
 	@${INDENT} "module's functions with dummy inputs and sanity checks the"
 	@${INDENT} "results."
+
+${COMPILERS:%=test_%_help_message}:
+	@make -s ${@:%_help_message=%_usage_message}
+	@${INDENT} "This test ensures that ${WOLF_3D} project can be compiled"
+	@${INDENT} "and linked with the ${BOLD}$${CC}${RESET} compiler set to"
+	@${INDENT} "${BOLD}${@:test_%_help_message=%}${REST}, assuming that it"
+	@${INDENT} "available on the building machine, if not then this test"
+	@${INDENT} "will simply fail."
 
 # }}}
 

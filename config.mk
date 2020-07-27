@@ -369,10 +369,16 @@ CFLAGS += ${FLAVOUR_FLAGS} \
 # from the *.o files defined by that specific build.
 LDFLAGS += 
 
+# This defines the supported compilers, while not strictly exhaustive nor
+# exclusive, this A) allows for unit tests to be added in the tests.mk file to
+# check that each compiler exists and can successfully build the project, and B)
+# makes it easy to see what the available values are for ${CC}.
+COMPILERS := cc gcc clang
+
 # This defines the C language compiler command to be used, although compiler
 # flags should be passed through ${CFLAGS} and ${LDFLAGS}, special exceptions
 # may be added here to be directly in the compiler invocation.
-CC := cc
+CC ?= cc
 
 # }}}
 
