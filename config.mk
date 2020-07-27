@@ -263,6 +263,11 @@ STANDARD ?= c99
 # headerfiles.
 INCLUDES := ${LIB}
 
+# This defines the system libraries to link the final executable against, e.g.
+# the math.h system library. These libraries are expanded as arguments to the
+# '-l' compiler (linker) flag.
+LIBRARIES := m
+
 # }}}
 
 # CFLAGS AND LDFLAGS {{{
@@ -345,10 +350,10 @@ LANGUAGE_STANDARD_FLAGS := -x ${LANGUAGE} -std=${STANDARD}
 # }}}
 
 # LIBRARY FLAGS {{{
-# This section defines all the library managment flags needed for compilation
+# This section defines all the library management flags needed for compilation
 # and linking, such as the -I, -L and -l flags.
 
-LIBRARY_FLAGS := ${INCLUDES:%=-I%}
+LIBRARY_FLAGS := ${INCLUDES:%=-I%} ${LIBRARIES:%=-l%}
 
 # }}}
 
@@ -360,14 +365,14 @@ LIBRARY_FLAGS := ${INCLUDES:%=-I%}
 # commandline.
 CFLAGS += ${FLAVOUR_FLAGS} \
           ${DEFINE_FLAGS} \
+          ${LIBRARY_FLAGS} \
           ${WARNING_FLAGS} \
           ${OPTIMISATION_FLAGS} \
-          ${LANGUAGE_STANDARD_FLAGS} \
-          ${LIBRARY_FLAGS}
+          ${LANGUAGE_STANDARD_FLAGS}
 
 # This defines the compiler options used to link together the full executable
 # from the *.o files defined by that specific build.
-LDFLAGS += 
+LDFLAGS += ${LIBRARY_FLAGS}
 
 # This defines the supported compilers, while not strictly exhaustive nor
 # exclusive, this A) allows for unit tests to be added in the tests.mk file to
