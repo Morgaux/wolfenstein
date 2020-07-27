@@ -180,8 +180,6 @@ PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 		freeMem((void**)&square.pixels);
 
 		TODO("Implement the x and y coordinate selection.")
-
-		break; /* only implement the first square for now */
 	}
 } /* }}} */
 
