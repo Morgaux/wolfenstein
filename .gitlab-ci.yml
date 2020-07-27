@@ -2,6 +2,14 @@
 before_script:
   - apt-get update -qq && apt-get install -y -qq make gcc clang git
 
+build:
+  script:
+    - make
+
+release:
+  script:
+    - make FLAVOUR=RELEASE dist
+
 test:
   script:
     - make test
