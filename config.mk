@@ -513,16 +513,7 @@ config:
 # old version from leaking into an install build.
 clean:
 	@${PRINTF} "${YELLOW}Cleaning build files...${RESET}"
-	@# This replaces a plain call of ${CLEAN} by appending the config.h file
-	@# to the clean macro to remove any old definitions during development.
-	@if [ "${FLAVOUR}" = "DEBUG" ]                                       ; \
-	then                                                                   \
-		echo "${CLEAN} config.h"                                     ; \
-		${CLEAN} config.h                                            ; \
-	else                                                                   \
-		echo "${CLEAN}"                                              ; \
-		${CLEAN}                                                     ; \
-	fi
+	${CLEAN}
 
 # The 'dist' phony target triggers the creation of a distributable tar ball of
 # all source files. This allows for a release to be created as a single stage
