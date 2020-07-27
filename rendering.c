@@ -53,15 +53,20 @@
  * to allow it to be included via <...> syntax rather
  * than "..." syntax.
  */
-_Pragma("GCC diagnostic push")
-_Pragma("GCC diagnostic ignored \"-Wconversion\"")
-_Pragma("GCC diagnostic ignored \"-Wdeclaration-after-statement\"")
-_Pragma("GCC diagnostic ignored \"-Wmissing-prototypes\"")
-_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
-_Pragma("GCC diagnostic ignored \"-Wtraditional\"")
-_Pragma("GCC diagnostic ignored \"-Wtraditional-conversion\"")
+PUSH_DIAGNOSTIC("-Wconversion")
+PUSH_DIAGNOSTIC("-Wdeclaration-after-statement")
+PUSH_DIAGNOSTIC("-Wmissing-prototypes")
+PUSH_DIAGNOSTIC("-Wsign-conversion")
+PUSH_DIAGNOSTIC("-Wtraditional")
+PUSH_DIAGNOSTIC("-Wtraditional-conversion")
+TODO("Create a Pull Request to fix raycastlib.h warnings")
 #include <raycastlib.h>
-_Pragma("GCC diagnostic pop")
+POP_DIAGNOSTIC("-Wtraditional-conversion")
+POP_DIAGNOSTIC("-Wtraditional")
+POP_DIAGNOSTIC("-Wsign-conversion")
+POP_DIAGNOSTIC("-Wmissing-prototypes")
+POP_DIAGNOSTIC("-Wdeclaration-after-statement")
+POP_DIAGNOSTIC("-Wconversion")
 
 /**
  * This module provides useful abstractions for some
