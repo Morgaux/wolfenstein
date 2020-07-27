@@ -81,6 +81,8 @@ PUBLIC int main() { /* {{{ */
 /* PRIVATE FUNCTIONS {{{ */
 
 PRIVATE void TestConfigureRendering() { /* {{{ */
+	RenderConfig config;
+
 	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
 	warn("there is no direct way to confirm this function's success, but");
 	warn("it must be called for the rest of the module to work correctly.");
@@ -88,70 +90,70 @@ PRIVATE void TestConfigureRendering() { /* {{{ */
 	warn("fail anyway.");
 
 	warn("using testing configuration...");
-	RenderConfig config = {
-		.cameraPosX           = 0,
-		.cameraPosY           = 0,
-		.cameraResX           = 100,
-		.cameraResY           = 100,
-		.cameraStartHeight    = 2,
-		.cameraStartDirection = 0,
-		.cameraViewDistance   = 40,
-		.mapWidth             = 100,
-		.mapHeight            = 100,
-		.frameWidth           = 100,
-		.frameHeight          = 100,
-	};
+	config.cameraPosX           = 0;
+	config.cameraPosY           = 0;
+	config.cameraResX           = 100;
+	config.cameraResY           = 100;
+	config.cameraStartHeight    = 2;
+	config.cameraStartDirection = 0;
+	config.cameraViewDistance   = 40;
+	config.mapWidth             = 100;
+	config.mapHeight            = 100;
+	config.frameWidth           = 100;
+	config.frameHeight          = 100;
 
 	warn("calling rendering.ConfigureRendering(RenderConfig config)");
 	ConfigureRendering(config);
 } /* }}} */
 
 PRIVATE void TestGetSetSquare() { /* {{{ */
+	Square square, newSqr;
+
 	warn("testing rendering.GetSquare(uint64_t x, uint64_t y) and...");
 	warn("testing rendering.SetSquare(uint64_t x, uint64_t y, Square square)...");
 
 	warn("Setting up first square...");
-	Square square;
 	square.height = 2;
-	square.pixels = malloc(sizeof (Pixel) * square.height);
+	square.pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)square.height);
 
 	warn("Setting first square to (0, 0)...");
 	SetSquare(0, 0, square);
 
 	warn("Getting second square from (0, 0)...");
-	Square newSqr = GetSquare(0, 0);
+	newSqr = GetSquare(0, 0);
 
 	assert(square.height == newSqr.height, "Square heights don't match.");
 	assert(square.pixels == newSqr.pixels, "Square pixels don't match.");
 } /* }}} */
 
 PRIVATE void TestPlaceWall() { /* {{{ */
+	int textureW = 1,
+	    textureH = 1,
+	    x        = 0,
+	    y        = 0,
+	    dx       = 1,
+	    dy       = 1;
+	Pixel * pixels;
+	Texture texture;
+
 	warn("testing rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture)...");
 
 	warn("Setting up dummy texture...");
-	int textureW = 1;
-	int textureH = 1;
-	Pixel * pixels = malloc(sizeof (Pixel) * textureW * textureH);
+	pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)(textureW * textureH));
 
 	for (int i = 0; i < textureW * textureH; i++) {
 		/* Set all of the pixels to a red '@' */
-		(*pixels).r     = 0xFF;
-		(*pixels).g     = 0x00;
-		(*pixels).b     = 0x00;
-		(*pixels).ascii = '@';
+		(pixels + i)->r     = 0xFF;
+		(pixels + i)->g     = 0x00;
+		(pixels + i)->b     = 0x00;
+		(pixels + i)->ascii = '@';
 	}
 
-	Texture texture = {
-		.width  = textureW,
-		.height = textureH,
-		.pixels = pixels
-	};
+	texture.width  = textureW;
+	texture.height = textureH;
+	texture.pixels = pixels;
 
 	warn("testing single point wall...");
-	int x  = 0;
-	int y  = 0;
-	int dx = 1;
-	int dy = 1;
 	PlaceWall(x, y, dx, dy, texture);
 	assert(GetSquare(x, y).pixels == pixels,                "Incorrect pixels in wall.");
 	assert(GetSquare(x + dx, y).pixels != pixels,           "Wall exceeds given dimensions.");
