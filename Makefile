@@ -33,7 +33,7 @@ include documentation.mk
 # implementations are separated from the installation logic.
 include installation.mk
 
-# This file defines all test cases and testing structures to run automation
+# These files define all test cases and testing structures to run automation
 # tests on all components of this repository, including the makefile system
 # itself, save of course for the tests.mk file itself. To test any given
 # component, run:
@@ -42,5 +42,8 @@ include installation.mk
 # 	make test
 # or, for a list of all testable components and their invocations, run:
 # 	make test_help
-include tests.mk
+include tests/testconfig.mk
+include tests/testmacros.mk
+include tests/teststructure.mk
+include tests/testcases.mk # Include after other test*.mk files
 

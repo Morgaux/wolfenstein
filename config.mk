@@ -96,7 +96,14 @@ BUILD_V := ${VERSION}-${FLAVOUR}
 # functionality.
 CODE_FILES := ${WOLF_3D:%=%.c} ${MODULES:%=%.c}
 HEAD_FILES := ${CODE_FILES:.c=.h} config.def.h defines.h
-TEST_FILES := ${C_TESTS:%=%.c} ${C_TESTS:%=%.h} tests/tests.h
+TEST_FILES := ${C_TESTS:%=%.c} \
+              ${C_TESTS:%=%.h} \
+              tests/tests.h \
+              tests/testcases.mk \
+              tests/testconfig.mk \
+              tests/testmacros.mk \
+              tests/teststructure.mk
+
 REPO_FILES := README.md LICENSE img
 MAKE_FILES := Makefile \
               build.mk \
@@ -105,8 +112,7 @@ MAKE_FILES := Makefile \
               dependencies.mk \
               documentation.mk \
               installation.mk \
-              source.mk \
-              tests.mk
+              source.mk
 
 # These flags control the compression and bundling tools.
 TAR_FLAGS  ?= -v
