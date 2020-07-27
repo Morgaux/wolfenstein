@@ -1,4 +1,4 @@
-#B
+#
 #
 # This file defines the main test cases and testing structures
 #
@@ -71,11 +71,17 @@ ${TEST_ACTIONS:%=test_%}:
 	else                                                                   \
 		${CLEAR_LINE}                                                ; \
 		${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"             ; \
-	fi || true
+	fi | tee -a .test_results
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
 test: ${TEST_ACTIONS:%=test_%}
+	@if grep -q FAIL .test_results                                       ; \
+	then                                                                   \
+		echo " "                                                     ; \
+		echo "${RED}THERE ARE TEST FAILURES${RESET}"                 ; \
+		exit 1                                                       ; \
+	fi
 
 # This target displays a help message of the available test cases to run in bulk
 # via the 'test' action or individually via each respective 'test_FOO' action.
