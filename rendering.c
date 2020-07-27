@@ -40,6 +40,7 @@
  * Include any external libraries and system headers
  * here, in order.
  */
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,7 +97,7 @@ PUBLIC int ConfigureRendering(RenderConfig config) { /* {{{ */
 
 	RCL_initRayConstraints(&constraints);
 
-	constraints.maxHits  = 1; // we don't need more than 1 hit here
+	constraints.maxHits  = 1; /* we don't need more than 1 hit here */
 	constraints.maxSteps = config.cameraViewDistance;
 
 	CreateMap(config.mapWidth, config.mapHeight);
@@ -109,6 +110,10 @@ PUBLIC int ConfigureRendering(RenderConfig config) { /* {{{ */
 PUBLIC Square GetSquare(int x, int y) { /* {{{ */
 	int index = y * map.width + x;
 
+	if (x < 0 || y < 0) {
+		die("Coordinates must be positive.");
+	}
+
 	if (mapCreatedSuccess != initialised) {
 		die("The rendering.c 'map' has not been initialised.");
 	}
@@ -119,6 +124,10 @@ PUBLIC Square GetSquare(int x, int y) { /* {{{ */
 PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
 	int index = y * map.width + x;
 
+	if (x < 0 || y < 0) {
+		die("Coordinates must be positive.");
+	}
+
 	if (mapCreatedSuccess != initialised) {
 		die("The rendering.c 'map' has not been initialised.");
 	}
@@ -127,6 +136,53 @@ PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
 } /* }}} */
 
 PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
+	Square square;
+	int i  = 0,
+	    j  = 0,
+	    tmp = 0,
+	    _x = x,
+	    _y = y;
+
+	fprintf(stderr, "x = %d,\n", x);
+	fprintf(stderr, "y = %d,\n", y);
+	fprintf(stderr, "dx = %d,\n", dx);
+	fprintf(stderr, "dy = %d,\n", dy);
+	fprintf(stderr, "texture = {\n");
+	fprintf(stderr, "\twidth = %d,\n", texture.width);
+	fprintf(stderr, "\theight = %d,\n", texture.height);
+	fprintf(stderr, "\tpixels = [\n");
+	for (tmp = 0; tmp < texture.width; tmp++) {
+	fprintf(stderr, "\t\t{ ");
+	fprintf(stderr, "r = %d ", (texture.pixels + tmp)->r);
+	fprintf(stderr, "g = %d ", (texture.pixels + tmp)->g);
+	fprintf(stderr, "b = %d ", (texture.pixels + tmp)->b);
+	fprintf(stderr, "ascii = %c ", (texture.pixels + tmp)->ascii);
+	fprintf(stderr, "}\n");
+	}
+	fprintf(stderr, "\t]\n");
+	fprintf(stderr, "}\n\n");
+
+	/* each square will have the same height as the texture */
+	square.height = texture.height;
+
+	/* loop through every position that the wall covers */
+	for (i = 0; i < fmax((float)x, (float)y); i++) {
+		square.pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)texture.height);
+
+		for (j = 0; j < texture.height; j++) {
+			*(square.pixels + j) = *(texture.pixels + (i % texture.width) + j);
+		}
+
+		/* set the square to that slice of the texture */
+		SetSquare(_x, _y, square);
+
+		/* free up the textureSlice for the next loop */
+		freeMem((void**)&square.pixels);
+
+		TODO("Implement the x and y coordinate selection.")
+
+		break; /* only implement the first square for now */
+	}
 } /* }}} */
 
 PUBLIC void PlaceRectangularRoom(int x, int y, int dx, int dy, Texture texture) { /* {{{ */

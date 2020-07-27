@@ -155,7 +155,7 @@ PRIVATE void TestPlaceWall() { /* {{{ */
 
 	warn("testing single point wall...");
 	PlaceWall(x, y, dx, dy, texture);
-	assert(GetSquare(x, y).pixels == pixels,                "Incorrect pixels in wall.");
+	assert(GetSquare(x, y).pixels->ascii == pixels->ascii,  "Incorrect pixels in wall.");
 	assert(GetSquare(x + dx, y).pixels != pixels,           "Wall exceeds given dimensions.");
 	assert(GetSquare(x, y + dy + dx).pixels != pixels,      "Wall exceeds given dimensions.");
 	assert(GetSquare(x + dx, y + dy + dx).pixels != pixels, "Wall exceeds given dimensions.");
