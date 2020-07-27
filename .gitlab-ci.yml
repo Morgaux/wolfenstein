@@ -1,16 +1,61 @@
 
+stages:
+  - build
+  - test
+  - deploy
+
 before_script:
   - apt-get update -qq && apt-get install -y -qq make gcc clang git
 
-build:
-  script:
-    - make
+# BUILD STAGE {{{
 
-release:
-  script:
-    - make FLAVOUR=RELEASE dist
+build_debug:
+  stage: build
+  script: make FLAVOUR=DEBUG clean all
 
-test:
-  script:
-    - make test
+build_current:
+  stage: build
+  script: make FLAVOUR=CURRENT clean all
+
+build_release:
+  stage: build
+  script: make FLAVOUR=RELEASE clean all
+
+# }}}
+
+# TEST STAGE {{{
+
+test_full_automated_test_suite:
+  stage: test
+  script: make test
+
+test_installation:
+  stage: test
+  script: make test_install
+
+test_uninstallation:
+  stage: test
+  script: make test_uninstall
+
+test_build:
+  stage: test
+  script: make test_run
+
+# }}}
+
+# DEPLOY STAGE {{{
+
+deploy_local_dir:
+  stage: deploy
+  script: make DESTDIR=tmp install
+
+deploy_local_system:
+  stage: deploy
+  script: make install
+
+deploy_release:
+  stage: deploy
+  script: echo "Wolfenstein can only be installed via local compilation"
+
+# }}}
 
