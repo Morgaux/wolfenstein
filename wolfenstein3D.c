@@ -1,5 +1,8 @@
 /**
- * Source file for the wolfenstein3D module of wolfenstein3D
+ * wolfenstein3D.c source module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
 
 /* DEFINES {{{ */
@@ -24,21 +27,7 @@
  * Include any external libraries and system headers
  * here, in order.
  */
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
-/**
- * This module provides an abstraction over the lower
- * level mathematics and complexities of the backend
- * libraries used. It has been compiled separately
- * and will be linked together with this source file,
- * to allow it's functions to be accessed, include
- * it's headerfile here.
- */
-#include "rendering.h"
 
 /**
  * Include the header file for this module, note that
@@ -48,11 +37,42 @@
 
 /* }}} */
 
+/* PUBLIC FUNCTIONS {{{ */
+
+TODO("Implement the public functions for wolfenstein3D.c")
+
+/* }}} */
+
+/* PRIVATE FUNCTIONS {{{ */
+
+TODO("Implement the private functions for wolfenstein3D.c")
+
+/* }}} */
+
+/* MAIN FUNCTION {{{ */
 /**
- * Main entry point
+ * Here we check if the current module is set as the
+ * BIN value, which indicates that that module's main
+ * function should be used as the main function for
+ * resulting executable being built.
  */
+#ifdef wolfenstein3D_main
+
+/**
+ * Include the test source for this module, the tests
+ * may only be called by the main function so we only
+ * want them when the main function will also be
+ * included. So it is included within this '#ifdef'.
+ */
+
+#include "tests/wolfenstein3D.c"
+
+int main(void);
 int main() { /* {{{ */
 	printf("Hello World!\n");
 	return 0;
 } /* }}} */
+
+#endif /* wolfenstein3D_main */
+/* }}} */
 

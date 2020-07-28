@@ -1,5 +1,8 @@
 /**
- * Header file for wolfenstein3D.c
+ * wolfenstein3D.h header for wolfenstein3D.c source module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
 
 /* PREVENT REEVALUATION {{{ */
@@ -59,7 +62,6 @@
  * provided here with the PUBLIC keyword.
  */
 
-PUBLIC int main(void);
 
 /* }}} */
 
@@ -71,6 +73,7 @@ PUBLIC int main(void);
  * with the PRIVATE keyword.
  */
 #ifdef WOLFENSTEIN3D_C
+
 
 #endif
 /* }}} */

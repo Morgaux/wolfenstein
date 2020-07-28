@@ -1,5 +1,8 @@
 /**
- * Header file for rendering.c
+ * rendering.h header for rendering.c source module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
 
 /* PREVENT REEVALUATION {{{ */

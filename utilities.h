@@ -1,5 +1,8 @@
 /**
- * Header file for utilities.c
+ * utilities.h header for utilities.c source module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
 
 /* PREVENT REEVALUATION {{{ */

@@ -1,5 +1,8 @@
 /**
- * Source file for the rendering module of wolfenstein3D
+ * rendering.c source module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
 
 /* DEFINES {{{ */
@@ -362,5 +365,52 @@ RCL_Unit QueryPixelHeight(int x, int y) { /* {{{ */
 	) * 2 * RCL_UNITS_PER_SQUARE;
 } /* }}} */
 
+/* }}} */
+
+/* MAIN FUNCTION {{{ */
+/**
+ * Here we check if the current module is set as the
+ * BIN value, which indicates that that module's main
+ * function should be used as the main function for
+ * resulting executable being built.
+ */
+#ifdef rendering_main
+
+/**
+ * Include the test source for this module, the tests
+ * may only be called by the main function so we only
+ * want them when the main function will also be
+ * included. So it is included within this '#ifdef'.
+ */
+
+#include "tests/rendering.c"
+
+int main(void);
+int main() { /* {{{ */
+	TestConfigureRendering();
+
+	TestGetSetSquare();
+
+	TestPlaceWall();
+
+	TestPlaceRectangularRoom();
+
+	TestPlaceCircularRoom();
+
+	TestRender();
+
+	TestTurn();
+
+	TestWalk();
+
+	TestStrafe();
+
+	/* If reached then all the tests must have passed */
+	printf("%s\n", "All tests complete.");
+	exit(EXIT_SUCCESS);
+} /* }}} */
+
+
+#endif /* rendering_main */
 /* }}} */
 
