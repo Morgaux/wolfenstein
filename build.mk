@@ -2,38 +2,16 @@
 # Main build rules and targets for my Wolfenstein 3D clone
 #
 
-# LIBRARY BUILD TARGETS {{{
-# These targets allow for the creation or fetching of any library dependencies
-# given in the ${LIB} variable.
-
-# The ${DRUMMY_FISH_LIBS} libraries are used for the rendering backend and are
-# frequently updated. To keep the sources for these upto date, these are pulled
-# from their git repositories rather than being included as part of this repo.
-# To ensure that the latest version is used, the repo subdirs are removed in the
-# 'clean' target and if the subdir exists, it is entered and a git pull is run
-# instead of the clone.
-${DRUMMY_FISH_LIBS}:
-	@if ! test -d $@ >/dev/null 2>&1                                     ; \
-	then                                                                   \
-		echo "${YELLOW}Fetching $@...${RESET}"                       ; \
-		git clone https://gitlab.com/morgaux/$@.git/                 ; \
-	fi
-
-# The config.h file is used to define user level configuration that isn't
-# available at run time. The default values are provided in config.def.h,
-# however, to avoid overwriting the defaults, an untracked copy is used.
-config.h: config.def.h
-	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
-	@[ -f $@ ] || cp config.def.h $@
-
-# }}}
-
 # OBJECT COMPILATION TARGETS {{{
 # These targets define the compilation and interrelated dependencies of the
 # object files defined in ${OBJ} that are used to build the final executable.
 
-# This rule defines that all modules depend on the drummyfish libraries.
-${OBJ}: ${LIB}
+# This rule defines the dependency of the individual module object files upon
+# their source files, from which they are compiled, their header files, from
+# which the other modules may access their functions for linkage, and the Drummy
+# Fish libraries, raycastlib and small3dlib, which provide the backend to the
+# rendering.
+${OBJ}: ${SRC} ${LIB} ${HDR}
 
 # This rule defines the compilation of the individual C modules to object files,
 # these are later linked together to for the final ${BIN} target, or may be
@@ -55,7 +33,7 @@ ${OBJ}: ${LIB}
 # together the compiled ${OBJ} object files for each of the modules and
 # additionally triggers the creation of the config.h file as it is used for all
 # of the ${MAINS} builds.
-${MAINS}: config.h defines.h tests/tests.h ${OBJ}
+${MAINS}: ${OBJ}
 	@echo "${YELLOW}Linking $@...${RESET}"
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 

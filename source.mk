@@ -2,6 +2,37 @@
 # Main source skeleton generation rules and targets for my Wolfenstein 3D clone
 #
 
+# LIBRARY GENERATION TARGETS {{{
+# These targets allow for the creation or fetching of any library dependencies
+# given in the ${LIB} and ${HDR} variables, save for the headers directly
+# relating to the module sources and tests.
+
+# The ${DRUMMY_FISH_LIBS} libraries are used for the rendering backend and are
+# frequently updated. To keep the sources for these upto date, these are pulled
+# from their git repositories rather than being included as part of this repo.
+# To ensure that the latest version is used, the repo subdirs are removed in the
+# 'clean' target and if the subdir exists, it is entered and a git pull is run
+# instead of the clone.
+#
+# NOTE: Currently, my forks of these are being used as these libraries fail
+# certain compiler warnings I've enabled, my forks will be updated to pass these
+# warnings and a pull request for each will be created.
+${DRUMMY_FISH_LIBS}:
+	@if ! test -d $@ >/dev/null 2>&1                                     ; \
+	then                                                                   \
+		echo "${YELLOW}Fetching $@...${RESET}"                       ; \
+		git clone https://gitlab.com/morgaux/$@.git/                 ; \
+	fi
+
+# The config.h file is used to define user level configuration that isn't
+# available at run time. The default values are provided in config.def.h,
+# however, to avoid overwriting the defaults, an untracked copy is used.
+config.h: config.def.h
+	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
+	@[ -f $@ ] || cp config.def.h $@
+
+# }}}
+
 # MODULE SOURCE GENERATION TARGETS {{{
 # This section defines the rules and relationships for creating the source files
 # for modules when new modules are created. The structure is as follows, each

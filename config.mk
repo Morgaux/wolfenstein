@@ -73,7 +73,7 @@ LIB := ${DRUMMY_FISH_LIBS}
 # These define the C source and header files in relation to each other, and
 # their resultant object files.
 SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
-HDR := ${SRC:.c=.h}
+HDR := ${SRC:.c=.h} config.h defines.h tests/tests.h
 OBJ := ${SRC:.c=.o}
 
 # }}}
