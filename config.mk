@@ -7,72 +7,28 @@
 #
 
 # BUILD FILES {{{
+# This section defines the source code file dependencies. Essentially, this
+# allows the entire compilation and (when needed) source code generation via a
+# few variables in one place and allow the build.mk and source.mk systems
+# handle the actual implementations.
 
 # These are libraries written by Miloslav Ciz (tasyfish.cz), I am using them as
 # the rendering backends and pull them in from the git repos, fresh.
 DRUMMY_FISH_LIBS := raycastlib small3dlib
 
-# This defines the various components of this Wolfenstein 3D project. The
-# ${MODULES} variable defines the components of wolfenstein3D that are compiled
-# separately and linked to form wolfenstein3D. These components are provided in
-# ${MODULES} as the plain name of the module with no extensions. The source code
-# files for these ${MODULES} contain the functions and data structures needed,
-# but without a 'main' function. These are compiled to the ${OBJ} files as
-# defined below.
-#
-# The ${WOLF_3D} variable holds the name of the final executable of the
-# wolfenstein3D game, this makes it easy to change the name of the final
-# executable without making huge manual change.
-#
-# The ${C_TESTS} variable holds the names of all of the unit tests for the
-# individual modules. These are by convention in a 'tests/' subdirectory.
-#
-# The ${MAINS} variable holds the special modules that contain
-# only the 'main' function. These are also compiled to the ${OBJ} files,
-# however, only the main module defined in the ${BIN} target is built and used
-# as the 'main' function for the resulting executable. This allows the
-# wolfenstein3D target (the default ${BIN} target) to be swapped out
-# (effectively changing the 'main' function used for that build), for example a
-# unit test C source file may define predicates for the module in question and
-# when built with that main as the ${BIN} target.
-#
-# Note: The config.h file is a user configured header file that may only be
-# included in the source file of a ${MAINS} module, this is to prevent conflicts
-# among modules and allows the user level configuration to be a global interface
-# for the 'main()' function to manage and allow each module to have it's own
-# independent configuration.
-MODULES := rendering utilities
+# The ${WOLF_3D} variable defines the name of the final executable, to make
+# renaming the game as simple as possible. Here it is also listed as one of the
+# ${MODULES} components, which define each of the independent components of the
+# project and their implicit test cases.
 WOLF_3D := wolfenstein3D
-C_TESTS := ${MODULES:%=tests/%}
-MAINS   := ${WOLF_3D} ${C_TESTS}
+MODULES := ${WOLF_3D} rendering utilities
 
-# These are the final targets that get build and installed. ${BIN} must be a
-# single executable name that will get built by the linking of the ${OBJ} object
-# files, see below. It may be overriden on the command line by passing in any of
-# the ${MAINS} targets instead, in which case that target's source file is used
-# instead of wolfenstein's source. This has the effect of having the same
-# modules available but a different 'main()' function to be called, allowing the
-# primary purpose of a build, e.g. for a release or for a test, to be defined
-# while maintaining the same build system.
+# This section defines the *.c and *.h source files in terms of the given
+# ${MODULES} as well as the additional headers and test case files.
 BIN ?= ${WOLF_3D}
 MAN := ${WOLF_3D:%=%.1}
-
-# These variables define the way that the modules and specialised libraries work
-# and interact. The ${LIB} variable defines a list of local and/or system
-# directories to include in the compiler's header search path. This has a
-# twofold purpose, first to define the '-L<DIR>' compiler flags, see the
-# COMPILATION section below, and second to provide a cue for any third party
-# libraries to be installed, pulled, updated, or created. This secondary use is
-# primarily for the ${DRUMMY_FISH_LIBS}, raycastlib.h and small3dlib.h, which
-# are used in the rendering module as the rendering backend, these are pulled
-# from the upstream Gitlab repositories and so are not included in this project
-# directly, but rather acquired via 'git clone'. It is the 'git clone' action
-# that is triggered by those respective libraries.
 LIB := ${DRUMMY_FISH_LIBS}
-
-# These define the C source and header files in relation to each other, and
-# their resultant object files.
-SRC := ${BIN:%=%.c} ${MODULES:%=%.c}
+SRC := ${MODULES:%=%.c}
 HDR := ${SRC:.c=.h} config.h defines.h tests/tests.h
 OBJ := ${SRC:.c=.o}
 
@@ -94,10 +50,9 @@ BUILD_V := ${VERSION}-${FLAVOUR}
 
 # These define the important files in this repository, by their type and
 # functionality.
-CODE_FILES := ${WOLF_3D:%=%.c} ${MODULES:%=%.c}
+CODE_FILES := ${MODULES:%=%.c}
 HEAD_FILES := ${CODE_FILES:.c=.h} config.def.h defines.h
-TEST_FILES := ${C_TESTS:%=%.c} \
-              ${C_TESTS:%=%.h} \
+TEST_FILES := ${MODULES:%=tests/%.c} \
               tests/tests.h \
               tests/testcases.mk \
               tests/testconfig.mk \
@@ -137,7 +92,13 @@ DIST_TGZ   := ${DIST_DIR}.tar.gz
 
 # The ${DEFINES} variable is expanded and each symbol (and value if given) is
 # passed to the compiler using the -D flag.
+#
+# NOTE: the ${BIN} value defines which source module's main function to compile
+# against, this value is unfortunately lowercase, which means it doesn't
+# strictly follow the C macro name convention, but that's how it is.
 DEFINES += ${FLAVOUR} \
+           ${BIN:%=%_main} \
+           BIN=\"${BIN}\" \
            FLAVOUR=\"${FLAVOUR}\" \
            VERSION=\"${VERSION}\" \
            _POSIX_C_SOURCE=200809L \
@@ -440,8 +401,7 @@ TO     := ${CREATE} -a
 # This lists all files that are generated by the build process but need to be
 # removed to avoid clutter, these are cleaned by the 'clean' target.
 TRASH := ${MAN} \
-         ${MAINS} \
-         ${MAINS:%=%.o} \
+         ${MODULES} \
          ${MODULES:%=%.o} \
          ${DRUMMY_FISH_LIBS} \
          ${DIST_DIR} \

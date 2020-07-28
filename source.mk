@@ -33,20 +33,24 @@ config.h: config.def.h
 
 # }}}
 
-# MODULE SOURCE GENERATION TARGETS {{{
+# SOURCE GENERATION TARGETS {{{
 # This section defines the rules and relationships for creating the source files
 # for modules when new modules are created. The structure is as follows, each
 # module has a C source file, as defined in ${SRC}, which depends on the
 # matching header in ${HDR}, these define the internal functions, data
 # structures, and module specific configuration.
 
-# This target creates the bare bones structure of a source module and triggers
-# the module's related header file to also be generated.
-${MODULES:%=%.c}: ${MODULES:%=%.h}
+# This rule defines the dependency of the individual module source files upon
+# their header files, with which they are compiled into the module objects, and
+# the creation of the *.c file if it doesn't already exist.
+.h.c:
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
-		echo " * Source file for the ${@:%.c=%} module of ${BIN}"    ; \
+		echo " * $@ source module of ${BIN}"                         ; \
+		echo " *"                                                    ; \
+		echo " * @AUTHOR:      ${AUTHOR}"                            ; \
+		echo " * @DESCRIPTION: [update manually]"                    ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
 		echo "/* DEFINES {{{ */"                                     ; \
@@ -77,41 +81,62 @@ ${MODULES:%=%.c}: ${MODULES:%=%.h}
 		echo " * Include the header file for this module, note that" ; \
 		echo " * this file should be included last."                 ; \
 		echo " */"                                                   ; \
-		echo "#include \"${@:.c=.h}\""                               ; \
+		echo "#include \"$<\""                                       ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 		echo "/* PUBLIC FUNCTIONS {{{ */"                            ; \
 		echo ""                                                      ; \
+		echo "TODO(\"Implement the public functions for $@\")"       ; \
+		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
 		echo ""                                                      ; \
+		echo "TODO(\"Implement the private functions for $@\")"      ; \
+		echo ""                                                      ; \
+		echo "/* }}} */"                                             ; \
+		echo ""                                                      ; \
+		echo "/* MAIN FUNCTION {{{ */"                               ; \
 		echo "/**"                                                   ; \
-		echo " * TODO: Provide function implementations here."       ; \
-		echo " *"                                                    ; \
-		echo " * This is a dummy function to allow compilation to"   ; \
-		echo " * succeed, remove the declaration and function body"  ; \
-		echo " * once proper functions are added."                   ; \
+		echo " * Here we check if the current module is set as the"  ; \
+		echo " * BIN value, which indicates that that module's main" ; \
+		echo " * function should be used as the main function for"   ; \
+		echo " * resulting executable being built."                  ; \
 		echo " */"                                                   ; \
-		echo "PRIVATE void dummy() { /* {{{ */"                      ; \
-		echo '	printf("Hello World!\\n");'                          ; \
+		echo "#ifdef ${@:%.c=%_main}"                                ; \
+		echo ""                                                      ; \
+		echo "/**"                                                   ; \
+		echo " * Include the test source for this module, the tests" ; \
+		echo " * may only be called by the main function so we only" ; \
+		echo " * want them when the main function will also be"      ; \
+		echo " * included. So it is included within this '#ifdef'."  ; \
+		echo " */"                                                   ; \
+		echo ""                                                      ; \
+		echo "#include \"tests/$@\""                                 ; \
+		echo ""                                                      ; \
+		echo "int main(void);"                                       ; \
+		echo "int main() { /* {{{ */"                                ; \
+		echo "	return 0;"                                           ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
+		echo "#endif /* ${@:%.c=%_main} */"                          ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 	} > $@
 
-# This target generates the bare bones framework for the header file of each
-# module. It includes abstractions for the scope of the functions and data
-# structures it provides, allowing the same header file to function for both
-# within the module's source and within other modules calling that module's
-# functionality. See the source below for further details.
-${MODULES:%=%.h}:
+# This rule defines the dependency of the each header file on the required
+# library directories, while the headerfiles don't directly require them, they
+# may be used in another module other than their own, and the header may
+# internally use data types or structures defined in these libraries.
+${SRC:.c=.h}: ${LIB}
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
-		echo " * Header file for ${@:%.h=%.c}"                       ; \
+		echo " * $@ header for ${@:%.h=%.c} source module of ${BIN}" ; \
+		echo " *"                                                    ; \
+		echo " * @AUTHOR:      ${AUTHOR}"                            ; \
+		echo " * @DESCRIPTION: [update manually]"                    ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
 		echo "/* PREVENT REEVALUATION {{{ */"                        ; \
@@ -171,6 +196,7 @@ ${MODULES:%=%.h}:
 		echo " * provided here with the PUBLIC keyword."             ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
+		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 		echo "/* PRIVATES {{{ */"                                    ; \
@@ -182,14 +208,6 @@ ${MODULES:%=%.h}:
 		echo " */"                                                   ; \
 		echo "#ifdef $$(echo '${@:%.h=%.c}' | ${TO_UPPER})"          ; \
 		echo ""                                                      ; \
-		echo "/**"                                                   ; \
-		echo " * TODO: Provide function declarations here."          ; \
-		echo " *"                                                    ; \
-		echo " * This is a dummy function to allow compilation to"   ; \
-		echo " * succeed, remove the declaration and function body"  ; \
-		echo " * once proper functions are added."                   ; \
-		echo " */"                                                   ; \
-		echo "PRIVATE void dummy();"                                 ; \
 		echo ""                                                      ; \
 		echo "#endif"                                                ; \
 		echo "/* }}} */"                                             ; \
@@ -201,30 +219,46 @@ ${MODULES:%=%.h}:
 
 # }}}
 
-# MODULE TEST SOURCE GENERATION TARGETS {{{
+# TEST SOURCE GENERATION TARGETS {{{
 # This section defines the rules for the generation of the test cases for the
 # modules generated in the above section.
 
-${C_TESTS:%=%.c}: ${C_TESTS:%=%.h}
+${MODULES:%=tests/%.c}:
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \
-		echo " * Source file for testing the ${@:tests/%=%} module"  ; \
+		echo " * $@ source for testing the module of ${BIN}"         ; \
+		echo " *"                                                    ; \
+		echo " * @AUTHOR:      ${AUTHOR}"                            ; \
+		echo " * @DESCRIPTION: [update manually]"                    ; \
 		echo " */"                                                   ; \
+		echo ""                                                      ; \
+		echo "/* PREVENT REEVALUATION {{{ */"                        ; \
+		echo "/**"                                                   ; \
+		echo " * Since the test source files are merely included in" ; \
+		echo " * other sources rather than directly compiled, it is" ; \
+		echo " * necessary to prevent duplicate inclusions."         ; \
+		echo " *"                                                    ; \
+		echo " * NOTE: For the above reasons it is also superfluous" ; \
+		echo " * to use the PRIVATE and PUBLIC macros, although if"  ; \
+		echo " * these were to be used the would still work within"  ; \
+		echo " * the parent module's scope. In their stead the TEST" ; \
+		echo " * macro is defined here to A) explicitly mark which"  ; \
+		echo " * functions are testcases, similarly to the @Test"    ; \
+		echo " * annotation in languages such as Java, and B) for"   ; \
+		echo " * testcase functions to be clearly distinct from any" ; \
+		echo " * PRIVATE helpers that are defined here for the test" ; \
+		echo " * functions (and only those functions) to use."       ; \
+		echo " */"                                                   ; \
+		echo ""                                                      ; \
+		echo "#ifndef $$(echo '$@' | ${TO_UPPER})"                   ; \
+		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
+		echo "#undef  TEST"                                          ; \
+		echo "#define TEST static"                                   ; \
 		echo ""                                                      ; \
 		echo "/* DEFINES {{{ */"                                     ; \
 		echo ""                                                      ; \
 		echo "#include \"../defines.h\""                             ; \
-		echo ""                                                      ; \
-		echo "/**"                                                   ; \
-		echo " * Define the current source file, this allows the"    ; \
-		echo " * header file of this module to know that it has"     ; \
-		echo " * been included in it's own module's source, as well" ; \
-		echo " * allowing the header files for any other modules to" ; \
-		echo " * know that they are being included in a different"   ; \
-		echo " * module and making any necessary changes."           ; \
-		echo " */"                                                   ; \
-		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
@@ -244,74 +278,16 @@ ${C_TESTS:%=%.c}: ${C_TESTS:%=%.h}
 		echo " */"                                                   ; \
 		echo "#include \"tests.h\""                                  ; \
 		echo ""                                                      ; \
-		echo "/**"                                                   ; \
-		echo " * Include the header file for the module this file"   ; \
-		echo " * is testing, this allows this source to call that"   ; \
-		echo " * modules (PUBLIC) functions."                        ; \
-		echo " */"                                                   ; \
-		echo "#include \"${@:tests/%.c=../%.h}\""                    ; \
-		echo ""                                                      ; \
-		echo "/**"                                                   ; \
-		echo " * Include the header file for this module, note that" ; \
-		echo " * this file should be included last."                 ; \
-		echo " */"                                                   ; \
-		echo "#include \"${@:tests/%.c=%.h}\""                       ; \
-		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
-		echo "/* PUBLIC FUNCTIONS {{{ */"                            ; \
+		echo "/* TEST FUNCTIONS {{{ */"                              ; \
 		echo ""                                                      ; \
-		echo "PUBLIC int main() { /* {{{ */"                         ; \
-		echo "	fail(\"Not implemented.\");"                         ; \
-		echo ""                                                      ; \
-		echo "/* If reached then all the tests must have passed */"  ; \
-		echo "printf(\"%s\\\n\", \"All tests complete.\");"          ; \
-		echo "	exit(EXIT_SUCCESS);"                                 ; \
+		echo "TEST void TestSomeFunction(void);"                     ; \
+		echo "TEST void TestSomeFunction() { /* {{{ */"              ; \
+		echo "	ERRO(\"Dummy test case still present.\")"            ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
-		echo "/* }}} */"                                             ; \
-		echo ""                                                      ; \
-		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
-		echo ""                                                      ; \
-		echo ""                                                      ; \
-		echo "/* }}} */"                                             ; \
-		echo ""                                                      ; \
-	} > $@
-
-${C_TESTS:%=%.h}:
-	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
-	@[ -f $@ ] || {                                                        \
-		echo "/**"                                                   ; \
-		echo " * Header file for ${@:tests/%.h=%.c}"                 ; \
-		echo " */"                                                   ; \
-		echo ""                                                      ; \
-		echo "/* PREVENT REEVALUATION {{{ */"                        ; \
-		echo "#ifndef $$(echo '$@' | ${TO_UPPER})"                   ; \
-		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
-		echo ""                                                      ; \
-		echo "/**"                                                   ; \
-		echo " * As the unit tests are special modules that contain" ; \
-		echo " * main function, all of the functions here should be" ; \
-		echo " * static, aka PRIVATE. So in contrast to the module"  ; \
-		echo " * sources, the test sources don't need the PRIVATE"   ; \
-		echo " * and PUBLIC macros to be defined with any"           ; \
-		echo " * conditional logic."                                 ; \
-		echo " */"                                                   ; \
-		echo "#undef PRIVATE"                                        ; \
-		echo "#undef PUBLIC"                                         ; \
-		echo "#define PRIVATE static"                                ; \
-		echo "#define PUBLIC"                                        ; \
-		echo ""                                                      ; \
-		echo "/* PUBLIC FUNCTIONS {{{ */"                            ; \
-		echo ""                                                      ; \
-		echo "PUBLIC int main();"                                    ; \
-		echo ""                                                      ; \
-		echo "/* }}} */"                                             ; \
-		echo ""                                                      ; \
-		echo "/* PRIVATE FUNCTIONS {{{ */"                           ; \
-		echo ""                                                      ; \
-		echo ""                                                      ; \
-		echo "/* }}} */"                                             ; \
+		echo "/* }}} */" ; \
 		echo ""                                                      ; \
 		echo "#endif /* $$(echo '$@' | ${TO_UPPER}) */"              ; \
 		echo "/* }}} */"                                             ; \
