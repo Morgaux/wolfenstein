@@ -1,20 +1,36 @@
 /**
- * Source file for testing the utilities.c module
+ * tests/utilities.c source for testing the module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
+
+/* PREVENT REEVALUATION {{{ */
+/**
+ * Since the test source files are merely included in
+ * other sources rather than directly compiled, it is
+ * necessary to prevent duplicate inclusions.
+ *
+ * NOTE: For the above reasons it is also superfluous
+ * to use the PRIVATE and PUBLIC macros, although if
+ * these were to be used the would still work within
+ * the parent module's scope. In their stead the TEST
+ * macro is defined here to A) explicitly mark which
+ * functions are testcases, similarly to the @Test
+ * annotation in languages such as Java, and B) for
+ * testcase functions to be clearly distinct from any
+ * PRIVATE helpers that are defined here for the test
+ * functions (and only those functions) to use.
+ */
+
+#ifndef TESTS_UTILITIES_C
+#define TESTS_UTILITIES_C
+#undef  TEST
+#define TEST static
 
 /* DEFINES {{{ */
 
 #include "../defines.h"
-
-/**
- * Define the current source file, this allows the
- * header file of this module to know that it has
- * been included in it's own module's source, as well
- * allowing the header files for any other modules to
- * know that they are being included in a different
- * module and making any necessary changes.
- */
-#define TESTS_UTILITIES_C
 
 /* }}} */
 
@@ -35,48 +51,22 @@
  */
 #include "tests.h"
 
-/**
- * Include the header file for the module this file
- * is testing, this allows this source to call that
- * modules (PUBLIC) functions.
- */
-#include "../utilities.h"
-
-/**
- * Include the header file for this module, note that
- * this file should be included last.
- */
-#include "utilities.h"
-
 /* }}} */
 
-/* PUBLIC FUNCTIONS {{{ */
+/* TEST FUNCTIONS {{{ */
 
-PUBLIC int main() { /* {{{ */
-	TestErr();
-
-	TestDie();
-
-	TestFreeMem();
-
-	/* If reached then all the tests must have passed */
-	printf("%s\n", "All tests complete.");
-	exit(EXIT_SUCCESS);
-} /* }}} */
-
-/* }}} */
-
-/* PRIVATE FUNCTIONS {{{ */
-
-PRIVATE void TestErr() { /* {{{ */
+TEST void TestErr(void);
+TEST void TestErr() { /* {{{ */
 	warn("utilities.err(char * msg) cannot be tested.");
 } /* }}} */
 
-PRIVATE void TestDie() { /* {{{ */
+TEST void TestDie(void);
+TEST void TestDie() { /* {{{ */
 	warn("utilities.die(char * msg) cannot be tested.");
 } /* }}} */
 
-PRIVATE void TestFreeMem() { /* {{{ */
+TEST void TestFreeMem(void);
+TEST void TestFreeMem() { /* {{{ */
 	char * foo;
 	int predicate;
 
@@ -91,5 +81,9 @@ PRIVATE void TestFreeMem() { /* {{{ */
 	assert(foo == NULL, "String pointer was not reset to null.");
 } /* }}} */
 
+
+/* }}} */
+
+#endif /* TESTS_UTILITIES_C */
 /* }}} */
 

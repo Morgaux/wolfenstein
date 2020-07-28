@@ -1,20 +1,36 @@
 /**
- * Source file for testing the rendering.c module
+ * tests/rendering.c source for testing the module of wolfenstein3D
+ *
+ * @AUTHOR:      Morgaux Meyer
+ * @DESCRIPTION: [update manually]
  */
+
+/* PREVENT REEVALUATION {{{ */
+/**
+ * Since the test source files are merely included in
+ * other sources rather than directly compiled, it is
+ * necessary to prevent duplicate inclusions.
+ *
+ * NOTE: For the above reasons it is also superfluous
+ * to use the PRIVATE and PUBLIC macros, although if
+ * these were to be used the would still work within
+ * the parent module's scope. In their stead the TEST
+ * macro is defined here to A) explicitly mark which
+ * functions are testcases, similarly to the @Test
+ * annotation in languages such as Java, and B) for
+ * testcase functions to be clearly distinct from any
+ * PRIVATE helpers that are defined here for the test
+ * functions (and only those functions) to use.
+ */
+
+#ifndef TESTS_RENDERING_C
+#define TESTS_RENDERING_C
+#undef  TEST
+#define TEST static
 
 /* DEFINES {{{ */
 
 #include "../defines.h"
-
-/**
- * Define the current source file, this allows the
- * header file of this module to know that it has
- * been included in it's own module's source, as well
- * allowing the header files for any other modules to
- * know that they are being included in a different
- * module and making any necessary changes.
- */
-#define TESTS_RENDERING_C
 
 /* }}} */
 
@@ -35,52 +51,12 @@
  */
 #include "tests.h"
 
-/**
- * Include the header file for the module this file
- * is testing, this allows this source to call that
- * modules (PUBLIC) functions.
- */
-#include "../rendering.h"
-
-/**
- * Include the header file for this module, note that
- * this file should be included last.
- */
-#include "rendering.h"
-
 /* }}} */
 
-/* PUBLIC FUNCTIONS {{{ */
+/* TEST FUNCTIONS {{{ */
 
-PUBLIC int main() { /* {{{ */
-	TestConfigureRendering();
-
-	TestGetSetSquare();
-
-	TestPlaceWall();
-
-	TestPlaceRectangularRoom();
-
-	TestPlaceCircularRoom();
-
-	TestRender();
-
-	TestTurn();
-
-	TestWalk();
-
-	TestStrafe();
-
-	/* If reached then all the tests must have passed */
-	printf("%s\n", "All tests complete.");
-	exit(EXIT_SUCCESS);
-} /* }}} */
-
-/* }}} */
-
-/* PRIVATE FUNCTIONS {{{ */
-
-PRIVATE void TestConfigureRendering() { /* {{{ */
+TEST void TestConfigureRendering(void);
+TEST void TestConfigureRendering() { /* {{{ */
 	RenderConfig config;
 
 	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
@@ -106,7 +82,8 @@ PRIVATE void TestConfigureRendering() { /* {{{ */
 	ConfigureRendering(config);
 } /* }}} */
 
-PRIVATE void TestGetSetSquare() { /* {{{ */
+TEST void TestGetSetSquare(void);
+TEST void TestGetSetSquare() { /* {{{ */
 	Square square, newSqr;
 
 	warn("testing rendering.GetSquare(uint64_t x, uint64_t y) and...");
@@ -126,7 +103,8 @@ PRIVATE void TestGetSetSquare() { /* {{{ */
 	assert(square.pixels == newSqr.pixels, "Square pixels don't match.");
 } /* }}} */
 
-PRIVATE void TestPlaceWall() { /* {{{ */
+TEST void TestPlaceWall(void);
+TEST void TestPlaceWall() { /* {{{ */
 	int textureW = 1,
 	    textureH = 1,
 	    x        = 0,
@@ -169,29 +147,38 @@ PRIVATE void TestPlaceWall() { /* {{{ */
 	warn("testing angled (27.5 degrees, north east) wall...");
 } /* }}} */
 
-PRIVATE void TestPlaceRectangularRoom() { /* {{{ */
+TEST void TestPlaceRectangularRoom(void);
+TEST void TestPlaceRectangularRoom() { /* {{{ */
 	warn("No testcases for rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
 } /* }}} */
 
-PRIVATE void TestPlaceCircularRoom() { /* {{{ */
+TEST void TestPlaceCircularRoom(void);
+TEST void TestPlaceCircularRoom() { /* {{{ */
 	warn("No testcases for rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture).");
 } /* }}} */
 
-PRIVATE void TestRender() { /* {{{ */
+TEST void TestRender(void);
+TEST void TestRender() { /* {{{ */
 	warn("No testcases for rendering.Render(uint64_t width, uint64_t length).");
 } /* }}} */
 
-PRIVATE void TestTurn() { /* {{{ */
+TEST void TestTurn(void);
+TEST void TestTurn() { /* {{{ */
 	warn("No testcases for rendering.Turn(int64_t angle).");
 } /* }}} */
 
-PRIVATE void TestWalk() { /* {{{ */
+TEST void TestWalk(void);
+TEST void TestWalk() { /* {{{ */
 	warn("No testcases for rendering.Walk(int64_t distance).");
 } /* }}} */
 
-PRIVATE void TestStrafe() { /* {{{ */
+TEST void TestStrafe(void);
+TEST void TestStrafe() { /* {{{ */
 	warn("No testcases for rendering.Strafe(int64_t distance).");
 } /* }}} */
 
+/* }}} */
+
+#endif /* TESTS_RENDERING_C */
 /* }}} */
 

@@ -23,6 +23,7 @@
 # success state of each.
 ${TEST_ACTIONS:%=test_%}:
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
+	@${CLEAN}
 	@if make -s run_$@ clean >/dev/null 2>&1                             ; \
 	then                                                                   \
 		${CLEAR_LINE}                                                ; \

@@ -12,8 +12,7 @@
 # and clean up any temporary files created to allow a clean workspace for the
 # next test in the queue. Note that values in ${TEST_ACTIONS} shouldn't conflict
 # with other build targets.
-TEST_ACTIONS := ${WOLF_3D} \
-                ${WOLF_3D:%=%_no_warnings} \
+TEST_ACTIONS := ${WOLF_3D:%=%_no_warnings} \
                 ${PHONIES} \
                 ${DRUMMY_FISH_LIBS} \
                 ${MODULES} \
