@@ -1,9 +1,61 @@
-wolfenstein3D
-wolfenstein3D.1
+#
+# Files and patterns to ignore from git(1) version control
+#
+
+# CONFIGURATION FILES {{{
+
+# The config.h file is user defined and should not be tracked
 config.h
-raycastlib
+
+# }}}
+
+# DRUMMY FISH LIBS {{{
+
+# The Drummy Fish libraries are pulled from upstream and so should not be
+# included in the repository.
+raycastlib/
 raycastlib/**
-small3dlib
+small3dlib/
 small3dlib/**
-**.o
+
+# }}}
+
+# DISTRIBUTION FILES {{{
+
+# Distribution bundles, e.g. tarballs or packages for OS specific package
+# management systems should be ignored as they are generated as part of the
+# distribution sub-system.
 **.tar.gz
+
+# }}}
+
+# COMPILATION FILES {{{
+
+# The executable files generated for each module should be ignored, these may
+# change in relation to the ${MODULES} make(1) variable, so these must be
+# updated manually.
+wolfenstein
+rendering
+utilities
+
+# Compilation artefacts should not be tracked, below is a small section of the
+# recommended .gitignore settings for C/C++ projects from Github.
+**.a
+**.d
+**.o
+**.out
+
+# }}}
+
+# JUST PLAIN SILLY FILES {{{
+
+# These files are not expected to be present to ignore, but in the event that
+# they are generated, as may be expected during testing or experimentation, they
+# __must__ not be included. Tracking a file named 'foo' is a shooting offence.
+**foo**
+**.foo**
+**tmp**
+**.tmp**
+
+# }}}
+
