@@ -34,7 +34,7 @@ small3dlib/**
 # The executable files generated for each module should be ignored, these may
 # change in relation to the ${MODULES} make(1) variable, so these must be
 # updated manually.
-wolfenstein
+wolfenstein3D
 rendering
 utilities
 
