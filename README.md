@@ -1,10 +1,10 @@
 [![pipeline status](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/pipeline.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
 [![coverage report](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![primary language](img/language.svg)]
-[![license](img/license.svg)]
-[![release version](img/release.svg)]
-[![current version](img/version.svg)]
-[![repository source](img/repository.svg)]
+[![primary language](img/language.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
+[![license](img/license.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
+[![release version](img/release.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
+[![current version](img/version.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
+[![repository source](img/repository.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
 
 # A Wolfenstein 3D Clone
 
