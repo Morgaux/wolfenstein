@@ -29,7 +29,7 @@ ${OBJ}: ${MODULES:%=tests/%.c}
 
 # This target defines the final compilation and linking of the final executable.
 ${BIN}: ${OBJ} ${BIN:%=tests/%.c}
-	@echo "${YELLOW}Linking $@...${RESET}"
+	@[ -f "$@" ] || echo "${YELLOW}Linking $@...${RESET}"
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 # }}}

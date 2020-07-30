@@ -30,6 +30,11 @@
 #include <stdio.h>
 
 /**
+ * Include any user configurations.
+ */
+#include "config.h"
+
+/**
  * Include the header file for this module, note that
  * this file should be included last.
  */

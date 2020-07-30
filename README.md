@@ -1,6 +1,10 @@
 [![pipeline status](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/pipeline.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
 [![coverage report](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![primary language](img/language.svg)]
+[![license](img/license.svg)]
+[![release version](img/release.svg)]
+[![current version](img/version.svg)]
+[![repository source](img/repository.svg)]
 
 # A Wolfenstein 3D Clone
 

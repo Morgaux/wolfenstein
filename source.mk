@@ -129,7 +129,7 @@ config.h: config.def.h
 # library directories, while the headerfiles don't directly require them, they
 # may be used in another module other than their own, and the header may
 # internally use data types or structures defined in these libraries.
-${SRC:.c=.h}: ${LIB}
+${SRC:.c=.h}: ${LIB} config.h defines.h tests/tests.h
 	@[ -f $@ ] || echo "${YELLOW}Generating $@...${RESET} [update manually]"
 	@[ -f $@ ] || {                                                        \
 		echo "/**"                                                   ; \

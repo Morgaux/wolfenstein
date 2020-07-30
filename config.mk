@@ -35,6 +35,9 @@ OBJ := ${SRC:.c=.o}
 # }}}
 
 # DISTRIBUTION AND VERSION CONTROL {{{
+# This section holds variables for configuring and defining the components of
+# this repository for creation of distributable files and version control
+# systems and references.
 
 # These control the specific version and build type for a build. These are also
 # used when creating a distribution tar ball or during installation to version
@@ -48,8 +51,12 @@ POINT_V := 2
 VERSION := ${MAJOR_V}.${MINOR_V}.${POINT_V}
 BUILD_V := ${VERSION}-${FLAVOUR}
 
-# These define the important files in this repository, by their type and
-# functionality.
+# These variables define the git(1) repository details, both the remote host and
+# local files organized by type and function
+GIT_DOMAIN := gitlab.com
+GIT_R_PATH := morgaux/wolfenstein
+GIT_BRANCH := rewrite_in_c
+REPOSITORY := https://${GIT_DOMAIN}/${GIT_R_PATH}/-/tree/${GIT_BRANCH}
 CODE_FILES := ${MODULES:%=%.c}
 HEAD_FILES := ${CODE_FILES:.c=.h} config.def.h defines.h
 TEST_FILES := ${MODULES:%=tests/%.c} \
@@ -58,9 +65,9 @@ TEST_FILES := ${MODULES:%=tests/%.c} \
               tests/testconfig.mk \
               tests/testmacros.mk \
               tests/teststructure.mk
-
 REPO_FILES := README.md LICENSE img
 MAKE_FILES := Makefile \
+              badges.mk \
               build.mk \
               colors.mk \
               config.mk \
@@ -384,6 +391,18 @@ MAN_DIR := ${DESTDIR}${MANPREFIX}/man1
 
 # }}}
 
+# README BADGES {{{
+# This section defines the generation of the badges used in the README.md file.
+# While some are already provided by the Gitlab repository hosting service,
+# however, as these are rather sparse on their own, this section utilises the
+# shields.io webservice to generate several more directly and thus have them
+# rebuilt as part of the 'all' target.
+
+BADGE_URL := https://img.shields.io/badge
+BADGES    := license release version language compiler repository demo
+
+# }}}
+
 # MACRO COMMANDS {{{
 
 # This macro allows a simple and programmatic way of ignoring errors on a
@@ -434,6 +453,15 @@ INDENT := printf '\t%s\n'
 # upper case single word symbol to be defined in the C preprocessor.
 TO_UPPER := tr '[:lower:]./' '[:upper:]_'
 
+# This macro encapsulates the commands for downloading files given a file URL to
+# a local file or stdout. The command it self is arbitrary but any flags used
+# must be specified here, so that regardless of the usage it may be used in the
+# following format:
+# 	${DOWNLOAD} https://example.com/path/file > local.file
+# or:
+# 	${DOWNLOAD} https://example.com/path/file | some_other_command -flags
+DOWNLOAD := curl -sS
+
 # }}}
 
 # DEFAULT TARGETS {{{
@@ -450,7 +478,7 @@ PHONIES := all config clean dist run install uninstall
 # at the beginning to catch any missing tools as early as possible, also note
 # that the dependacies are only check here unless directly called via the
 # 'depends_on_FOO' target actions.
-all: check_dependencies config ${BIN}
+all: check_dependencies config ${BIN} ${BADGES:%=img/%.svg}
 
 # This is the 'config' target, it is used to display configuration information
 # before a build begins or on its own for debugging purposes.
