@@ -1,9 +1,9 @@
-[![pipeline status](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/pipeline.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![coverage report](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![primary language](img/language.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![license](img/license.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![release version](img/release.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
-[![current version](img/version.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
+[![pipeline status](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/pipeline.svg)](https://gitlab.com/morgaux/wolfenstein/-/pipelines)
+[![coverage report](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/pipelines)
+[![primary language](img/language.svg)](https://gitlab.com/morgaux/wolfenstein/-/graphs/rewrite_in_c/charts)
+[![license](img/license.svg)](LICENSE)
+[![release version](img/release.svg)](https://gitlab.com/morgaux/wolfenstein/-/releases)
+[![current version](img/version.svg)](https://gitlab.com/morgaux/wolfenstein/-/releases)
 [![repository source](img/repository.svg)](https://gitlab.com/morgaux/wolfenstein/-/commits/rewrite_in_c)
 
 # A Wolfenstein 3D Clone
