@@ -53,7 +53,7 @@ test_help: test_before_help_message \
 show_test_config:
 	@${PRINTF} "${YELLOW}${BIN} testing configuration:${RESET}"
 	@${PRINTF} "${GREEN}COVERAGE${RESET}   = ${BOLD}${TEST_COVERAGE}${RESET}"
-	@${PRINTF} "${GREEN}CURRENT OS${RESET} = ${BOLD}$$(uname)${RESET}"
+	@${PRINTF} "${GREEN}CURRENT OS${RESET} = ${BOLD}$$(uname -a)${RESET}"
 	@${PRINTF} "${GREEN}TEST CASES${RESET} = ${BOLD}${TEST_ACTIONS:%=test_%}${RESET}"
 
 # This target runs before the main body of the help text displayed by
