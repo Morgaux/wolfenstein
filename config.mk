@@ -481,7 +481,7 @@ DOWNLOAD := curl -sS
 # with other build targets.
 TEST_ACTIONS := ${PHONIES} \
                 ${DRUMMY_FISH_LIBS} \
-                ${WOLF_3D} \
+                ${MODULES} \
                 ${WOLF_3D:%=%_no_warnings} \
                 ${COMPILERS}
 
