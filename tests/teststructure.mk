@@ -24,26 +24,22 @@
 ${TEST_ACTIONS:%=test_%}:
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
 	@${CLEAN}
-	@if make -s run_$@ clean >/dev/null 2>&1                             ; \
+	@if make -s run_$@ clean >.test_results 2>&1                         ; \
 	then                                                                   \
 		${CLEAR_LINE}                                                ; \
 		${PRINTF} "${GREEN}PASS${RESET} for ${@:test_%=%}"           ; \
 	else                                                                   \
 		${CLEAR_LINE}                                                ; \
 		${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"             ; \
-	fi | tee -a .test_results
+		cat .test_results                                            ; \
+		rm -f .test_results                                          ; \
+		exit 1                                                       ; \
+	fi
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
 test: ${TEST_ACTIONS:%=test_%}
-	@if grep -q FAIL .test_results                                       ; \
-	then                                                                   \
-		rm -f .test_results                                          ; \
-		echo " "                                                     ; \
-		echo "${RED}THERE ARE TEST FAILURES${RESET}"                 ; \
-		exit 1                                                       ; \
-	fi                                                                   ; \
-	rm -f .test_results || true
+	${PRINTF} "${GREEN}ALL TESTS PASS${RESET}"
 
 # This target displays a help message of the available test cases to run in bulk
 # via the 'test' action or individually via each respective 'test_FOO' action.
