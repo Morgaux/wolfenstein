@@ -272,6 +272,19 @@ ${MODULES:%=tests/%.c}:
 		echo "#include <stdlib.h>"                                   ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
+		echo " * Ensure that the test cases have access to the data" ; \
+		echo " * and functions in the module. This is redundant if"  ; \
+		echo " * these test cases are pulled into the source file"   ; \
+		echo " * the module this test case is for, however, as a"    ; \
+		echo " * fallback, in the event that the testcases are used" ; \
+		echo " * in a different module, or for error checking in a"  ; \
+		echo " * text editor."                                       ; \
+		echo " */"                                                   ; \
+		echo "#ifndef $$(basename '$@' | ${TO_UPPER})"               ; \
+		echo "#include \"${@:tests/%.c=%.h}\""                       ; \
+		echo "#endif /* $$(basename '$@' | ${TO_UPPER}) */"          ; \
+		echo ""                                                      ; \
+		echo "/**"                                                   ; \
 		echo " * Include the main unit test header file. This file"  ; \
 		echo " * provides general functions for assertion, handling" ; \
 		echo " * errors, and test related IO."                       ; \

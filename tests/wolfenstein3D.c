@@ -44,6 +44,19 @@
 #include <stdlib.h>
 
 /**
+ * Ensure that the test cases have access to the data
+ * and functions in the module. This is redundant if
+ * these test cases are pulled into the source file
+ * the module this test case is for, however, as a
+ * fallback, in the event that the testcases are used
+ * in a different module, or for error checking in a
+ * text editor.
+ */
+#ifndef WOLFENSTEIN3D_C
+#include "wolfenstein3D.h"
+#endif /* WOLFENSTEIN3D_C */
+
+/**
  * Include the main unit test header file. This file
  * provides general functions for assertion, handling
  * errors, and test related IO.
