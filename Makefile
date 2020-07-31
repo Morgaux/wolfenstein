@@ -48,7 +48,6 @@ include source.mk
 # 	make test
 # or, for a list of all testable components and their invocations, run:
 # 	make test_help
-include tests/testconfig.mk
 include tests/testmacros.mk
 include tests/teststructure.mk
 include tests/testcases.mk # Include after other test*.mk files
