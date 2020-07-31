@@ -40,6 +40,7 @@ ${TEST_ACTIONS:%=test_%}:
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
 test: ${TEST_ACTIONS:%=test_%}
 	${PRINTF} "${GREEN}ALL TESTS PASS${RESET}"
+	${INDENT} "${YELLOW}COVERAGE: ${TEST_COVERAGE}${RESET}"
 
 # This target displays a help message of the available test cases to run in bulk
 # via the 'test' action or individually via each respective 'test_FOO' action.

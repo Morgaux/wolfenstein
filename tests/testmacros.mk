@@ -24,5 +24,24 @@ ASSERT_FILE_NOT_EMPTY   := echo "${YELLOW}[ASSERT NOT EMPTY]${RESET}"  ; test -s
 ASSERT_STRING_EMPTY     := echo "${YELLOW}[ASSERT EMPTY]${RESET}"     ; test -z
 ASSERT_STRING_NOT_EMPTY := echo "${YELLOW}[ASSERT NOT EMPTY]${RESET}" ; test -n
 
+# This macro defines the manner in which the test output can give the test
+# coverage of the test cases. This allows the make(1) utility to change the
+# implementation of this estimate.
+#
+# The current implementation (primitively) estimates the test coverage buy
+# assuming a one to one relation ship between lines of source code and lines of
+# test code, and so reports coverage as the percentage of test code to source
+# code.
+#
+# NOTE: This is a __very__ bad estimation strategy, however, due to the custom
+# nature of the unit tests and the broad possible scope of coverage, there isn't
+# an (easy) way of estimating test coverage right now, so this will have to do
+# as an indicator of needing to write more test cases when the source code
+# starts to grow faster.
+CODE_LINE_COUNT := cat *.c | wc -l
+TEST_LINE_COUNT := cat tests/*.c | wc -l
+COVERAGE_CMD    := awk 'BEGIN { print '"$$(${TEST_LINE_COUNT})"'/'"$$(${CODE_LINE_COUNT})"'* 100 "%" }'
+TEST_COVERAGE   := $$(${COVERAGE_CMD})
+
 # }}}
 
