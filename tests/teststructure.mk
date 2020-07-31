@@ -21,7 +21,7 @@
 # final message, regardless of success state, overwrites the running message,
 # keeping the total output to just one line per test case, indicating the
 # success state of each.
-${TEST_ACTIONS:%=test_%}:
+${TEST_ACTIONS:%=test_%}: show_test_config
 	@printf "${YELLOW}Running test${RESET}: ${BOLD}${@:test_%=%}...${RESET}"
 	@${CLEAN}
 	@if make -s run_$@ clean >.test_results 2>&1                         ; \
@@ -38,7 +38,7 @@ ${TEST_ACTIONS:%=test_%}:
 
 # This target triggers all test cases to be run in the order defined by
 # ${TEST_ACTIONS} and runs the respective run_test_FOO action.
-test: ${TEST_ACTIONS:%=test_%}
+test: show_test_config ${TEST_ACTIONS:%=test_%}
 	${PRINTF} "${GREEN}ALL TESTS PASS${RESET}"
 	${INDENT} "${YELLOW}COVERAGE: ${TEST_COVERAGE}${RESET}"
 
@@ -47,6 +47,14 @@ test: ${TEST_ACTIONS:%=test_%}
 test_help: test_before_help_message \
            ${TEST_ACTIONS:%=test_%_help_message} \
            test_after_help_message
+
+# This target is the analogue of the 'config' target in the main makefiles, it
+# shows the testing configuration currently being used.
+show_test_config:
+	@${PRINTF} "${YELLOW}${BIN} testing configuration:${RESET}"
+	@${PRINTF} "${GREEN}COVERAGE${RESET}   = ${BOLD}${TEST_COVERAGE}${RESET}"
+	@${PRINTF} "${GREEN}CURRENT OS${RESET} = ${BOLD}$$(uname)${RESET}"
+	@${PRINTF} "${GREEN}TEST CASES${RESET} = ${BOLD}${TEST_ACTIONS:%=test_%}${RESET}"
 
 # This target runs before the main body of the help text displayed by
 # 'test_help', this is the only time this target is triggered so it may be as
