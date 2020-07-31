@@ -146,8 +146,9 @@ PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	    _x = x,
 	    _y = y;
 
-	fprintf(stderr, "x = %d,\n", x);
-	fprintf(stderr, "y = %d,\n", y);
+#ifdef DEBUG
+	fprintf(stderr, "x  = %d,\n", x);
+	fprintf(stderr, "y  = %d,\n", y);
 	fprintf(stderr, "dx = %d,\n", dx);
 	fprintf(stderr, "dy = %d,\n", dy);
 	fprintf(stderr, "texture = {\n");
@@ -164,6 +165,7 @@ PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	}
 	fprintf(stderr, "\t]\n");
 	fprintf(stderr, "}\n\n");
+#endif
 
 	/* each square will have the same height as the texture */
 	square.height = texture.height;
