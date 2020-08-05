@@ -147,16 +147,17 @@ WARNINGS += all \
             misleading-indentation \
             parentheses \
             undef \
-            unused-macros \
             write-strings
 
 # These are the custom warnings to ignore that are specific to the project,
-# these are added before the other warning options are given, the order
-# shouldn't matter but just in case.
+# these are added after the other warning options are given, the order shouldn't
+# matter but it does with clang(1) on OpenBSD.
 W_IGNORE += missing-include-dirs \
             unknown-warning-option \
             unused \
-            unused-command-line-argument
+            unused-command-line-argument \
+            unused-function \
+            unused-macros
 
 # }}}
 
@@ -302,8 +303,8 @@ DEFINE_FLAGS := ${DEFINES:%=-D%}
 # be formatted and bundled together.
 
 WARNING_FLAGS := -pedantic \
-                 ${W_IGNORE:%=-Wno-%} \
                  ${WARNINGS:%=-W%} \
+                 ${W_IGNORE:%=-Wno-%} \
                  ${ERR_WARN:%=-Werror=%} \
                  ${E_IGNORE:%=-Wno-error=%}
 
