@@ -53,7 +53,7 @@
  * text editor.
  */
 #ifndef WOLFENSTEIN3D_C
-#include "wolfenstein3D.h"
+#include "../wolfenstein3D.h"
 #endif /* WOLFENSTEIN3D_C */
 
 /**

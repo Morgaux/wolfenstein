@@ -54,7 +54,7 @@
  * text editor.
  */
 #ifndef RENDERING_C
-#include "rendering.h"
+#include "../rendering.h"
 #endif /* RENDERING_C */
 
 /**

@@ -54,7 +54,7 @@
  * text editor.
  */
 #ifndef UTILITIES_C
-#include "utilities.h"
+#include "../utilities.h"
 #endif /* UTILITIES_C */
 
 /**

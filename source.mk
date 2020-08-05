@@ -281,7 +281,7 @@ ${MODULES:%=tests/%.c}:
 		echo " * text editor."                                       ; \
 		echo " */"                                                   ; \
 		echo "#ifndef $$(basename '$@' | ${TO_UPPER})"               ; \
-		echo "#include \"${@:tests/%.c=%.h}\""                       ; \
+		echo "#include \"${@:tests/%.c=../%.h}\""                    ; \
 		echo "#endif /* $$(basename '$@' | ${TO_UPPER}) */"          ; \
 		echo ""                                                      ; \
 		echo "/**"                                                   ; \
