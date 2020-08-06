@@ -84,7 +84,7 @@ TEST void TestFreeMem() { /* {{{ */
 	int predicate;
 
 	warn("testing utilities.freeMem(void ** ptr)...");
-	foo = malloc(sizeof (char) * 128);
+	foo = (char *)malloc(sizeof (char) * 128);
 
 	strcpy(foo, "Hello World!\n");
 	predicate = strcmp(foo, "Hello World!\n");
@@ -93,7 +93,6 @@ TEST void TestFreeMem() { /* {{{ */
 	freeMem((void **)&foo); /* Call utilities.freeMem(void ** ptr) */
 	assert(foo == NULL, "String pointer was not reset to null.");
 } /* }}} */
-
 
 /* }}} */
 
