@@ -157,10 +157,10 @@ PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	fprintf(stderr, "\tpixels = [\n");
 	for (tmp = 0; tmp < texture.width; tmp++) {
 	fprintf(stderr, "\t\t{ ");
-	fprintf(stderr, "r = %d ", (texture.pixels + tmp)->r);
-	fprintf(stderr, "g = %d ", (texture.pixels + tmp)->g);
-	fprintf(stderr, "b = %d ", (texture.pixels + tmp)->b);
-	fprintf(stderr, "ascii = %c ", (texture.pixels + tmp)->ascii);
+	fprintf(stderr, "r = %d, ", (texture.pixels + tmp)->r);
+	fprintf(stderr, "g = %d, ", (texture.pixels + tmp)->g);
+	fprintf(stderr, "b = %d, ", (texture.pixels + tmp)->b);
+	fprintf(stderr, "ascii = '%c' ", (texture.pixels + tmp)->ascii);
 	fprintf(stderr, "}\n");
 	}
 	fprintf(stderr, "\t]\n");
