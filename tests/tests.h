@@ -6,32 +6,28 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-/* TEST FUNCTION DECLARATIONS {{{ */
+/* TEST HELPERS {{{ */
 
-static void warn(const char *);
+#define warn(msg) do { \
+	fprintf(stderr, "%swarning%s: %s\n", YELLOW, RESET, msg); \
+} while (0)
 
-static void fail(const char *);
+#define fail(msg) do { \
+	fprintf(stderr, "%sFAILURE%s: %s\n", RED, RESET, msg); \
+	exit(EXIT_FAILURE); \
+} while (0)
 
-static void assert(int, const char *);
+#define pass(msg) do { \
+	fprintf(stderr, "%sSUCCESS%s: %s\n", GREEN, RESET, msg); \
+} while (0)
 
-/* }}} */
-
-/* TEST FUNCTION IMPLEMENTATIONS {{{ */
-
-static void warn(const char * msg) { /* {{{ */
-	fprintf(stderr, "%swarning%s: %s\n", YELLOW, RESET, msg);
-} /* }}} */
-
-static void fail(const char * msg) { /* {{{ */
-	fprintf(stderr, "%sFAILURE%s: %s\n", RED, RESET, msg);
-	exit(EXIT_FAILURE);
-} /* }}} */
-
-static void assert(int cond, const char * msg) { /* {{{ */
-	if (!cond) {
-		fail(msg);
-	}
-} /* }}} */
+#define assert(cond, msg) do { \
+	if (cond) { \
+		pass("Assertion passes"); \
+	} else { \
+		fail(msg); \
+	} \
+} while (0)
 
 /* }}} */
 
