@@ -79,13 +79,13 @@ TEST void TestConfigureRendering() { /* {{{ */
 	warn("fail anyway.");
 
 	warn("using testing configuration...");
-	config.cameraPosX           = 0;
-	config.cameraPosY           = 0;
+	config.cameraPosX           =   0;
+	config.cameraPosY           =   0;
 	config.cameraResX           = 100;
 	config.cameraResY           = 100;
-	config.cameraStartHeight    = 2;
-	config.cameraStartDirection = 0;
-	config.cameraViewDistance   = 40;
+	config.cameraStartHeight    =   2;
+	config.cameraStartDirection =   0;
+	config.cameraViewDistance   =  40;
 	config.mapWidth             = 100;
 	config.mapHeight            = 100;
 	config.frameWidth           = 100;
