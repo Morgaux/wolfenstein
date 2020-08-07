@@ -140,11 +140,11 @@ PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
 
 PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	Square square;
-	int i  = 0,
-	    j  = 0,
+	int i   = 0,
+	    j   = 0,
 	    tmp = 0,
-	    _x = x,
-	    _y = y;
+	    _x  = x,
+	    _y  = y;
 
 #ifdef DEBUG
 	fprintf(stderr, "x  = %d,\n", x);

@@ -253,10 +253,11 @@ ${MODULES:%=tests/%.c}:
 		echo ""                                                      ; \
 		echo "#ifndef $$(echo '$@' | ${TO_UPPER})"                   ; \
 		echo "#define $$(echo '$@' | ${TO_UPPER})"                   ; \
-		echo "#undef  TEST"                                          ; \
-		echo "#define TEST static"                                   ; \
 		echo ""                                                      ; \
 		echo "/* DEFINES {{{ */"                                     ; \
+		echo ""                                                      ; \
+		echo "#undef  TEST"                                          ; \
+		echo "#define TEST static"                                   ; \
 		echo ""                                                      ; \
 		echo "#include \"../defines.h\""                             ; \
 		echo ""                                                      ; \

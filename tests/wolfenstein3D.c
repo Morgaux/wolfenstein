@@ -25,10 +25,11 @@
 
 #ifndef TESTS_WOLFENSTEIN3D_C
 #define TESTS_WOLFENSTEIN3D_C
-#undef  TEST
-#define TEST static
 
 /* DEFINES {{{ */
+
+#undef  TEST
+#define TEST static
 
 #include "../defines.h"
 

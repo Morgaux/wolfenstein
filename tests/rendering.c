@@ -25,10 +25,11 @@
 
 #ifndef TESTS_RENDERING_C
 #define TESTS_RENDERING_C
-#undef  TEST
-#define TEST static
 
 /* DEFINES {{{ */
+
+#undef  TEST
+#define TEST static
 
 #include "../defines.h"
 
