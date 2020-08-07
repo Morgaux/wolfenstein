@@ -139,14 +139,8 @@ public void SetSquare(int x, int y, Square square) { /* {{{ */
 } /* }}} */
 
 public void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
-	Square square;
-	int i   = 0,
-	    j   = 0,
-	    tmp = 0,
-	    _x  = x,
-	    _y  = y;
-
 #ifdef DEBUG
+	int tmp;
 	fprintf(stderr, "x  = %d,\n", x);
 	fprintf(stderr, "y  = %d,\n", y);
 	fprintf(stderr, "dx = %d,\n", dx);
@@ -166,26 +160,6 @@ public void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	fprintf(stderr, "\t]\n");
 	fprintf(stderr, "}\n\n");
 #endif
-
-	/* each square will have the same height as the texture */
-	square.height = texture.height;
-
-	/* loop through every position that the wall covers */
-	for (i = 0; i < fmax((float)x, (float)y); i++) {
-		square.pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)texture.height);
-
-		for (j = 0; j < texture.height; j++) {
-			*(square.pixels + j) = *(texture.pixels + (i % texture.width) + j);
-		}
-
-		/* set the square to that slice of the texture */
-		SetSquare(_x, _y, square);
-
-		/* free up the textureSlice for the next loop */
-		freeMem((void**)&square.pixels);
-
-		TODO("Implement the x and y coordinate selection.")
-	}
 } /* }}} */
 
 public void PlaceRectangularRoom(int x, int y, int dx, int dy, Texture texture) { /* {{{ */

@@ -28,6 +28,7 @@ ${TEST_ACTIONS:%=test_%}: show_test_config
 	then                                                                   \
 		${CLEAR_LINE}                                                ; \
 		${PRINTF} "${GREEN}PASS${RESET} for ${@:test_%=%}"           ; \
+		rm -f .test_results                                          ; \
 	else                                                                   \
 		${CLEAR_LINE}                                                ; \
 		${PRINTF} "${RED}FAIL${RESET} for ${@:test_%=%}"             ; \
