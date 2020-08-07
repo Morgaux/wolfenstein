@@ -1,5 +1,5 @@
 [![pipeline status](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/pipeline.svg)](https://gitlab.com/morgaux/wolfenstein/-/pipelines)
-[![coverage report](https://gitlab.com/morgaux/wolfenstein/badges/rewrite_in_c/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/pipelines)
+[![coverage report](img/coverage.svg)](https://gitlab.com/morgaux/wolfenstein/-/pipelines)
 [![primary language](img/language.svg)](https://gitlab.com/morgaux/wolfenstein/-/graphs/rewrite_in_c/charts)
 [![license](img/license.svg)](LICENSE)
 [![release version](img/release.svg)](https://gitlab.com/morgaux/wolfenstein/-/releases)

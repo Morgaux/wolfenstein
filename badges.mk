@@ -25,6 +25,11 @@ img/language.svg: badge_before_message
 img/repository.svg: badge_before_message
 	@${DOWNLOAD} "${BADGE_URL}/Repository-${GIT_BRANCH}-informational?link=&link=${REPOSITORY}&logo=gitlab" > $@
 
+img/coverage.svg: badge_before_message
+	@# NOTE: '%' symbol included in ${TEST_COVERAGE} macro, adding '25' will
+	@# make the url contain '%25' which escapes an '%' sign.
+	@${DOWNLOAD} "${BADGE_URL}/Coverage-~${TEST_COVERAGE}25-critical?link=&link=${REPOSITORY}/-/pipelines" > $@
+
 .SILENT: ${BADGES:%=img/%.svg}
 
 .PHONY: ${BADGES:%=img/%.svg} badge_before_message
