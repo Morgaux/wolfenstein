@@ -391,6 +391,10 @@ int main(void);
 int main() { /* {{{ */
 	TestConfigureRendering();
 
+	TestCreateMap();
+
+	TestCreateFrame();
+
 	TestGetSetSquare();
 
 	TestPlaceWall();

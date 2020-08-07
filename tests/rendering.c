@@ -93,14 +93,57 @@ TEST void TestConfigureRendering() { /* {{{ */
 
 	warn("calling rendering.ConfigureRendering(RenderConfig config)");
 	ConfigureRendering(config);
+
+	assert(camera.position.x    == config.cameraPosX,           "");
+	assert(camera.position.y    == config.cameraPosY,           "");
+	assert(camera.resolution.x  == config.cameraResX,           "");
+	assert(camera.resolution.y  == config.cameraResY,           "");
+	assert(camera.direction     == config.cameraStartDirection, "");
+	assert(camera.height        == config.cameraStartHeight,    "");
+	assert(constraints.maxHits  == 1,                           "");
+	assert(constraints.maxSteps == config.cameraViewDistance,   "");
+
+	pass("rendering.ConfigureRendering(RenderConfig config) tests pass");
+} /* }}} */
+
+TEST void TestCreateMap(void);
+TEST void TestCreateMap() { /* {{{ */
+	int width  = map.width,
+	    length = map.length;
+
+	warn("testing rendering.CreateMap(int width, int length)...");
+	mapCreatedSuccess = recreate;
+
+	warn("calling rendering.CreateMap(int width, int length)");
+	assert(CreateMap(width, length) == initialised, "Failure to initialize map");
+	assert(map.width                == width,       "Map width is incorrect");
+	assert(map.length               == length,      "Map length is Incorrect");
+
+	pass("rendering.CreateMap(int width, int length) tests pass");
+} /* }}} */
+
+TEST void TestCreateFrame(void);
+TEST void TestCreateFrame() { /* {{{ */
+	int width  = frame.width,
+	    height = frame.height;
+
+	warn("testing rendering.CreateFrame(int width, int height)...");
+	frameCreatedSuccess = recreate;
+
+	warn("calling rendering.CreateFrame(int width, int height)");
+	assert(CreateFrame(width, height) == initialised, "Failure to initialize frame");
+	assert(frame.width                == width,       "Frame width is incorrect");
+	assert(frame.height               == height,      "Frame length is Incorrect");
+
+	pass("rendering.CreateFrame(int width, int height) tests pass");
 } /* }}} */
 
 TEST void TestGetSetSquare(void);
 TEST void TestGetSetSquare() { /* {{{ */
 	Square square, newSqr;
 
-	warn("testing rendering.GetSquare(uint64_t x, uint64_t y) and...");
-	warn("testing rendering.SetSquare(uint64_t x, uint64_t y, Square square)...");
+	warn("testing rendering.GetSquare(int x, int y) and...");
+	warn("testing rendering.SetSquare(int x, int y, Square square)...");
 
 	warn("Setting up first square...");
 	square.height = 2;
