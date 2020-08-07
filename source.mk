@@ -293,12 +293,11 @@ ${MODULES:%=tests/%.c}:
 		echo ""                                                      ; \
 		echo "/* TEST FUNCTIONS {{{ */"                              ; \
 		echo ""                                                      ; \
-		echo "TEST void TestSomeFunction(void);"                     ; \
-		echo "TEST void TestSomeFunction() { /* {{{ */"              ; \
+		echo "TEST(SomeFunction) { /* {{{ */"                        ; \
 		echo "	ERRO(\"Dummy test case still present.\")"            ; \
 		echo "} /* }}} */"                                           ; \
 		echo ""                                                      ; \
-		echo "/* }}} */" ; \
+		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
 		echo "#endif /* $$(echo '$@' | ${TO_UPPER}) */"              ; \
 		echo "/* }}} */"                                             ; \

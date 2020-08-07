@@ -66,15 +66,15 @@
 
 /* TEST FUNCTIONS {{{ */
 
-TEST(TestErr) { /* {{{ */
+TEST(Err) { /* {{{ */
 	warn("utilities.err(char * msg) cannot be tested.");
 } /* }}} */
 
-TEST(TestDie) { /* {{{ */
+TEST(Die) { /* {{{ */
 	warn("utilities.die(char * msg) cannot be tested.");
 } /* }}} */
 
-TEST(TestFreeMem) { /* {{{ */
+TEST(FreeMem) { /* {{{ */
 	char * foo;
 	int predicate;
 

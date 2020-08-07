@@ -66,7 +66,7 @@
 
 /* TEST FUNCTIONS {{{ */
 
-TEST(TestConfigureRendering) { /* {{{ */
+TEST(ConfigureRendering) { /* {{{ */
 	RenderConfig config;
 
 	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
@@ -103,7 +103,7 @@ TEST(TestConfigureRendering) { /* {{{ */
 	pass("rendering.ConfigureRendering(RenderConfig config) tests pass");
 } /* }}} */
 
-TEST(TestCreateMap) { /* {{{ */
+TEST(CreateMap) { /* {{{ */
 	int width  = map.width,
 	    length = map.length;
 
@@ -118,7 +118,7 @@ TEST(TestCreateMap) { /* {{{ */
 	pass("rendering.CreateMap(int width, int length) tests pass");
 } /* }}} */
 
-TEST(TestCreateFrame) { /* {{{ */
+TEST(CreateFrame) { /* {{{ */
 	int width  = frame.width,
 	    height = frame.height;
 
@@ -133,7 +133,7 @@ TEST(TestCreateFrame) { /* {{{ */
 	pass("rendering.CreateFrame(int width, int height) tests pass");
 } /* }}} */
 
-TEST(TestGetSetSquare) { /* {{{ */
+TEST(GetSetSquare) { /* {{{ */
 	Square square, newSqr;
 
 	warn("testing rendering.GetSquare(int x, int y) and...");
@@ -156,7 +156,7 @@ TEST(TestGetSetSquare) { /* {{{ */
 	pass("rendering.SetSquare(int x, int y, Square square) tests pass");
 } /* }}} */
 
-TEST(TestPlaceWall) { /* {{{ */
+TEST(PlaceWall) { /* {{{ */
 	int textureW = 1,
 	    textureH = 1,
 	    x        = 0,
@@ -202,27 +202,27 @@ TEST(TestPlaceWall) { /* {{{ */
 	pass("rendering.PlaceWall(int x, int y, int dx, int dy, Texture texture) tests pass");
 } /* }}} */
 
-TEST(TestPlaceRectangularRoom) { /* {{{ */
+TEST(PlaceRectangularRoom) { /* {{{ */
 	warn("No testcases for rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
 } /* }}} */
 
-TEST(TestPlaceCircularRoom) { /* {{{ */
+TEST(PlaceCircularRoom) { /* {{{ */
 	warn("No testcases for rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture).");
 } /* }}} */
 
-TEST(TestRender) { /* {{{ */
+TEST(Render) { /* {{{ */
 	warn("No testcases for rendering.Render(uint64_t width, uint64_t length).");
 } /* }}} */
 
-TEST(TestTurn) { /* {{{ */
+TEST(Turn) { /* {{{ */
 	warn("No testcases for rendering.Turn(int64_t angle).");
 } /* }}} */
 
-TEST(TestWalk) { /* {{{ */
+TEST(Walk) { /* {{{ */
 	warn("No testcases for rendering.Walk(int64_t distance).");
 } /* }}} */
 
-TEST(TestStrafe) { /* {{{ */
+TEST(Strafe) { /* {{{ */
 	warn("No testcases for rendering.Strafe(int64_t distance).");
 } /* }}} */
 
