@@ -8,6 +8,8 @@
 
 /* TEST HELPERS {{{ */
 
+#define TEST(func) static void func (void); static void func ()
+
 #define warn(msg) do { \
 	fprintf(stderr, "%swarning%s: %s\n", YELLOW, RESET, msg); \
 } while (0)

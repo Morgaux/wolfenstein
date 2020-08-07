@@ -28,9 +28,6 @@
 
 /* DEFINES {{{ */
 
-#undef  TEST
-#define TEST static
-
 #include "../defines.h"
 
 /* }}} */

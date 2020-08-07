@@ -28,9 +28,6 @@
 
 /* DEFINES {{{ */
 
-#undef  TEST
-#define TEST static
-
 #include "../defines.h"
 
 /* }}} */
@@ -69,8 +66,7 @@
 
 /* TEST FUNCTIONS {{{ */
 
-TEST void TestConfigureRendering(void);
-TEST void TestConfigureRendering() { /* {{{ */
+TEST(TestConfigureRendering) { /* {{{ */
 	RenderConfig config;
 
 	warn("testing rendering.ConfigureRendering(RenderConfig config)...");
@@ -107,8 +103,7 @@ TEST void TestConfigureRendering() { /* {{{ */
 	pass("rendering.ConfigureRendering(RenderConfig config) tests pass");
 } /* }}} */
 
-TEST void TestCreateMap(void);
-TEST void TestCreateMap() { /* {{{ */
+TEST(TestCreateMap) { /* {{{ */
 	int width  = map.width,
 	    length = map.length;
 
@@ -123,8 +118,7 @@ TEST void TestCreateMap() { /* {{{ */
 	pass("rendering.CreateMap(int width, int length) tests pass");
 } /* }}} */
 
-TEST void TestCreateFrame(void);
-TEST void TestCreateFrame() { /* {{{ */
+TEST(TestCreateFrame) { /* {{{ */
 	int width  = frame.width,
 	    height = frame.height;
 
@@ -139,8 +133,7 @@ TEST void TestCreateFrame() { /* {{{ */
 	pass("rendering.CreateFrame(int width, int height) tests pass");
 } /* }}} */
 
-TEST void TestGetSetSquare(void);
-TEST void TestGetSetSquare() { /* {{{ */
+TEST(TestGetSetSquare) { /* {{{ */
 	Square square, newSqr;
 
 	warn("testing rendering.GetSquare(int x, int y) and...");
@@ -163,8 +156,7 @@ TEST void TestGetSetSquare() { /* {{{ */
 	pass("rendering.SetSquare(int x, int y, Square square) tests pass");
 } /* }}} */
 
-TEST void TestPlaceWall(void);
-TEST void TestPlaceWall() { /* {{{ */
+TEST(TestPlaceWall) { /* {{{ */
 	int textureW = 1,
 	    textureH = 1,
 	    x        = 0,
@@ -210,33 +202,27 @@ TEST void TestPlaceWall() { /* {{{ */
 	pass("rendering.PlaceWall(int x, int y, int dx, int dy, Texture texture) tests pass");
 } /* }}} */
 
-TEST void TestPlaceRectangularRoom(void);
-TEST void TestPlaceRectangularRoom() { /* {{{ */
+TEST(TestPlaceRectangularRoom) { /* {{{ */
 	warn("No testcases for rendering.PlaceRectangularRoom(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture).");
 } /* }}} */
 
-TEST void TestPlaceCircularRoom(void);
-TEST void TestPlaceCircularRoom() { /* {{{ */
+TEST(TestPlaceCircularRoom) { /* {{{ */
 	warn("No testcases for rendering.PlaceCircularRoom(uint64_t x, uint64_t y, uint64_t r, Texture texture).");
 } /* }}} */
 
-TEST void TestRender(void);
-TEST void TestRender() { /* {{{ */
+TEST(TestRender) { /* {{{ */
 	warn("No testcases for rendering.Render(uint64_t width, uint64_t length).");
 } /* }}} */
 
-TEST void TestTurn(void);
-TEST void TestTurn() { /* {{{ */
+TEST(TestTurn) { /* {{{ */
 	warn("No testcases for rendering.Turn(int64_t angle).");
 } /* }}} */
 
-TEST void TestWalk(void);
-TEST void TestWalk() { /* {{{ */
+TEST(TestWalk) { /* {{{ */
 	warn("No testcases for rendering.Walk(int64_t distance).");
 } /* }}} */
 
-TEST void TestStrafe(void);
-TEST void TestStrafe() { /* {{{ */
+TEST(TestStrafe) { /* {{{ */
 	warn("No testcases for rendering.Strafe(int64_t distance).");
 } /* }}} */
 

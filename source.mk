@@ -256,9 +256,6 @@ ${MODULES:%=tests/%.c}:
 		echo ""                                                      ; \
 		echo "/* DEFINES {{{ */"                                     ; \
 		echo ""                                                      ; \
-		echo "#undef  TEST"                                          ; \
-		echo "#define TEST static"                                   ; \
-		echo ""                                                      ; \
 		echo "#include \"../defines.h\""                             ; \
 		echo ""                                                      ; \
 		echo "/* }}} */"                                             ; \

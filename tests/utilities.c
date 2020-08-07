@@ -28,9 +28,6 @@
 
 /* DEFINES {{{ */
 
-#undef  TEST
-#define TEST static
-
 #include "../defines.h"
 
 /* }}} */
@@ -69,18 +66,15 @@
 
 /* TEST FUNCTIONS {{{ */
 
-TEST void TestErr(void);
-TEST void TestErr() { /* {{{ */
+TEST(TestErr) { /* {{{ */
 	warn("utilities.err(char * msg) cannot be tested.");
 } /* }}} */
 
-TEST void TestDie(void);
-TEST void TestDie() { /* {{{ */
+TEST(TestDie) { /* {{{ */
 	warn("utilities.die(char * msg) cannot be tested.");
 } /* }}} */
 
-TEST void TestFreeMem(void);
-TEST void TestFreeMem() { /* {{{ */
+TEST(TestFreeMem) { /* {{{ */
 	char * foo;
 	int predicate;
 
