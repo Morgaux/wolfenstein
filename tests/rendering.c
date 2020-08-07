@@ -91,14 +91,18 @@ TEST(ConfigureRendering) { /* {{{ */
 	warn("calling rendering.ConfigureRendering(RenderConfig config)");
 	ConfigureRendering(config);
 
-	assert(camera.position.x    == config.cameraPosX,           "");
-	assert(camera.position.y    == config.cameraPosY,           "");
-	assert(camera.resolution.x  == config.cameraResX,           "");
-	assert(camera.resolution.y  == config.cameraResY,           "");
-	assert(camera.direction     == config.cameraStartDirection, "");
-	assert(camera.height        == config.cameraStartHeight,    "");
-	assert(constraints.maxHits  == 1,                           "");
-	assert(constraints.maxSteps == config.cameraViewDistance,   "");
+	assert(camera.position.x    == config.cameraPosX,           "Camera 'x' position not configured");
+	assert(camera.position.y    == config.cameraPosY,           "Camera 'y' position not configured");
+	assert(camera.resolution.x  == config.cameraResX,           "Camera horizontal resolution not configured");
+	assert(camera.resolution.y  == config.cameraResY,           "Camera vertical resolution not configured");
+	assert(camera.direction     == config.cameraStartDirection, "Camera direction not configured");
+	assert(camera.height        == config.cameraStartHeight,    "Camera height not configured");
+	assert(constraints.maxHits  == 1,                           "Maximum ray hits not configured");
+	assert(constraints.maxSteps == config.cameraViewDistance,   "Maximum view distance not configured");
+	assert(map.width            == config.mapWidth,             "Map width not configured");
+	assert(map.length           == config.mapHeight,            "Map height not configured");
+	assert(frame.width          == config.frameWidth,           "Frame width not configured");
+	assert(frame.height         == config.frameHeight,          "Frame height not configured");
 
 	pass("rendering.ConfigureRendering(RenderConfig config) tests pass");
 } /* }}} */
@@ -186,10 +190,11 @@ TEST(PlaceWall) { /* {{{ */
 	warn("testing single point wall...");
 	PlaceWall(x, y, dx, dy, texture);
 
-	assert(GetSquare(x,      y          ).pixels->ascii == pixels->ascii, "Incorrect pixels in wall.");
-	assert(GetSquare(x + dx, y          ).pixels        != pixels,        "Wall exceeds given dimensions.");
-	assert(GetSquare(x,      y + dy + dx).pixels        != pixels,        "Wall exceeds given dimensions.");
-	assert(GetSquare(x + dx, y + dy + dx).pixels        != pixels,        "Wall exceeds given dimensions.");
+	assert(GetSquare(x,      y          ).pixels        == pixels,        "Incorrect pixels in wall.");
+	assert(GetSquare(x,      y          ).pixels->ascii == pixels->ascii, "Incorrect ASCII in wall.");
+	assert(GetSquare(x + dx, y          ).pixels        == pixels,        "Wall exceeds given dimensions.");
+	assert(GetSquare(x,      y + dy + dx).pixels        == pixels,        "Wall exceeds given dimensions.");
+	assert(GetSquare(x + dx, y + dy + dx).pixels        == pixels,        "Wall exceeds given dimensions.");
 
 	warn("testing horizontal (x axis) wall...");
 
