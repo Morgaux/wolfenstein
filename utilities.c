@@ -41,16 +41,16 @@
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC void err(const char * msg) {
+public void err(const char * msg) {
 	fprintf(stderr, "%s\n", msg);
 }
 
-PUBLIC void die(const char * msg) {
+public void die(const char * msg) {
 	err(msg);
 	exit((errno == 0) ? 1 : errno);
 }
 
-PUBLIC void freeMem(void ** ptr) {
+public void freeMem(void ** ptr) {
 	if (ptr != NULL && *ptr != NULL) {
 		free(*ptr);
 		*ptr = NULL;
@@ -82,8 +82,8 @@ PUBLIC void freeMem(void ** ptr) {
 
 #include "tests/utilities.c"
 
-int main(void);
-int main() { /* {{{ */
+public int main(void);
+public int main() { /* {{{ */
 	TestErr();
 
 	TestDie();

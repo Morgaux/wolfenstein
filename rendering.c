@@ -88,7 +88,7 @@ POP_DIAGNOSTIC("-Wconversion")
 
 /* PUBLIC FUNCTIONS {{{ */
 
-PUBLIC int ConfigureRendering(RenderConfig config) { /* {{{ */
+public int ConfigureRendering(RenderConfig config) { /* {{{ */
 	RCL_initCamera(&camera);
 
 	camera.position.x   = config.cameraPosX;
@@ -110,7 +110,7 @@ PUBLIC int ConfigureRendering(RenderConfig config) { /* {{{ */
 	return 0;
 } /* }}} */
 
-PUBLIC Square GetSquare(int x, int y) { /* {{{ */
+public Square GetSquare(int x, int y) { /* {{{ */
 	int index = y * map.width + x;
 
 	if (x < 0 || y < 0) {
@@ -124,7 +124,7 @@ PUBLIC Square GetSquare(int x, int y) { /* {{{ */
 	return *(map.grid + index);
 } /* }}} */
 
-PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
+public void SetSquare(int x, int y, Square square) { /* {{{ */
 	int index = y * map.width + x;
 
 	if (x < 0 || y < 0) {
@@ -138,7 +138,7 @@ PUBLIC void SetSquare(int x, int y, Square square) { /* {{{ */
 	*(map.grid + index) = square;
 } /* }}} */
 
-PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
+public void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	Square square;
 	int i   = 0,
 	    j   = 0,
@@ -188,30 +188,30 @@ PUBLIC void PlaceWall(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 	}
 } /* }}} */
 
-PUBLIC void PlaceRectangularRoom(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
+public void PlaceRectangularRoom(int x, int y, int dx, int dy, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void PlaceCircularRoom(int x, int y, int r, Texture texture) { /* {{{ */
+public void PlaceCircularRoom(int x, int y, int r, Texture texture) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Render(int width, int length) { /* {{{ */
+public void Render(int width, int length) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Turn(int angle) { /* {{{ */
+public void Turn(int angle) { /* {{{ */
 	camera.direction += angle;
 } /* }}} */
 
-PUBLIC void Walk(int distance) { /* {{{ */
+public void Walk(int distance) { /* {{{ */
 } /* }}} */
 
-PUBLIC void Strafe(int distance) { /* {{{ */
+public void Strafe(int distance) { /* {{{ */
 } /* }}} */
 
 /* }}} */
 
 /* PRIVATE FUNCTIONS {{{ */
 
-PRIVATE initState CreateMap(int width, int length) { /* {{{ */
+private initState CreateMap(int width, int length) { /* {{{ */
 	switch (mapCreatedSuccess) {
 	case uninitialised:
 		/* map has not been initialized yet, do it now */
@@ -245,7 +245,7 @@ PRIVATE initState CreateMap(int width, int length) { /* {{{ */
 	return mapCreatedSuccess;
 } /* }}} */
 
-PRIVATE initState CreateFrame(int width, int height) { /* {{{ */
+private initState CreateFrame(int width, int height) { /* {{{ */
 	switch (frameCreatedSuccess) {
 	case uninitialised:
 		/* frame has not been initialized yet, do it now */
@@ -279,7 +279,7 @@ PRIVATE initState CreateFrame(int width, int height) { /* {{{ */
 	return frameCreatedSuccess;
 } /* }}} */
 
-PRIVATE Pixel GetPixel(int x, int y) { /* {{{ */
+private Pixel GetPixel(int x, int y) { /* {{{ */
 	int index = y * frame.width + x;
 
 	if (frameCreatedSuccess != initialised) {
@@ -289,7 +289,7 @@ PRIVATE Pixel GetPixel(int x, int y) { /* {{{ */
 	return *(frame.pixels + index);
 } /* }}} */
 
-PRIVATE void SetPixel(int x, int y, Pixel pixel) { /* {{{ */
+private void SetPixel(int x, int y, Pixel pixel) { /* {{{ */
 	int index = y * frame.width + x;
 
 	if (frameCreatedSuccess != initialised) {
@@ -387,8 +387,8 @@ RCL_Unit QueryPixelHeight(int x, int y) { /* {{{ */
 
 #include "tests/rendering.c"
 
-int main(void);
-int main() { /* {{{ */
+public int main(void);
+public int main() { /* {{{ */
 	TestConfigureRendering();
 
 	TestCreateMap();

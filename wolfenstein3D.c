@@ -72,8 +72,8 @@ TODO("Implement the private functions for wolfenstein3D.c")
 
 #include "tests/wolfenstein3D.c"
 
-int main(void);
-int main() { /* {{{ */
+public int main(void);
+public int main() { /* {{{ */
 	printf("Hello World!\n");
 	return 0;
 } /* }}} */

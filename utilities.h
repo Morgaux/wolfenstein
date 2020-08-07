@@ -19,39 +19,39 @@
  * source as the declaration and use in an externally
  * linked object file. To allow a single function
  * declaration to function for both internal and
- * external use, here the PUBLIC and PRIVATE symbols
+ * external use, here the public and private symbols
  * are defined depending on whether this header is
  * included in the module of the same name (this is
  * determined via the '#ifdef' preprocessor, as all
  * modules define a symbol of their name).
  *
  * Here, if the source file including this header is
- * part of the same module, then the PRIVATE symbol
+ * part of the same module, then the private symbol
  * defined as the static key word, allowing functions
- * declared as 'PRIVATE void foo();' to be expanded
+ * declared as 'private void foo();' to be expanded
  * as 'static void foo();'. However, if the file is
- * not part of the same module, PUBLIC is defined as
+ * not part of the same module, public is defined as
  * the extern keyword, which allows for the functions
  * available to the other module to be accessed. In
  * each case the other symbol is defined as NO_OP, a
  * non-action which is defined in defines.h and this
- * allows a PUBLIC function to skip using the  extern
+ * allows a public function to skip using the  extern
  * keyword when used within the same module.
  *
- * NOTE: PRIVATE functions should be hidden from the
+ * NOTE: private functions should be hidden from the
  * other modules to prevent any conflicts with other
  * functions in that module. They should instead be
  * wrapped in another #ifdef block below.
  */
-#undef PUBLIC
-#undef PRIVATE
+#undef public
+#undef private
 
-#define PRIVATE static
+#define private static
 
 #ifdef UTILITIES_C
-#define PUBLIC
+#define public
 #else
-#define PUBLIC extern
+#define public extern
 #endif
 /* }}} */
 
@@ -59,14 +59,14 @@
 /**
  * All data structures and function definitions that
  * need to be available to other functions should be
- * provided here with the PUBLIC keyword.
+ * provided here with the public keyword.
  */
 
-PUBLIC void err(const char *);
+public void err(const char *);
 
-PUBLIC void die(const char *);
+public void die(const char *);
 
-PUBLIC void freeMem(void **);
+public void freeMem(void **);
 
 /* }}} */
 
@@ -75,7 +75,7 @@ PUBLIC void freeMem(void **);
  * All data structures and function definitions that
  * need to be limited to the current module should be
  * provided within the #ifdef...#endif block below,
- * with the PRIVATE keyword.
+ * with the private keyword.
  */
 #ifdef UTILITIES_C
 

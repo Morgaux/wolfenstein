@@ -153,39 +153,39 @@ ${SRC:.c=.h}: ${LIB} config.h defines.h tests/tests.h
 		echo " * source as the declaration and use in an externally" ; \
 		echo " * linked object file. To allow a single function"     ; \
 		echo " * declaration to function for both internal and"      ; \
-		echo " * external use, here the PUBLIC and PRIVATE symbols"  ; \
+		echo " * external use, here the public and private symbols"  ; \
 		echo " * are defined depending on whether this header is"    ; \
 		echo " * included in the module of the same name (this is"   ; \
 		echo " * determined via the '#ifdef' preprocessor, as all"   ; \
 		echo " * modules define a symbol of their name)."            ; \
 		echo " *"                                                    ; \
 		echo " * Here, if the source file including this header is"  ; \
-		echo " * part of the same module, then the PRIVATE symbol"   ; \
+		echo " * part of the same module, then the private symbol"   ; \
 		echo " * defined as the static key word, allowing functions" ; \
-		echo " * declared as 'PRIVATE void foo();' to be expanded"   ; \
+		echo " * declared as 'private void foo();' to be expanded"   ; \
 		echo " * as 'static void foo();'. However, if the file is"   ; \
-		echo " * not part of the same module, PUBLIC is defined as"  ; \
+		echo " * not part of the same module, public is defined as"  ; \
 		echo " * the extern keyword, which allows for the functions" ; \
 		echo " * available to the other module to be accessed. In"   ; \
 		echo " * each case the other symbol is defined as NO_OP, a"  ; \
 		echo " * non-action which is defined in defines.h and this"  ; \
-		echo " * allows a PUBLIC function to skip using the  extern" ; \
+		echo " * allows a public function to skip using the  extern" ; \
 		echo " * keyword when used within the same module."          ; \
 		echo " *"                                                    ; \
-		echo " * NOTE: PRIVATE functions should be hidden from the"  ; \
+		echo " * NOTE: private functions should be hidden from the"  ; \
 		echo " * other modules to prevent any conflicts with other"  ; \
 		echo " * functions in that module. They should instead be"   ; \
 		echo " * wrapped in another #ifdef block below."             ; \
 		echo " */"                                                   ; \
-		echo "#undef PUBLIC"                                         ; \
-		echo "#undef PRIVATE"                                        ; \
+		echo "#undef public"                                         ; \
+		echo "#undef private"                                        ; \
 		echo ""                                                      ; \
-		echo "#define PRIVATE static"                                ; \
+		echo "#define private static"                                ; \
 		echo ""                                                      ; \
 		echo "#ifdef $$(echo '${@:%.h=%.c}' | ${TO_UPPER})"          ; \
-		echo "#define PUBLIC"                                        ; \
+		echo "#define public"                                        ; \
 		echo "#else"                                                 ; \
-		echo "#define PUBLIC extern"                                 ; \
+		echo "#define public extern"                                 ; \
 		echo "#endif"                                                ; \
 		echo "/* }}} */"                                             ; \
 		echo ""                                                      ; \
@@ -193,7 +193,7 @@ ${SRC:.c=.h}: ${LIB} config.h defines.h tests/tests.h
 		echo "/**"                                                   ; \
 		echo " * All data structures and function definitions that"  ; \
 		echo " * need to be available to other functions should be"  ; \
-		echo " * provided here with the PUBLIC keyword."             ; \
+		echo " * provided here with the public keyword."             ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
 		echo ""                                                      ; \
@@ -204,7 +204,7 @@ ${SRC:.c=.h}: ${LIB} config.h defines.h tests/tests.h
 		echo " * All data structures and function definitions that"  ; \
 		echo " * need to be limited to the current module should be" ; \
 		echo " * provided within the #ifdef...#endif block below,"   ; \
-		echo " * with the PRIVATE keyword."                          ; \
+		echo " * with the private keyword."                          ; \
 		echo " */"                                                   ; \
 		echo "#ifdef $$(echo '${@:%.h=%.c}' | ${TO_UPPER})"          ; \
 		echo ""                                                      ; \
@@ -240,14 +240,14 @@ ${MODULES:%=tests/%.c}:
 		echo " * necessary to prevent duplicate inclusions."         ; \
 		echo " *"                                                    ; \
 		echo " * NOTE: For the above reasons it is also superfluous" ; \
-		echo " * to use the PRIVATE and PUBLIC macros, although if"  ; \
+		echo " * to use the private and public macros, although if"  ; \
 		echo " * these were to be used the would still work within"  ; \
 		echo " * the parent module's scope. In their stead the TEST" ; \
 		echo " * macro is defined here to A) explicitly mark which"  ; \
 		echo " * functions are testcases, similarly to the @Test"    ; \
 		echo " * annotation in languages such as Java, and B) for"   ; \
 		echo " * testcase functions to be clearly distinct from any" ; \
-		echo " * PRIVATE helpers that are defined here for the test" ; \
+		echo " * private helpers that are defined here for the test" ; \
 		echo " * functions (and only those functions) to use."       ; \
 		echo " */"                                                   ; \
 		echo ""                                                      ; \
