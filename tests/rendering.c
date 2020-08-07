@@ -157,6 +157,9 @@ TEST void TestGetSetSquare() { /* {{{ */
 
 	assert(square.height == newSqr.height, "Square heights don't match.");
 	assert(square.pixels == newSqr.pixels, "Square pixels don't match.");
+
+	pass("rendering.GetSquare(int x, int y) tests pass");
+	pass("rendering.SetSquare(int x, int y, Square square) tests pass");
 } /* }}} */
 
 TEST void TestPlaceWall(void);
@@ -170,7 +173,7 @@ TEST void TestPlaceWall() { /* {{{ */
 	Pixel * pixels;
 	Texture texture;
 
-	warn("testing rendering.PlaceWall(uint64_t x, uint64_t y, int64_t dx, int64_t dy, Texture texture)...");
+	warn("testing rendering.PlaceWall(int x, int y, int dx, int dy, Texture texture)...");
 
 	warn("Setting up dummy texture...");
 	pixels = (Pixel *)malloc(sizeof (Pixel) * (size_t)(textureW * textureH));
@@ -189,10 +192,11 @@ TEST void TestPlaceWall() { /* {{{ */
 
 	warn("testing single point wall...");
 	PlaceWall(x, y, dx, dy, texture);
-	assert(GetSquare(x, y).pixels->ascii == pixels->ascii,  "Incorrect pixels in wall.");
-	assert(GetSquare(x + dx, y).pixels != pixels,           "Wall exceeds given dimensions.");
-	assert(GetSquare(x, y + dy + dx).pixels != pixels,      "Wall exceeds given dimensions.");
-	assert(GetSquare(x + dx, y + dy + dx).pixels != pixels, "Wall exceeds given dimensions.");
+
+	assert(GetSquare(x,      y          ).pixels->ascii == pixels->ascii, "Incorrect pixels in wall.");
+	assert(GetSquare(x + dx, y          ).pixels        != pixels,        "Wall exceeds given dimensions.");
+	assert(GetSquare(x,      y + dy + dx).pixels        != pixels,        "Wall exceeds given dimensions.");
+	assert(GetSquare(x + dx, y + dy + dx).pixels        != pixels,        "Wall exceeds given dimensions.");
 
 	warn("testing horizontal (x axis) wall...");
 
@@ -201,6 +205,8 @@ TEST void TestPlaceWall() { /* {{{ */
 	warn("testing diagonal (45 degrees, north east) wall...");
 
 	warn("testing angled (27.5 degrees, north east) wall...");
+
+	pass("rendering.PlaceWall(int x, int y, int dx, int dy, Texture texture) tests pass");
 } /* }}} */
 
 TEST void TestPlaceRectangularRoom(void);
